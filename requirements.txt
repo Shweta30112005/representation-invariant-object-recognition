@@ -13,3 +13,5 @@ transformers>=4.30.0
 datasets>=2.14.0
 kaggle>=1.5.13
 tqdm>=4.65.0
+kagglehub
+opendatasets

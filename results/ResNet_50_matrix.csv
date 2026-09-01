@@ -1,8 +1,8 @@
 training_setup,Original,Outline,Dotted,Dashed,Sketch,Silhouette
-Train_All_Combined,97.17,91.33,91.17,91.5,94.0,90.83
-Train_Dashed,14.0,91.5,36.17,91.67,26.33,9.5
-Train_Dotted,18.33,85.0,89.5,76.67,56.33,13.5
-Train_Original,99.17,83.33,77.5,79.67,76.0,79.5
-Train_Outline,10.33,93.17,46.5,92.67,39.0,10.0
-Train_Silhouette,38.0,55.33,34.33,52.33,49.0,92.67
-Train_Sketch,30.83,72.0,63.67,68.17,93.5,16.67
+Train_All_Combined,98.17,92.33,91.83,92.33,91.83,92.67
+Train_Dashed,9.5,90.83,29.67,92.0,30.5,10.0
+Train_Dotted,18.33,77.33,89.83,71.67,60.67,11.5
+Train_Original,97.17,70.5,69.33,66.33,76.83,73.67
+Train_Outline,10.5,91.5,40.5,91.17,37.67,9.5
+Train_Silhouette,29.67,49.83,43.0,50.33,44.33,92.17
+Train_Sketch,39.17,76.83,64.5,70.83,92.83,28.33

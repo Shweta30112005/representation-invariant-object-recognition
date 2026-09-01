@@ -6,6 +6,7 @@ Models:
   - DINOv2 / DINOv3 (Linear probe / Classifier head)
   - CLIP ViT-B/32 (Zero-Shot)
   - EVA-CLIP (Zero-Shot)
+  - SigLIP-2 Base (Zero-Shot)
 
 Representations:
   - Original
@@ -35,6 +36,13 @@ from torchvision import transforms, models
 from PIL import Image
 import pandas as pd
 from sklearn.metrics import accuracy_score, f1_score
+
+# SigLIP-2 (Hugging Face Transformers)
+try:
+    from transformers import AutoModel, AutoProcessor
+except ImportError:
+    AutoModel = None
+    AutoProcessor = None
 
 
 # ─────────────────────────────────────────────────────────────
@@ -407,6 +415,161 @@ def evaluate_zero_shot_clip(model_name, clip_model_name, pretrained_tag, classes
 
 
 # ─────────────────────────────────────────────────────────────
+# Zero-Shot SigLIP-2 Evaluation
+# ─────────────────────────────────────────────────────────────
+
+def evaluate_zero_shot_siglip2(model_name, model_id, classes, test_sets, training_setups, device, batch_size=32):
+    print(f"\n{'='*70}")
+    print(f"EVALUATING MODEL: {model_name} (Zero-Shot)")
+    print(f"Model ID: {model_id}")
+    print(f"{'='*70}")
+
+    if AutoModel is None or AutoProcessor is None:
+        print("[FAIL] 'transformers' is not installed! Run: pip install transformers")
+        return []
+
+    try:
+        processor = AutoProcessor.from_pretrained(model_id)
+        siglip_model = AutoModel.from_pretrained(model_id)
+    except Exception as e:
+        print(f"[FAIL] Could not load {model_id}: {e}")
+        return []
+
+    siglip_model = siglip_model.to(device)
+    siglip_model.eval()
+
+    # Representation-aware zero-shot prompts.
+    # SigLIP-2 uses sigmoid image-text scores rather than CLIP-style
+    # softmax-normalized contrastive probabilities.
+    def get_prompt(rep, cls_name):
+        if rep == "Original":
+            return f"a photo of a {cls_name}"
+        elif rep == "Outline":
+            return f"an outline drawing of a {cls_name}"
+        elif rep == "Dotted":
+            return f"a dotted drawing of a {cls_name}"
+        elif rep == "Dashed":
+            return f"a dashed line drawing of a {cls_name}"
+        elif rep == "Sketch":
+            return f"a pencil sketch of a {cls_name}"
+        elif rep == "Silhouette":
+            return f"a solid black silhouette of a {cls_name}"
+        else:
+            return f"a drawing of a {cls_name}"
+
+    results = []
+
+    for test_rep, test_records in test_sets.items():
+        if len(test_records) == 0:
+            print(f"  [WARN] Test set '{test_rep}' has 0 images. Skipping.")
+            continue
+
+        prompts = [get_prompt(test_rep, c) for c in classes]
+
+        # SigLIP-2 was trained with fixed-length text padding.
+        text_inputs = processor(
+            text=prompts,
+            padding="max_length",
+            max_length=64,
+            truncation=True,
+            return_tensors="pt"
+        )
+
+        text_inputs = {
+            k: v.to(device) if hasattr(v, "to") else v
+            for k, v in text_inputs.items()
+        }
+
+        with torch.no_grad():
+            text_outputs = siglip_model.get_text_features(**text_inputs)
+
+            if hasattr(text_outputs, "pooler_output"):
+                text_features = text_outputs.pooler_output
+            elif isinstance(text_outputs, tuple):
+                text_features = text_outputs[0]
+            else:
+                text_features = text_outputs
+
+            text_features = text_features / text_features.norm(dim=-1, keepdim=True)
+
+        all_preds = []
+        all_labels = []
+
+        # Load PIL images directly in batches because the official SigLIP-2
+        # processor performs its own image resizing/normalization.
+        for start_idx in range(0, len(test_records), batch_size):
+            batch_records = test_records[start_idx:start_idx + batch_size]
+
+            images = [
+                Image.open(path).convert("RGB")
+                for path, _ in batch_records
+            ]
+            labels = torch.tensor(
+                [label for _, label in batch_records],
+                dtype=torch.long
+            )
+
+            # Process images using the official SigLIP-2 image processor.
+            image_inputs = processor(
+                images=images,
+                return_tensors="pt"
+            )
+
+            image_inputs = {
+                k: v.to(device) if hasattr(v, "to") else v
+                for k, v in image_inputs.items()
+            }
+
+            with torch.no_grad():
+                image_outputs = siglip_model.get_image_features(**image_inputs)
+
+                if hasattr(image_outputs, "pooler_output"):
+                    image_features = image_outputs.pooler_output
+                elif isinstance(image_outputs, tuple):
+                    image_features = image_outputs[0]
+                else:
+                    image_features = image_outputs
+
+                image_features = image_features / image_features.norm(dim=-1, keepdim=True)
+
+                # SigLIP-2 computes normalized image/text cosine scores,
+                # followed by the learned logit scale and bias.
+                logits = image_features @ text_features.T
+                logits = logits * siglip_model.logit_scale.exp() + siglip_model.logit_bias
+
+                # SigLIP-2 is trained with sigmoid loss, but for mutually
+                # exclusive object classes we select the highest-scoring class.
+                preds = torch.argmax(logits, dim=-1)
+
+            all_preds.extend(preds.cpu().numpy())
+            all_labels.extend(labels.numpy())
+
+            # Explicitly release PIL objects before the next batch.
+            for image in images:
+                image.close()
+
+        acc = accuracy_score(all_labels, all_preds)
+        f1 = f1_score(all_labels, all_preds, average='macro', zero_division=0)
+
+        print(f"  Test: {test_rep:<12} -> Accuracy: {acc*100:6.2f}% | F1: {f1:.4f}")
+
+        results.append({
+            "model": model_name,
+            "training_setup": "Zero-Shot",
+            "test_representation": test_rep,
+            "accuracy": float(acc),
+            "f1_score": float(f1)
+        })
+
+    # Release the model before returning so subsequent models can use GPU memory.
+    del siglip_model
+    if device.type == "cuda":
+        torch.cuda.empty_cache()
+
+    return results
+
+
+# ─────────────────────────────────────────────────────────────
 # Main Pipeline
 # ─────────────────────────────────────────────────────────────
 
@@ -421,6 +584,7 @@ def main():
     parser.add_argument("--skip-supervised", action="store_true", help="Skip ResNet/ViT/DINO training")
     parser.add_argument("--skip-clip", action="store_true", help="Skip CLIP zero-shot evaluation")
     parser.add_argument("--skip-eva-clip", action="store_true", help="Skip EVA-CLIP zero-shot evaluation")
+    parser.add_argument("--skip-siglip2", action="store_true", help="Skip SigLIP-2 zero-shot evaluation")
     args = parser.parse_args()
 
     # Determine Device
@@ -497,6 +661,19 @@ def main():
             batch_size=args.batch_size
         )
         all_results.extend(eva_res)
+
+    # 4. SigLIP-2 Zero-Shot
+    if not args.skip_siglip2:
+        siglip2_res = evaluate_zero_shot_siglip2(
+            model_name="SigLIP-2 Base",
+            model_id="google/siglip2-base-patch16-224",
+            classes=classes,
+            test_sets=test_sets,
+            training_setups=training_setups,
+            device=device,
+            batch_size=args.batch_size
+        )
+        all_results.extend(siglip2_res)
 
     # Save consolidated results
     df_all = pd.DataFrame(all_results)

@@ -113,43 +113,74 @@ def plot_heatmaps(df):
 
 
 def plot_zero_shot_comparison(df):
-    """Plot bar chart comparing Zero-Shot CLIP ViT-B/32 vs EVA-CLIP (EVA02-B/16)."""
+    """Plot bar chart comparing Zero-Shot CLIP, EVA-CLIP, and SigLIP-2."""
     df_zs = df[df["training_setup"] == "Zero-Shot"].copy()
-    
+
     # Pivot to order representations
     pivot = df_zs.pivot(index="test_representation", columns="model", values="accuracy_pct")
     pivot = pivot.reindex(REPRESENTATIONS)
 
+    models = [
+        "CLIP ViT-B/32",
+        "EVA-CLIP (EVA02-B/16)",
+        "SigLIP-2 Base"
+    ]
+    available_models = [m for m in models if m in pivot.columns]
+
+    if not available_models:
+        print("  [WARN] No zero-shot model results found. Skipping zero-shot plot.")
+        return
+
     x = np.arange(len(REPRESENTATIONS))
-    width = 0.35
+    width = 0.75 / len(available_models)
 
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(12, 6.5))
 
-    color_clip = "#4A90E2"
-    color_evaclip = "#50E3C2"
+    # Keep the existing publication-style colors and add a distinct
+    # color for SigLIP-2.
+    colors = {
+        "CLIP ViT-B/32": "#4A90E2",
+        "EVA-CLIP (EVA02-B/16)": "#50E3C2",
+        "SigLIP-2 Base": "#9B59B6"
+    }
 
-    bars1 = ax.bar(x - width/2, pivot["CLIP ViT-B/32"], width, label="CLIP ViT-B/32", color=color_clip, edgecolor="#2C3E50", alpha=0.9)
-    bars2 = ax.bar(x + width/2, pivot["EVA-CLIP (EVA02-B/16)"], width, label="EVA-CLIP (EVA02-B/16)", color=color_evaclip, edgecolor="#2C3E50", alpha=0.9)
+    labels = {
+        "CLIP ViT-B/32": "CLIP ViT-B/32",
+        "EVA-CLIP (EVA02-B/16)": "EVA-CLIP (EVA02-B/16)",
+        "SigLIP-2 Base": "SigLIP-2"
+    }
 
-    # Add data labels
-    for bar in bars1:
-        h = bar.get_height()
-        ax.annotate(f"{h:.1f}%",
-                    xy=(bar.get_x() + bar.get_width() / 2, h),
-                    xytext=(0, 4),
-                    textcoords="offset points",
-                    ha='center', va='bottom', fontsize=10, fontweight="semibold")
+    for i, model_name in enumerate(available_models):
+        offset = (i - (len(available_models) - 1) / 2) * width
+        bars = ax.bar(
+            x + offset,
+            pivot[model_name],
+            width,
+            label=labels[model_name],
+            color=colors[model_name],
+            edgecolor="#2C3E50",
+            alpha=0.9
+        )
 
-    for bar in bars2:
-        h = bar.get_height()
-        ax.annotate(f"{h:.1f}%",
-                    xy=(bar.get_x() + bar.get_width() / 2, h),
-                    xytext=(0, 4),
-                    textcoords="offset points",
-                    ha='center', va='bottom', fontsize=10, fontweight="semibold")
+        for bar in bars:
+            h = bar.get_height()
+            ax.annotate(
+                f"{h:.1f}%",
+                xy=(bar.get_x() + bar.get_width() / 2, h),
+                xytext=(0, 4),
+                textcoords="offset points",
+                ha="center",
+                va="bottom",
+                fontsize=9,
+                fontweight="semibold"
+            )
 
     ax.set_ylabel("Zero-Shot Accuracy (%)", fontweight="bold")
-    ax.set_title("Zero-Shot Representation Robustness: CLIP vs EVA-CLIP", fontweight="bold", pad=15)
+    ax.set_title(
+        "Zero-Shot Representation Robustness: CLIP vs EVA-CLIP vs SigLIP-2",
+        fontweight="bold",
+        pad=15
+    )
     ax.set_xticks(x)
     ax.set_xticklabels(REPRESENTATIONS, fontweight="semibold")
     ax.set_ylim(0, 105)
@@ -181,7 +212,8 @@ def plot_train_original_generalization(df):
         ("ViT-B/16", "Train_Original"): "ViT-B/16 (Train: Original)",
         ("DINOv3", "Train_Original"): "DINOv3 (Train: Original)",
         ("CLIP ViT-B/32", "Zero-Shot"): "CLIP ViT-B/32 (Zero-Shot)",
-        ("EVA-CLIP (EVA02-B/16)", "Zero-Shot"): "EVA-CLIP (Zero-Shot)"
+        ("EVA-CLIP (EVA02-B/16)", "Zero-Shot"): "EVA-CLIP (Zero-Shot)",
+        ("SigLIP-2 Base", "Zero-Shot"): "SigLIP-2 (Zero-Shot)"
     }
 
     subset["model_label"] = subset.apply(lambda r: label_map.get((r["model"], r["training_setup"]), r["model"]), axis=1)
@@ -251,20 +283,48 @@ def plot_summary_dashboard(df):
     fig = plt.figure(figsize=(18, 12))
     gs = fig.add_gridspec(2, 2, hspace=0.3, wspace=0.25)
 
-    # 1. Top-Left: Zero-Shot CLIP vs EVA-CLIP
+    # 1. Top-Left: Zero-Shot CLIP vs EVA-CLIP vs SigLIP-2
     ax1 = fig.add_subplot(gs[0, 0])
     df_zs = df[df["training_setup"] == "Zero-Shot"].copy()
     p_zs = df_zs.pivot(index="test_representation", columns="model", values="accuracy_pct").reindex(REPRESENTATIONS)
+
+    zs_models = [
+        "CLIP ViT-B/32",
+        "EVA-CLIP (EVA02-B/16)",
+        "SigLIP-2 Base"
+    ]
+    zs_available = [m for m in zs_models if m in p_zs.columns]
+
     x = np.arange(len(REPRESENTATIONS))
-    w = 0.35
-    ax1.bar(x - w/2, p_zs["CLIP ViT-B/32"], w, label="CLIP ViT-B/32", color="#3498DB")
-    ax1.bar(x + w/2, p_zs["EVA-CLIP (EVA02-B/16)"], w, label="EVA-CLIP (EVA02-B/16)", color="#1ABC9C")
-    ax1.set_title("(A) Zero-Shot Generalization: CLIP vs EVA-CLIP", fontweight="bold")
+    w = 0.75 / max(len(zs_available), 1)
+
+    zs_colors = {
+        "CLIP ViT-B/32": "#3498DB",
+        "EVA-CLIP (EVA02-B/16)": "#1ABC9C",
+        "SigLIP-2 Base": "#9B59B6"
+    }
+    zs_labels = {
+        "CLIP ViT-B/32": "CLIP (Zero-Shot)",
+        "EVA-CLIP (EVA02-B/16)": "EVA-CLIP (Zero-Shot)",
+        "SigLIP-2 Base": "SigLIP-2 (Zero-Shot)"
+    }
+
+    for i, m in enumerate(zs_available):
+        offset = (i - (len(zs_available) - 1) / 2) * w
+        ax1.bar(
+            x + offset,
+            p_zs[m],
+            w,
+            label=zs_labels[m],
+            color=zs_colors[m]
+        )
+
+    ax1.set_title("(A) Zero-Shot Generalization: CLIP vs EVA-CLIP vs SigLIP-2", fontweight="bold")
     ax1.set_xticks(x)
     ax1.set_xticklabels(REPRESENTATIONS, rotation=25)
     ax1.set_ylabel("Accuracy (%)")
     ax1.set_ylim(50, 100)
-    ax1.legend(loc="upper right")
+    ax1.legend(loc="upper right", fontsize=8)
     ax1.grid(axis="y", linestyle="--", alpha=0.5)
 
     # 2. Top-Right: Train on Original Out-of-Domain Generalization
@@ -276,7 +336,8 @@ def plot_summary_dashboard(df):
         ("ViT-B/16", "Train_Original"): "ViT-B/16",
         ("DINOv3", "Train_Original"): "DINOv3",
         ("CLIP ViT-B/32", "Zero-Shot"): "CLIP (Zero-Shot)",
-        ("EVA-CLIP (EVA02-B/16)", "Zero-Shot"): "EVA-CLIP (Zero-Shot)"
+        ("EVA-CLIP (EVA02-B/16)", "Zero-Shot"): "EVA-CLIP (Zero-Shot)",
+        ("SigLIP-2 Base", "Zero-Shot"): "SigLIP-2 (Zero-Shot)"
     }
     subset["model_label"] = subset.apply(lambda r: label_map.get((r["model"], r["training_setup"]), r["model"]), axis=1)
     p_gen = subset.pivot(index="test_representation", columns="model_label", values="accuracy_pct").reindex(REPRESENTATIONS)
@@ -312,11 +373,22 @@ def plot_summary_dashboard(df):
         })
 
     # Zero-shot as out-of-domain benchmark
-    for m in ["CLIP ViT-B/32", "EVA-CLIP (EVA02-B/16)"]:
+    for m in ["CLIP ViT-B/32", "EVA-CLIP (EVA02-B/16)", "SigLIP-2 Base"]:
         m_df = df[df["model"] == m]
+        if m_df.empty:
+            continue
+
+        display_name = {
+            "CLIP ViT-B/32": "CLIP",
+            "EVA-CLIP (EVA02-B/16)": "EVA-CLIP",
+            "SigLIP-2 Base": "SigLIP-2"
+        }[m]
+
+        original_values = m_df[m_df["test_representation"] == "Original"]["accuracy_pct"].values
+
         ood_stats.append({
-            "model": m.split()[0],
-            "In-Domain Avg": m_df[m_df["test_representation"] == "Original"]["accuracy_pct"].values[0],
+            "model": display_name,
+            "In-Domain Avg": original_values[0] if len(original_values) > 0 else np.nan,
             "Out-of-Domain Avg": m_df[m_df["test_representation"] != "Original"]["accuracy_pct"].mean()
         })
 
@@ -345,12 +417,37 @@ def plot_summary_dashboard(df):
     for m in ["ResNet-50", "ViT-B/16", "DINOv3"]:
         f1_val = df[(df["model"] == m) & (df["training_setup"] == "Train_All_Combined")]["f1_score"].mean()
         f1_summary.append({"Model": m, "Mode": "All-Combined", "F1": f1_val})
-    for m in ["CLIP ViT-B/32", "EVA-CLIP (EVA02-B/16)"]:
-        f1_val = df[df["model"] == m]["f1_score"].mean()
-        f1_summary.append({"Model": m.replace(" (EVA02-B/16)", ""), "Mode": "Zero-Shot", "F1": f1_val})
+    for m in ["CLIP ViT-B/32", "EVA-CLIP (EVA02-B/16)", "SigLIP-2 Base"]:
+        m_df = df[df["model"] == m]
+        if m_df.empty:
+            continue
+
+        display_name = {
+            "CLIP ViT-B/32": "CLIP ViT-B/32",
+            "EVA-CLIP (EVA02-B/16)": "EVA-CLIP",
+            "SigLIP-2 Base": "SigLIP-2"
+        }[m]
+
+        f1_val = m_df["f1_score"].mean()
+        f1_summary.append({"Model": display_name, "Mode": "Zero-Shot", "F1": f1_val})
 
     df_f1 = pd.DataFrame(f1_summary)
-    bar_f1 = ax4.bar(df_f1["Model"], df_f1["F1"], color=["#3498DB", "#E67E22", "#2ECC71", "#9B59B6", "#1ABC9C"], edgecolor="#2C3E50")
+    f1_colors = {
+        "ResNet-50": "#3498DB",
+        "ViT-B/16": "#E67E22",
+        "DINOv3": "#2ECC71",
+        "CLIP ViT-B/32": "#9B59B6",
+        "EVA-CLIP": "#1ABC9C",
+        "SigLIP-2": "#8E44AD"
+    }
+    bar_colors = [f1_colors.get(m, "#7F8C8D") for m in df_f1["Model"]]
+
+    bar_f1 = ax4.bar(
+        df_f1["Model"],
+        df_f1["F1"],
+        color=bar_colors,
+        edgecolor="#2C3E50"
+    )
     for bar in bar_f1:
         h = bar.get_height()
         ax4.annotate(f"{h:.3f}", xy=(bar.get_x() + bar.get_width()/2, h), xytext=(0, 3), textcoords="offset points", ha='center', fontsize=10, fontweight="bold")
