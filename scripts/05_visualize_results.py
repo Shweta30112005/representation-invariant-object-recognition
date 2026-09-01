@@ -221,8 +221,8 @@ def plot_train_original_generalization(df):
     pivot = subset.pivot(index="test_representation", columns="model_label", values="accuracy_pct")
     pivot = pivot.reindex(REPRESENTATIONS)
 
-    colors = ["#E74C3C", "#E67E22", "#27AE60", "#2980B9", "#8E44AD"]
-    markers = ["o", "s", "^", "D", "P"]
+    colors = ["#E74C3C", "#E67E22", "#27AE60", "#2980B9", "#8E44AD", "#9B59B6"]
+    markers = ["o", "s", "^", "D", "P", "*"]
 
     for i, col in enumerate(pivot.columns):
         ax.plot(pivot.index, pivot[col], marker=markers[i], linewidth=2.5, markersize=8, label=col, color=colors[i])

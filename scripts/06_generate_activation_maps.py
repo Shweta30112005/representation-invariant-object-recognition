@@ -504,11 +504,20 @@ class SigLIP2CAMBase:
         }
 
     def _get_logits(self, image_inputs):
-        outputs = self.model(**image_inputs)
+        # IMPORTANT: Do not call self.model(**image_inputs) here.
+        # SigLIP-2's full forward pass expects both image and text inputs.
+        # For CAM generation we only need the vision encoder.
+        image_outputs = self.model.get_image_features(**image_inputs)
 
-        # SigLIP-2's image/text logits are represented by the model's
-        # learned logit scale and bias.
-        image_features = outputs.image_embeds
+        # Depending on the installed Transformers version,
+        # get_image_features() may return a tensor or BaseModelOutputWithPooling.
+        if hasattr(image_outputs, "pooler_output"):
+            image_features = image_outputs.pooler_output
+        elif isinstance(image_outputs, tuple):
+            image_features = image_outputs[0]
+        else:
+            image_features = image_outputs
+
         image_features = image_features / image_features.norm(dim=-1, keepdim=True)
 
         text_features = self.text_features / self.text_features.norm(dim=-1, keepdim=True)
@@ -732,7 +741,16 @@ def _siglip2_text_features(model, processor, classes, device):
     }
 
     with torch.no_grad():
-        text_features = model.get_text_features(**text_inputs)
+        text_outputs = model.get_text_features(**text_inputs)
+
+        # Depending on the installed Transformers version,
+        # get_text_features() may return a tensor or BaseModelOutputWithPooling.
+        if hasattr(text_outputs, "pooler_output"):
+            text_features = text_outputs.pooler_output
+        elif isinstance(text_outputs, tuple):
+            text_features = text_outputs[0]
+        else:
+            text_features = text_outputs
 
     return text_features
 
