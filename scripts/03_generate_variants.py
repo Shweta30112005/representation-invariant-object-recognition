@@ -1,7 +1,8 @@
 """
 Script 3: Generate image variants from original images
-Variants: outline, dotted, dashed, sketch, silhouette
-ALL variants feature a clean WHITE background.
+Variants: outline, dotted, dashed, sketch, silhouette, color_tint_red, color_tint_green, color_tint_blue
+Structural variants feature a clean WHITE background.
+Color tint variants preserve the original image but shift color channels.
 
 Reads from:  dataset/original/<class>/*.jpg
 Writes to:   dataset/variants/<variant>/<class>/*.jpg
@@ -19,7 +20,8 @@ PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ORIGINAL_DIR = os.path.join(PROJECT_DIR, "dataset", "original")
 VARIANTS_DIR = os.path.join(PROJECT_DIR, "dataset", "variants")
 
-VARIANT_NAMES = ["outline", "dotted", "dashed", "sketch", "silhouette"]
+VARIANT_NAMES = ["outline", "dotted", "dashed", "sketch", "silhouette",
+                 "color_tint_red", "color_tint_green", "color_tint_blue"]
 
 
 # ─────────────────────────────────────────────────────────────
@@ -147,38 +149,119 @@ def generate_silhouette(img):
     return result
 
 
+def extract_foreground_mask(img):
+    """
+    Extract a soft alpha mask (0.0 for background, 1.0 for main object)
+    using Otsu thresholding, border analysis, and morphological closing.
+    """
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+    _, thresh = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+    border_pixels = np.concatenate([thresh[0, :], thresh[-1, :], thresh[:, 0], thresh[:, -1]])
+    if np.mean(border_pixels) > 127:
+        fg_mask = (thresh == 0).astype(np.uint8) * 255
+    else:
+        fg_mask = (thresh == 255).astype(np.uint8) * 255
+
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (7, 7))
+    fg_mask = cv2.morphologyEx(fg_mask, cv2.MORPH_CLOSE, kernel, iterations=2)
+    mask_float = cv2.GaussianBlur(fg_mask, (7, 7), 0).astype(np.float32) / 255.0
+    return np.repeat(mask_float[:, :, np.newaxis], 3, axis=2)
+
+
+def recolor_foreground_object(img, color_name, mask_3d=None):
+    """
+    Changes ONLY the color of the main object while preserving 100% of the original background.
+    Uses HSV color transformation on the foreground object.
+    """
+    if mask_3d is None:
+        mask_3d = extract_foreground_mask(img)
+
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV).astype(np.float32)
+
+    # Target hues in OpenCV (0-180): Red: 0, Green: 60, Blue: 120
+    if color_name == "red":
+        hsv[:, :, 0] = 0.0
+    elif color_name == "green":
+        hsv[:, :, 0] = 60.0
+    elif color_name == "blue":
+        hsv[:, :, 0] = 120.0
+
+    # Boost saturation on object so color is prominent, while keeping original Value (shading & details)
+    hsv[:, :, 1] = np.clip(hsv[:, :, 1] * 1.5 + 80, 0, 255)
+    recolored_bgr = cv2.cvtColor(hsv.astype(np.uint8), cv2.COLOR_HSV2BGR).astype(np.float32)
+    orig_bgr = img.astype(np.float32)
+
+    # Foreground gets recolored, background keeps original pixels exactly
+    blended = orig_bgr * (1.0 - mask_3d) + recolored_bgr * mask_3d
+    return np.clip(blended, 0, 255).astype(np.uint8)
+
+
+def generate_color_tint_red(img, mask_3d=None):
+    return recolor_foreground_object(img, "red", mask_3d)
+
+
+def generate_color_tint_green(img, mask_3d=None):
+    return recolor_foreground_object(img, "green", mask_3d)
+
+
+def generate_color_tint_blue(img, mask_3d=None):
+    return recolor_foreground_object(img, "blue", mask_3d)
+
+
 # ─────────────────────────────────────────────────────────────
-# Worker function to process a single image for all 5 variants
+# Worker function to process a single image for all variants
 # ─────────────────────────────────────────────────────────────
 
 def process_single_image(args):
     """
-    Worker task: reads original image once, generates all 5 variants,
+    Worker task: reads original image once, generates missing variants,
     and saves each variant into its respective directory.
     """
-    img_path, class_name, variants_dir = args
+    img_path, class_name, variants_dir, overwrite_colors = args
     filename = os.path.basename(img_path)
+
+    missing = []
+    for v in VARIANT_NAMES:
+        out_p = os.path.join(variants_dir, v, class_name, filename)
+        if overwrite_colors and v in {"color_tint_red", "color_tint_green", "color_tint_blue"}:
+            missing.append(v)
+        elif not os.path.exists(out_p):
+            missing.append(v)
+
+    if not missing:
+        return class_name, filename, True, None
 
     img = cv2.imread(img_path)
     if img is None:
         return class_name, filename, False, "Failed to read image"
 
     try:
-        outline_img = generate_outline(img)
-        dotted_img = generate_dotted(img)
-        dashed_img = generate_dashed(img)
-        sketch_img = generate_sketch(img)
-        silhouette_img = generate_silhouette(img)
+        color_variants = {"color_tint_red", "color_tint_green", "color_tint_blue"}
+        need_mask = any(v in missing for v in color_variants)
+        mask_3d = extract_foreground_mask(img) if need_mask else None
 
-        variant_images = {
-            "outline": outline_img,
-            "dotted": dotted_img,
-            "dashed": dashed_img,
-            "sketch": sketch_img,
-            "silhouette": silhouette_img,
-        }
+        for v_name in missing:
+            if v_name == "outline":
+                v_img = generate_outline(img)
+            elif v_name == "dotted":
+                v_img = generate_dotted(img)
+            elif v_name == "dashed":
+                v_img = generate_dashed(img)
+            elif v_name == "sketch":
+                v_img = generate_sketch(img)
+            elif v_name == "silhouette":
+                v_img = generate_silhouette(img)
+            elif v_name == "color_tint_red":
+                v_img = generate_color_tint_red(img, mask_3d)
+            elif v_name == "color_tint_green":
+                v_img = generate_color_tint_green(img, mask_3d)
+            elif v_name == "color_tint_blue":
+                v_img = generate_color_tint_blue(img, mask_3d)
+            else:
+                continue
 
-        for v_name, v_img in variant_images.items():
             out_path = os.path.join(variants_dir, v_name, class_name, filename)
             cv2.imwrite(out_path, v_img)
 
@@ -187,8 +270,8 @@ def process_single_image(args):
         return class_name, filename, False, str(e)
 
 
-def process_class(class_name, max_workers=None):
-    """Generate all 5 variants for all images in a single class using multiprocessing."""
+def process_class(class_name, max_workers=None, overwrite_colors=False):
+    """Generate all variants for all images in a single class using multiprocessing."""
     src_dir = os.path.join(ORIGINAL_DIR, class_name)
     image_files = sorted(glob(os.path.join(src_dir, "*.jpg")))
 
@@ -200,7 +283,7 @@ def process_class(class_name, max_workers=None):
     for v in VARIANT_NAMES:
         os.makedirs(os.path.join(VARIANTS_DIR, v, class_name), exist_ok=True)
 
-    tasks = [(p, class_name, VARIANTS_DIR) for p in image_files]
+    tasks = [(p, class_name, VARIANTS_DIR, overwrite_colors) for p in image_files]
 
     success = 0
     errors = 0
@@ -217,16 +300,24 @@ def process_class(class_name, max_workers=None):
                 if errors <= 3:
                     print(f"    [WARN] Error processing {filename}: {err}")
 
-    print(f"  [OK] '{class_name}': {success}/{len(image_files)} images processed for all 5 variants" +
+    print(f"  [OK] '{class_name}': {success}/{len(image_files)} images processed" +
           (f" ({errors} errors)" if errors else ""))
 
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser(description="Generate structural and color tint variants")
+    parser.add_argument("--overwrite-colors", action="store_true", default=False,
+                        help="Force re-generation of color tint variants with foreground-only recoloring")
+    args = parser.parse_args()
+
     print("=" * 60)
-    print("Variant Generation (White Background)")
+    print("Variant Generation (Structural + Foreground Color Tint)")
     print(f"Source: {ORIGINAL_DIR}")
     print(f"Output: {VARIANTS_DIR}")
-    print(f"Variants: {', '.join(VARIANT_NAMES)} (White Background)")
+    print(f"Variants: {', '.join(VARIANT_NAMES)}")
+    if args.overwrite_colors:
+        print("Mode: Overwriting foreground color tints (preserving background)")
     print("=" * 60)
 
     # Validate directory
@@ -251,7 +342,7 @@ def main():
 
     for i, class_name in enumerate(classes, 1):
         print(f"[{i}/{len(classes)}] Processing '{class_name}' ...")
-        process_class(class_name, max_workers=workers)
+        process_class(class_name, max_workers=workers, overwrite_colors=args.overwrite_colors)
         print()
 
     # Print summary table
@@ -282,7 +373,7 @@ def main():
     for v in VARIANT_NAMES:
         print(f" {total_variants[v]:>10}", end="")
     print("\n" + "=" * 75)
-    print("[OK] All variants generated with white background successfully!")
+    print("[OK] All variants generated successfully!")
 
 
 if __name__ == "__main__":

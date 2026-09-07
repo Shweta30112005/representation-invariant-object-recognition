@@ -1,0 +1,7 @@
+model,architecture_type,device,batch_size,total_images,total_time_sec,avg_latency_ms,avg_time_ms,throughput_fps,throughput_img_per_sec
+ResNet-50,Supervised,cuda (NVIDIA H200),32,600,5.2829,8.8049,8.8049,113.57,113.57
+ViT-B/16,Supervised,cuda (NVIDIA H200),32,600,3.5302,5.8837,5.8837,169.96,169.96
+DINOv3,Linear Probe,cuda (NVIDIA H200),32,600,3.9342,6.557,6.557,152.51,152.51
+CLIP ViT-B/32,Zero-Shot VLM,cuda (NVIDIA H200),32,600,3.4863,5.8105,5.8105,172.1,172.1
+EVA-CLIP (EVA02-B/16),Zero-Shot VLM,cuda (NVIDIA H200),32,600,4.6002,7.6671,7.6671,130.43,130.43
+SigLIP-2 Base,Zero-Shot VLM,cuda (NVIDIA H200),32,600,12.2568,20.428,20.428,48.95,48.95
