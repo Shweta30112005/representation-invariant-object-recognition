@@ -15,3 +15,7 @@ kaggle>=1.5.13
 tqdm>=4.65.0
 kagglehub
 opendatasets
+rembg
+onnxruntime>=1.16.0
+accelerate
+qwen-vl-utils

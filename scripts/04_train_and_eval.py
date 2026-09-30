@@ -27,6 +27,7 @@ Also saves class-wise metrics and model-wise inference time.
 
 import os
 import sys
+import re
 import argparse
 import random
 import time
@@ -49,6 +50,11 @@ try:
 except ImportError:
     AutoModel = None
     AutoProcessor = None
+
+try:
+    from transformers import Qwen3VLForConditionalGeneration
+except ImportError:
+    Qwen3VLForConditionalGeneration = None
 
 # ─────────────────────────────────────────────────────────────
 PROJECT_DIR = Path(__file__).resolve().parent.parent
@@ -73,6 +79,30 @@ REPRESENTATION_PATHS = {
     "ColorTint_Green": VARIANTS_DIR / "color_tint_green",
     "ColorTint_Blue": VARIANTS_DIR / "color_tint_blue",
 }
+
+
+# ─────────────────────────────────────────────────────────────
+# Qwen3-VL-8B configuration
+# ─────────────────────────────────────────────────────────────
+
+QWEN_MODEL_ID = "Qwen/Qwen3-VL-8B-Instruct"
+QWEN_MODEL_NAME = "Qwen3-VL-8B"
+QWEN_MAX_NEW_TOKENS = 16
+
+# Qwen output files are stored directly in results/, like all other models.
+
+# Qwen uses the same root results directory as every other model.
+QWEN_RESULTS_DIR = RESULTS_DIR
+
+QWEN_CLASSIFICATION_INSTRUCTION = """
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.
+""".strip()
+
 
 # ─────────────────────────────────────────────────────────────
 class RepresentationDataset(Dataset):
@@ -851,190 +881,1030 @@ def evaluate_zero_shot_siglip2(model_name, model_id, classes, test_sets, trainin
 
 
 # ─────────────────────────────────────────────────────────────
-# Zero-Shot SigLIP-2 Evaluation
-# ─────────────────────────────────────────────────────────────
-
-def evaluate_zero_shot_siglip2(model_name, model_id, classes, test_sets, training_setups, device, batch_size=32):
-    print(f"\n{'='*70}")
-    print(f"EVALUATING MODEL: {model_name} (Zero-Shot)")
-    print(f"Model ID: {model_id}")
-    print(f"{'='*70}")
-
-    if AutoModel is None or AutoProcessor is None:
-        print("[FAIL] 'transformers' is not installed! Run: pip install transformers")
-        return []
-
-    try:
-        processor = AutoProcessor.from_pretrained(model_id)
-        siglip_model = AutoModel.from_pretrained(model_id)
-    except Exception as e:
-        print(f"[FAIL] Could not load {model_id}: {e}")
-        return []
-
-    siglip_model = siglip_model.to(device)
-    siglip_model.eval()
-
-    # Representation-aware zero-shot prompts.
-    # SigLIP-2 uses sigmoid image-text scores rather than CLIP-style
-    # softmax-normalized contrastive probabilities.
-    def get_prompt(rep, cls_name):
-        if rep == "Original":
-            return f"a photo of a {cls_name}"
-        elif rep == "Outline":
-            return f"an outline drawing of a {cls_name}"
-        elif rep == "Dotted":
-            return f"a dotted drawing of a {cls_name}"
-        elif rep == "Dashed":
-            return f"a dashed line drawing of a {cls_name}"
-        elif rep == "Sketch":
-            return f"a pencil sketch of a {cls_name}"
-        elif rep == "Silhouette":
-            return f"a solid black silhouette of a {cls_name}"
-        else:
-            return f"a drawing of a {cls_name}"
-
-    results = []
-
-    for test_rep, test_records in test_sets.items():
-        if len(test_records) == 0:
-            print(f"  [WARN] Test set '{test_rep}' has 0 images. Skipping.")
-            continue
-
-        prompts = [get_prompt(test_rep, c) for c in classes]
-
-        # SigLIP-2 was trained with fixed-length text padding.
-        text_inputs = processor(
-            text=prompts,
-            padding="max_length",
-            max_length=64,
-            truncation=True,
-            return_tensors="pt"
-        )
-
-        text_inputs = {
-            k: v.to(device) if hasattr(v, "to") else v
-            for k, v in text_inputs.items()
-        }
-
-        with torch.no_grad():
-            text_outputs = siglip_model.get_text_features(**text_inputs)
-
-            if hasattr(text_outputs, "pooler_output"):
-                text_features = text_outputs.pooler_output
-            elif isinstance(text_outputs, tuple):
-                text_features = text_outputs[0]
-            else:
-                text_features = text_outputs
-
-            text_features = text_features / text_features.norm(dim=-1, keepdim=True)
-
-        all_preds = []
-        all_labels = []
-
-        # Load PIL images directly in batches because the official SigLIP-2
-        # processor performs its own image resizing/normalization.
-        for start_idx in range(0, len(test_records), batch_size):
-            batch_records = test_records[start_idx:start_idx + batch_size]
-
-            images = [
-                Image.open(path).convert("RGB")
-                for path, _ in batch_records
-            ]
-            labels = torch.tensor(
-                [label for _, label in batch_records],
-                dtype=torch.long
-            )
-
-            # Process images using the official SigLIP-2 image processor.
-            image_inputs = processor(
-                images=images,
-                return_tensors="pt"
-            )
-
-            image_inputs = {
-                k: v.to(device) if hasattr(v, "to") else v
-                for k, v in image_inputs.items()
-            }
-
-            with torch.no_grad():
-                image_outputs = siglip_model.get_image_features(**image_inputs)
-
-                if hasattr(image_outputs, "pooler_output"):
-                    image_features = image_outputs.pooler_output
-                elif isinstance(image_outputs, tuple):
-                    image_features = image_outputs[0]
-                else:
-                    image_features = image_outputs
-
-                image_features = image_features / image_features.norm(dim=-1, keepdim=True)
-
-                # SigLIP-2 computes normalized image/text cosine scores,
-                # followed by the learned logit scale and bias.
-                logits = image_features @ text_features.T
-                logits = logits * siglip_model.logit_scale.exp() + siglip_model.logit_bias
-
-                # SigLIP-2 is trained with sigmoid loss, but for mutually
-                # exclusive object classes we select the highest-scoring class.
-                preds = torch.argmax(logits, dim=-1)
-
-            all_preds.extend(preds.cpu().numpy())
-            all_labels.extend(labels.numpy())
-
-            # Explicitly release PIL objects before the next batch.
-            for image in images:
-                image.close()
-
-        acc = accuracy_score(all_labels, all_preds)
-        f1 = f1_score(all_labels, all_preds, average='macro', zero_division=0)
-
-        print(f"  Test: {test_rep:<12} -> Accuracy: {acc*100:6.2f}% | F1: {f1:.4f}")
-
-        results.append({
-            "model": model_name,
-            "training_setup": "Zero-Shot",
-            "test_representation": test_rep,
-            "accuracy": float(acc),
-            "f1_score": float(f1)
-        })
-
-    # Release the model before returning so subsequent models can use GPU memory.
-    del siglip_model
-    if device.type == "cuda":
-        torch.cuda.empty_cache()
-
-    return results
-
-
-# ─────────────────────────────────────────────────────────────
 # Main Pipeline
 # ─────────────────────────────────────────────────────────────
 
+
+# ─────────────────────────────────────────────────────────────
+# Qwen3-VL-8B Zero-Shot Generative Evaluation
+# ─────────────────────────────────────────────────────────────
+
+def build_qwen_test_sets(classes, train_ratio=0.8, seed=42):
+    """
+    Reproduce the same deterministic train/test split used by Script 4.
+
+    The original-image filenames determine the split, and the same
+    filenames are then used for every representation.
+    """
+    random.seed(seed)
+
+    class_train_files = {}
+    class_test_files = {}
+
+    for c in classes:
+        orig_class_dir = ORIGINAL_DIR / c
+
+        files = sorted(
+            [f.name for f in orig_class_dir.glob("*.jpg")]
+        )
+
+        if not files:
+            raise FileNotFoundError(
+                f"No images found for class '{c}' in {orig_class_dir}"
+            )
+
+        n_total = len(files)
+        n_train = int(n_total * train_ratio)
+
+        indices = list(range(n_total))
+        random.shuffle(indices)
+
+        train_indices = set(indices[:n_train])
+
+        class_train_files[c] = [
+            files[i] for i in range(n_total)
+            if i in train_indices
+        ]
+
+        class_test_files[c] = [
+            files[i] for i in range(n_total)
+            if i not in train_indices
+        ]
+
+    test_sets = {}
+
+    for rep in REPRESENTATIONS:
+        base_dir = REPRESENTATION_PATHS[rep]
+
+        if not base_dir.exists():
+            print(
+                f"  [WARN] Representation directory not found: "
+                f"{base_dir}. Skipping {rep}."
+            )
+            continue
+
+        records = []
+
+        for c in classes:
+            c_dir = base_dir / c
+
+            for fname in class_test_files[c]:
+                p = c_dir / fname
+
+                if p.exists():
+                    records.append((str(p), c))
+
+        if records:
+            test_sets[rep] = records
+
+    return test_sets
+
+def qwen_get_prompt(rep):
+    """
+    Representation-aware prompts.
+
+    These follow the same conceptual wording used by the existing
+    CLIP / SigLIP-2 zero-shot implementation.
+    """
+
+    if rep == "Original":
+        representation_description = (
+            "This is a natural image of an object."
+        )
+
+    elif rep == "Outline":
+        representation_description = (
+            "This is an outline drawing of an object."
+        )
+
+    elif rep == "Dotted":
+        representation_description = (
+            "This is a dotted drawing of an object."
+        )
+
+    elif rep == "Dashed":
+        representation_description = (
+            "This is a dashed line drawing of an object."
+        )
+
+    elif rep == "Sketch":
+        representation_description = (
+            "This is a pencil sketch of an object."
+        )
+
+    elif rep == "Silhouette":
+        representation_description = (
+            "This is a solid black silhouette representation of an object."
+        )
+
+    elif rep == "ColorTint_Red":
+        representation_description = (
+            "This is a red-tinted image of an object."
+        )
+
+    elif rep == "ColorTint_Green":
+        representation_description = (
+            "This is a green-tinted image of an object."
+        )
+
+    elif rep == "ColorTint_Blue":
+        representation_description = (
+            "This is a blue-tinted image of an object."
+        )
+
+    else:
+        representation_description = (
+            "This image contains an object."
+        )
+
+    return f"""
+{representation_description}
+
+{QWEN_CLASSIFICATION_INSTRUCTION}
+""".strip()
+
+def normalize_prediction(response, classes):
+    """
+    Convert Qwen's generated text into exactly one benchmark class.
+
+    The prompt asks for only the class name, but the parser is made
+    tolerant of short responses such as:
+        "chair"
+        "The answer is chair."
+        "I think it is a chair."
+
+    If no valid class can be extracted, return "unknown".
+    """
+
+    if response is None:
+        return "unknown"
+
+    text = str(response).strip().lower()
+
+    # Remove common formatting.
+    text = text.replace("`", " ")
+    text = text.replace("*", " ")
+    text = re.sub(r"\s+", " ", text).strip()
+
+    # Exact match first.
+    for cls in classes:
+        if text == cls.lower():
+            return cls
+
+    # Look for a class as a standalone word.
+    # Sort longer names first to avoid accidental partial matching.
+    sorted_classes = sorted(
+        classes,
+        key=len,
+        reverse=True,
+    )
+
+    for cls in sorted_classes:
+        pattern = rf"\b{re.escape(cls.lower())}\b"
+        if re.search(pattern, text):
+            return cls
+
+    return "unknown"
+
+def ask_qwen(model, processor, image_path, prompt):
+    """
+    Run one image through Qwen3-VL.
+
+    One image = one independent request/context.
+    This avoids interactions between different benchmark images.
+    """
+
+    messages = [
+        {
+            "role": "user",
+            "content": [
+                {
+                    "type": "image",
+                    "image": str(image_path),
+                },
+                {
+                    "type": "text",
+                    "text": prompt,
+                },
+            ],
+        }
+    ]
+
+    inputs = processor.apply_chat_template(
+        messages,
+        tokenize=True,
+        add_generation_prompt=True,
+        return_dict=True,
+        return_tensors="pt",
+    )
+
+    # Qwen's official Transformers examples move the processed
+    # multimodal inputs to the model device before generation.
+    inputs = inputs.to(model.device)
+
+    with torch.inference_mode():
+        generated_ids = model.generate(
+            **inputs,
+            max_new_tokens=QWEN_MAX_NEW_TOKENS,
+            do_sample=False,
+        )
+
+    generated_ids_trimmed = [
+        out_ids[len(in_ids):]
+        for in_ids, out_ids in zip(
+            inputs.input_ids,
+            generated_ids,
+        )
+    ]
+
+    output_text = processor.batch_decode(
+        generated_ids_trimmed,
+        skip_special_tokens=True,
+        clean_up_tokenization_spaces=False,
+    )
+
+    return output_text[0].strip() if output_text else ""
+
+def load_existing_predictions(path):
+    """
+    Load previously completed predictions so a stopped/crashed run
+    can resume instead of starting from zero.
+    """
+
+    if not path.exists():
+        return {}
+
+    try:
+        df = pd.read_csv(path)
+
+        if df.empty:
+            return {}
+
+        required = {
+            "image_path",
+            "representation",
+            "true_class",
+            "raw_response",
+            "prediction",
+        }
+
+        if not required.issubset(df.columns):
+            print(
+                "[WARN] Existing predictions.csv has an unexpected "
+                "format. Starting without checkpoint recovery."
+            )
+            return {}
+
+        completed = {}
+
+        for _, row in df.iterrows():
+            key = (
+                str(row["representation"]),
+                str(row["image_path"]),
+            )
+
+            completed[key] = row.to_dict()
+
+        print(
+            f"[Checkpoint] Loaded {len(completed)} existing predictions."
+        )
+
+        return completed
+
+    except Exception as e:
+        print(
+            f"[WARN] Could not read existing checkpoint: {e}"
+        )
+        return {}
+
+def append_prediction(path, row):
+    """
+    Append one prediction immediately to disk.
+
+    This makes long Qwen runs resumable.
+    """
+
+    df = pd.DataFrame([row])
+
+    write_header = not path.exists()
+
+    df.to_csv(
+        path,
+        mode="a",
+        header=write_header,
+        index=False,
+    )
+
+def qwen_print_classwise_table(classwise_metrics):
+    print(
+        f"\n    {'Class':<12}"
+        f"{'Accuracy':>10}"
+        f"{'Precision':>10}"
+        f"{'Recall':>10}"
+        f"{'F1':>10}"
+    )
+    print(f"    {'-' * 52}")
+    for m in classwise_metrics:
+        print(
+            f"    {m['class_name']:<12}"
+            f"{m['accuracy'] * 100:>9.2f}% "
+            f"{m['precision'] * 100:>9.2f}% "
+            f"{m['recall'] * 100:>9.2f}% "
+            f"{m['f1']:>10.4f}"
+        )
+    print()
+
+def evaluate_qwen(
+    classes,
+    test_sets,
+    device,
+    limit_per_rep=None,
+    resume=True,
+):
+    print(f"\n{'=' * 70}")
+    print(f"EVALUATING MODEL: {QWEN_MODEL_NAME} (Zero-Shot Generative VLM)")
+    print(f"Model ID: {QWEN_MODEL_ID}")
+    print(f"{'=' * 70}")
+
+    if AutoProcessor is None or Qwen3VLForConditionalGeneration is None:
+        print(
+            "[FAIL] Required Qwen/Transformers classes are unavailable."
+        )
+        print(
+            'Install a current Transformers version with:'
+        )
+        print(
+            '  pip install -U "transformers>=4.57.0" accelerate'
+        )
+        return [], [], []
+
+    # ─────────────────────────────────────────────────────────
+    # Load model
+    # ─────────────────────────────────────────────────────────
+
+    print("\nLoading Qwen3-VL processor...")
+
+    processor = AutoProcessor.from_pretrained(
+        QWEN_MODEL_ID
+    )
+
+    print("Loading Qwen3-VL-8B-Instruct...")
+
+    model = Qwen3VLForConditionalGeneration.from_pretrained(
+        QWEN_MODEL_ID,
+        dtype="auto",
+        device_map="auto",
+    )
+
+    model.eval()
+
+    print("Qwen3-VL loaded successfully.")
+    print(
+        f"Device: {device}"
+    )
+
+    if torch.cuda.is_available():
+        print(
+            f"GPU: {torch.cuda.get_device_name(0)}"
+        )
+
+    # ─────────────────────────────────────────────────────────
+    # Checkpoint
+    # ─────────────────────────────────────────────────────────
+
+    predictions_csv = (
+        RESULTS_DIR / "Qwen3_VL_8B_predictions.csv"
+    )
+
+    completed = (
+        load_existing_predictions(predictions_csv)
+        if resume
+        else {}
+    )
+
+    all_predictions = []
+
+    # Load checkpoint rows for final metrics.
+    if completed:
+        all_predictions.extend(
+            completed.values()
+        )
+
+    total_start = time.perf_counter()
+
+    # ─────────────────────────────────────────────────────────
+    # Evaluate every representation
+    # ─────────────────────────────────────────────────────────
+
+    for test_rep, test_records in test_sets.items():
+
+        if len(test_records) == 0:
+            print(
+                f"  [WARN] Test set '{test_rep}' has 0 images. Skipping."
+            )
+            continue
+
+        records_to_process = list(test_records)
+
+        if limit_per_rep is not None:
+            records_to_process = records_to_process[
+                :limit_per_rep
+            ]
+
+        print(
+            f"\n--- Representation: {test_rep} "
+            f"({len(records_to_process)} images) ---"
+        )
+
+        prompt = qwen_get_prompt(test_rep)
+
+        rep_start = time.perf_counter()
+        processed_now = 0
+
+        for idx, (image_path, true_class) in enumerate(
+            records_to_process,
+            start=1,
+        ):
+
+            checkpoint_key = (
+                test_rep,
+                image_path,
+            )
+
+            if checkpoint_key in completed:
+                continue
+
+            print(
+                f"  [{idx}/{len(records_to_process)}] "
+                f"{image_path}",
+                end="",
+                flush=True,
+            )
+
+            image_start = time.perf_counter()
+
+            try:
+                raw_response = ask_qwen(
+                    model=model,
+                    processor=processor,
+                    image_path=image_path,
+                    prompt=prompt,
+                )
+
+                prediction = normalize_prediction(
+                    raw_response,
+                    classes,
+                )
+
+                elapsed = (
+                    time.perf_counter()
+                    - image_start
+                )
+
+                print(
+                    f" -> {prediction}"
+                    f" | {elapsed:.2f}s"
+                )
+
+                row = {
+                    "model": QWEN_MODEL_NAME,
+                    "image_path": image_path,
+                    "representation": test_rep,
+                    "true_class": true_class,
+                    "prompt": prompt,
+                    "raw_response": raw_response,
+                    "prediction": prediction,
+                    "latency_sec": round(
+                        elapsed,
+                        4,
+                    ),
+                }
+
+                append_prediction(
+                    predictions_csv,
+                    row,
+                )
+
+                completed[checkpoint_key] = row
+                all_predictions.append(row)
+
+                processed_now += 1
+
+            except Exception as e:
+                print(
+                    f" -> ERROR: {e}"
+                )
+
+                # Keep going so one problematic image does not
+                # terminate the complete benchmark.
+                continue
+
+        rep_time = (
+            time.perf_counter()
+            - rep_start
+        )
+
+        print(
+            f"  Representation time: "
+            f"{rep_time:.2f}s"
+        )
+
+        if processed_now > 0:
+            print(
+                f"  Newly processed: "
+                f"{processed_now}"
+            )
+
+    total_time = (
+        time.perf_counter()
+        - total_start
+    )
+
+    # ─────────────────────────────────────────────────────────
+    # Re-read the complete checkpoint for reliable metrics
+    # ─────────────────────────────────────────────────────────
+
+    if not predictions_csv.exists():
+        print(
+            "\n[FAIL] No predictions were generated."
+        )
+
+        del model
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+
+        return [], [], []
+
+    df_predictions = pd.read_csv(
+        predictions_csv
+    )
+
+    # Restrict metrics to requested representations.
+    if test_sets:
+        df_predictions = df_predictions[
+            df_predictions["representation"].isin(
+                test_sets.keys()
+            )
+        ].copy()
+
+    # Restrict to requested classes.
+    df_predictions = df_predictions[
+        df_predictions["true_class"].isin(classes)
+    ].copy()
+
+    if df_predictions.empty:
+        print(
+            "\n[FAIL] No valid predictions available for metrics."
+        )
+
+        del model
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+
+        return [], [], []
+
+    # ─────────────────────────────────────────────────────────
+    # Overall results
+    # ─────────────────────────────────────────────────────────
+
+    results = []
+    classwise_results = []
+
+    for test_rep in test_sets.keys():
+
+        df_rep = df_predictions[
+            df_predictions["representation"] == test_rep
+        ]
+
+        if df_rep.empty:
+            continue
+
+        all_labels = df_rep["true_class"].tolist()
+        all_preds = df_rep["prediction"].tolist()
+
+        acc = accuracy_score(
+            all_labels,
+            all_preds,
+        )
+
+        f1 = f1_score(
+            all_labels,
+            all_preds,
+            labels=classes,
+            average="macro",
+            zero_division=0,
+        )
+
+        precision = precision_score(
+            all_labels,
+            all_preds,
+            labels=classes,
+            average="macro",
+            zero_division=0,
+        )
+
+        recall = recall_score(
+            all_labels,
+            all_preds,
+            labels=classes,
+            average="macro",
+            zero_division=0,
+        )
+
+        print(
+            f"\n  Test: {test_rep:<18}"
+            f" -> Accuracy: {acc * 100:6.2f}%"
+            f" | F1: {f1:.4f}"
+        )
+
+        cw_metrics = compute_classwise_metrics(
+            all_labels,
+            all_preds,
+            classes,
+        )
+
+        print_classwise_table(
+            cw_metrics
+        )
+
+        for m in cw_metrics:
+            classwise_results.append(
+                {
+                    "model": QWEN_MODEL_NAME,
+                    "training_setup": "Zero-Shot",
+                    "test_representation": test_rep,
+                    "class_name": m["class_name"],
+                    "accuracy": round(
+                        m["accuracy"],
+                        4,
+                    ),
+                    "precision": round(
+                        m["precision"],
+                        4,
+                    ),
+                    "recall": round(
+                        m["recall"],
+                        4,
+                    ),
+                    "f1_score": round(
+                        m["f1"],
+                        4,
+                    ),
+                }
+            )
+
+        results.append(
+            {
+                "model": QWEN_MODEL_NAME,
+                "training_setup": "Zero-Shot",
+                "test_representation": test_rep,
+                "class_name": "ALL",
+                "accuracy": float(acc),
+                "f1_score": float(f1),
+                "precision": float(precision),
+                "recall": float(recall),
+                "num_images": len(df_rep),
+            }
+        )
+
+    # ─────────────────────────────────────────────────────────
+    # Save metrics
+    # ─────────────────────────────────────────────────────────
+
+    results_csv = (
+        RESULTS_DIR / "Qwen3_VL_8B_results.csv"
+    )
+
+    classwise_csv = (
+        RESULTS_DIR / "Qwen3_VL_8B_classwise.csv"
+    )
+
+    pd.DataFrame(results).to_csv(
+        results_csv,
+        index=False,
+    )
+
+    pd.DataFrame(classwise_results).to_csv(
+        classwise_csv,
+        index=False,
+    )
+
+    # ─────────────────────────────────────────────────────────
+    # Inference benchmark
+    # ─────────────────────────────────────────────────────────
+
+    valid_latency = pd.to_numeric(
+        df_predictions["latency_sec"],
+        errors="coerce",
+    ).dropna()
+
+    if len(valid_latency) > 0:
+        total_inference_time = float(
+            valid_latency.sum()
+        )
+
+        total_images = len(valid_latency)
+
+        avg_latency_ms = (
+            total_inference_time
+            / total_images
+            * 1000
+        )
+
+        throughput = (
+            total_images
+            / total_inference_time
+            if total_inference_time > 0
+            else 0
+        )
+
+        inference_df = pd.DataFrame(
+            [
+                {
+                    "model": QWEN_MODEL_NAME,
+                    "architecture_type": "Generative VLM",
+                    "device": (
+                        f"{device.type} "
+                        f"({torch.cuda.get_device_name(0)})"
+                        if device.type == "cuda"
+                        else "CPU"
+                    ),
+                    "total_images": total_images,
+                    "total_time_sec": round(
+                        total_inference_time,
+                        4,
+                    ),
+                    "avg_latency_ms": round(
+                        avg_latency_ms,
+                        4,
+                    ),
+                    "avg_time_ms": round(
+                        avg_latency_ms,
+                        4,
+                    ),
+                    "throughput_fps": round(
+                        throughput,
+                        4,
+                    ),
+                    "throughput_img_per_sec": round(
+                        throughput,
+                        4,
+                    ),
+                }
+            ]
+        )
+
+        inference_csv = (
+            RESULTS_DIR / "Qwen3_VL_8B_inference_time.csv"
+        )
+
+        inference_df.to_csv(
+            inference_csv,
+            index=False,
+        )
+
+        print(
+            f"\n[Benchmark] Qwen3-VL:"
+            f" {avg_latency_ms:.2f} ms/image"
+            f" | {throughput:.2f} images/s"
+        )
+
+    # ─────────────────────────────────────────────────────────
+    # Print final matrix
+    # ─────────────────────────────────────────────────────────
+
+    df_results = pd.DataFrame(results)
+
+    if not df_results.empty:
+        matrix = (
+            df_results
+            .set_index("test_representation")["accuracy"]
+            .to_frame()
+            .T
+            * 100
+        )
+
+        ordered_cols = [
+            rep
+            for rep in REPRESENTATIONS
+            if rep in matrix.columns
+        ]
+
+        matrix = matrix[ordered_cols]
+
+        print(
+            f"\n{'=' * 90}"
+        )
+        print(
+            "QWEN3-VL-8B ZERO-SHOT ACCURACY MATRIX (%)"
+        )
+        print(
+            f"{'=' * 90}"
+        )
+        print(
+            matrix.round(2).to_string(
+                index=False
+            )
+        )
+
+        matrix_csv = (
+            RESULTS_DIR
+            / "Qwen3_VL_8B_matrix.csv"
+        )
+
+        matrix.round(2).to_csv(
+            matrix_csv,
+            index=False,
+        )
+
+    print(
+        f"\n[OK] Predictions saved to:"
+        f" {predictions_csv}"
+    )
+
+    print(
+        f"[OK] Results saved to:"
+        f" {results_csv}"
+    )
+
+    print(
+        f"[OK] Class-wise metrics saved to:"
+        f" {classwise_csv}"
+    )
+
+    print(
+        f"[OK] Total evaluation wall time:"
+        f" {total_time:.2f}s"
+    )
+
+    # Convert Qwen summary rows to the common Script-4 schema.
+    master_results = []
+    for r in results:
+        master_results.append({
+            "model": r["model"],
+            "training_setup": r["training_setup"],
+            "test_representation": r["test_representation"],
+            "class_name": "ALL",
+            "accuracy": round(float(r["accuracy"]), 4),
+            "precision": round(float(r["precision"]), 4),
+            "recall": round(float(r["recall"]), 4),
+            "f1_score": round(float(r["f1_score"]), 4),
+        })
+
+    # Save a Qwen-specific classwise file and return data for the master CSV.
+    # Release GPU memory.
+    del model
+    del processor
+
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+    return master_results, classwise_results, inference_df.to_dict('records') if 'inference_df' in locals() else []
+
+
+# ─────────────────────────────────────────────────────────────
+# Safe master-result merge
+# ─────────────────────────────────────────────────────────────
+
+def merge_and_save_master_results(new_results, new_classwise, new_inference, models_ran):
+    """
+    Merge results from the current execution into the master CSVs.
+
+    Important:
+      - Models run in THIS execution replace only their own old rows.
+      - Models skipped in THIS execution remain untouched.
+      - This prevents a SigLIP/Qwen-only run from deleting ResNet/ViT/DINO/CLIP/EVA results.
+    """
+    def read_existing(path):
+        if path.exists():
+            try:
+                return pd.read_csv(path)
+            except Exception as e:
+                print(f"[WARN] Could not read existing {path.name}: {e}")
+        return pd.DataFrame()
+
+    # ---- Classification results ----
+    out_csv = RESULTS_DIR / "classification_results.csv"
+    old = read_existing(out_csv)
+    new_df = pd.DataFrame(new_results)
+
+    if not new_df.empty:
+        if not old.empty and "model" in old.columns:
+            old = old[~old["model"].isin(models_ran)].copy()
+        merged = pd.concat([old, new_df], ignore_index=True)
+    else:
+        merged = old.copy()
+
+    if not merged.empty:
+        # Stable ordering: model, training setup, representation, class.
+        model_order = [
+            "ResNet-50", "ViT-B/16", "DINOv3",
+            "CLIP ViT-B/32", "EVA-CLIP (EVA02-B/16)",
+            "SigLIP-2 Base", "Qwen3-VL-8B"
+        ]
+        merged["_model_order"] = merged["model"].map(
+            {m:i for i,m in enumerate(model_order)}
+        ).fillna(999)
+        merged["_class_order"] = merged["class_name"].apply(
+            lambda x: 999999 if x == "ALL" else 0
+        )
+        merged = merged.sort_values(
+            ["_model_order", "training_setup",
+             "test_representation", "_class_order", "class_name"],
+            kind="stable"
+        ).drop(columns=["_model_order", "_class_order"])
+        merged.to_csv(out_csv, index=False)
+
+    print(f"[OK] Master classification results saved: {out_csv}")
+    print(f"     Models present: {sorted(merged['model'].dropna().unique().tolist()) if not merged.empty else []}")
+
+    # ---- Classwise metrics ----
+    cw_csv = RESULTS_DIR / "classwise_metrics.csv"
+    old_cw = read_existing(cw_csv)
+    new_cw = pd.DataFrame(new_classwise)
+
+    if not new_cw.empty:
+        if not old_cw.empty and "model" in old_cw.columns:
+            old_cw = old_cw[~old_cw["model"].isin(models_ran)].copy()
+        merged_cw = pd.concat([old_cw, new_cw], ignore_index=True)
+    else:
+        merged_cw = old_cw.copy()
+
+    if not merged_cw.empty:
+        merged_cw.to_csv(cw_csv, index=False)
+    print(f"[OK] Master classwise metrics saved: {cw_csv}")
+
+    # ---- Macro summary ----
+    if not merged.empty and "class_name" in merged.columns:
+        macro_csv = RESULTS_DIR / "summary_metrics.csv"
+        macro = merged[merged["class_name"] == "ALL"].copy()
+        macro.to_csv(macro_csv, index=False)
+        print(f"[OK] Master summary metrics saved: {macro_csv}")
+
+    # ---- Inference time ----
+    inf_csv = RESULTS_DIR / "inference_time.csv"
+    old_inf = read_existing(inf_csv)
+    new_inf = pd.DataFrame(new_inference)
+
+    if not new_inf.empty:
+        if not old_inf.empty and "model" in old_inf.columns:
+            old_inf = old_inf[~old_inf["model"].isin(models_ran)].copy()
+        merged_inf = pd.concat([old_inf, new_inf], ignore_index=True)
+    else:
+        merged_inf = old_inf.copy()
+
+    if not merged_inf.empty:
+        merged_inf = merged_inf.drop_duplicates(subset=["model"], keep="last")
+        merged_inf.to_csv(inf_csv, index=False)
+    print(f"[OK] Master inference-time results saved: {inf_csv}")
+
+    return merged, merged_cw, merged_inf
+
+
 def main():
-    parser = argparse.ArgumentParser(description="Cross-Representation Evaluation Pipeline")
+    parser = argparse.ArgumentParser(
+        description="Unified Cross-Representation Benchmark: ResNet-50, ViT-B/16, DINOv3, CLIP, EVA-CLIP, SigLIP-2, Qwen3-VL-8B"
+    )
     parser.add_argument("--classes", type=str, default="all",
-                        help="Classes to evaluate: 'all' (all 10 classes), 'furniture' (chair, table), or comma-separated list")
-    parser.add_argument("--epochs", type=int, default=5, help="Number of training epochs")
-    parser.add_argument("--batch-size", type=int, default=32, help="Batch size")
-    parser.add_argument("--lr", type=float, default=1e-4, help="Learning rate")
-    parser.add_argument("--device", type=str, default="auto", help="'cuda', 'cpu', or 'auto'")
-    parser.add_argument("--skip-supervised", action="store_true", help="Skip ResNet/ViT/DINO training")
-    parser.add_argument("--skip-clip", action="store_true", help="Skip CLIP zero-shot evaluation")
-    parser.add_argument("--skip-eva-clip", action="store_true", help="Skip EVA-CLIP zero-shot evaluation")
-    parser.add_argument("--skip-siglip2", action="store_true", help="Skip SigLIP-2 zero-shot evaluation")
+                        help="'all', 'furniture', or comma-separated class names")
+    parser.add_argument("--epochs", type=int, default=5)
+    parser.add_argument("--batch-size", type=int, default=32)
+    parser.add_argument("--lr", type=float, default=1e-4)
+    parser.add_argument("--device", type=str, default="auto",
+                        help="'cuda', 'cpu', or 'auto'")
+
+    parser.add_argument("--skip-supervised", action="store_true",
+                        help="Skip ResNet-50, ViT-B/16 and DINOv3")
+    parser.add_argument("--skip-clip", action="store_true",
+                        help="Skip CLIP ViT-B/32")
+    parser.add_argument("--skip-eva-clip", action="store_true",
+                        help="Skip EVA-CLIP")
+    parser.add_argument("--skip-siglip2", action="store_true",
+                        help="Skip SigLIP-2")
+    parser.add_argument("--skip-qwen", action="store_true",
+                        help="Skip Qwen3-VL-8B")
+
+    parser.add_argument("--qwen-limit-per-rep", type=int, default=None,
+                        help="Optional maximum Qwen images per representation")
+    parser.add_argument("--no-qwen-resume", action="store_true",
+                        help="Do not resume Qwen from results/Qwen3_VL_8B_predictions.csv")
+
     args = parser.parse_args()
 
-    # Determine Device
+    # Device
     if args.device == "auto":
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     else:
         device = torch.device(args.device)
 
-    print("=" * 70)
-    print("BTP Cross-Representation Learning & Generalization Pipeline")
-    print(f"Device: {device} ({torch.cuda.get_device_name(0) if device.type == 'cuda' else 'CPU'})")
-    print("=" * 70)
+    print("=" * 80)
+    print("UNIFIED BTP REPRESENTATION-INVARIANT OBJECT RECOGNITION BENCHMARK")
+    print("=" * 80)
+    print(f"Device: {device}")
+    if device.type == "cuda":
+        print(f"GPU: {torch.cuda.get_device_name(0)}")
+    print("=" * 80)
 
-    # Determine Classes
+    # Classes
     if args.classes.lower() == "all":
         classes = sorted([d.name for d in ORIGINAL_DIR.iterdir() if d.is_dir()])
     elif args.classes.lower() == "furniture":
@@ -1045,19 +1915,20 @@ def main():
     print(f"Evaluating {len(classes)} classes: {', '.join(classes)}")
     print(f"Representations: {', '.join(REPRESENTATIONS)}\n")
 
-    # Build Data Splits
     training_setups, test_sets, class_to_idx = build_data_splits(classes)
+
     print("Data splits created:")
     for rep, recs in test_sets.items():
         print(f"  Test [{rep}]: {len(recs)} images")
-    for s_name, recs in training_setups.items():
-        print(f"  Train [{s_name}]: {len(recs)} images")
+    for setup, recs in training_setups.items():
+        print(f"  Train [{setup}]: {len(recs)} images")
 
     all_results = []
     all_classwise = []
     all_inference = []
+    models_ran = []
 
-    # 1. Supervised Models (Trained on each variant, evaluated on ALL variants)
+    # 1. ResNet-50, ViT-B/16, DINOv3
     if not args.skip_supervised:
         for model_name in ["ResNet-50", "ViT-B/16", "DINOv3"]:
             res, cw_res, inf_res = train_and_eval_model(
@@ -1074,8 +1945,9 @@ def main():
             all_results.extend(res)
             all_classwise.extend(cw_res)
             all_inference.extend(inf_res)
+            models_ran.append(model_name)
 
-    # 2. CLIP ViT-B/32 Zero-Shot
+    # 2. CLIP ViT-B/32
     if not args.skip_clip:
         clip_res, clip_cw, clip_inf = evaluate_zero_shot_clip(
             model_name="CLIP ViT-B/32",
@@ -1091,8 +1963,10 @@ def main():
         all_results.extend(clip_res)
         all_classwise.extend(clip_cw)
         all_inference.extend(clip_inf)
+        if clip_res:
+            models_ran.append("CLIP ViT-B/32")
 
-    # 3. EVA-CLIP Zero-Shot
+    # 3. EVA-CLIP
     if not args.skip_eva_clip:
         eva_res, eva_cw, eva_inf = evaluate_zero_shot_clip(
             model_name="EVA-CLIP (EVA02-B/16)",
@@ -1108,8 +1982,10 @@ def main():
         all_results.extend(eva_res)
         all_classwise.extend(eva_cw)
         all_inference.extend(eva_inf)
+        if eva_res:
+            models_ran.append("EVA-CLIP (EVA02-B/16)")
 
-    # 4. SigLIP-2 Zero-Shot
+    # 4. SigLIP-2
     if not args.skip_siglip2:
         siglip2_res, siglip2_cw, siglip2_inf = evaluate_zero_shot_siglip2(
             model_name="SigLIP-2 Base",
@@ -1124,66 +2000,141 @@ def main():
         all_results.extend(siglip2_res)
         all_classwise.extend(siglip2_cw)
         all_inference.extend(siglip2_inf)
+        if siglip2_res:
+            models_ran.append("SigLIP-2 Base")
 
-    # 1. Save Primary Classification Results (Full Class-wise + Macro ALL)
-    df_all = pd.DataFrame(all_results)
-    out_csv = RESULTS_DIR / "classification_results.csv"
-    df_all.to_csv(out_csv, index=False)
-    print(f"\n[OK] Classification results (class-wise & summary) saved to: {out_csv}")
+    # 5. Qwen3-VL-8B
+    if not args.skip_qwen:
+        # Qwen uses the same deterministic split, but keeps true labels as strings.
+        qwen_full_test_sets = build_qwen_test_sets(classes, train_ratio=0.8, seed=42)
+        qwen_test_sets = {
+            rep: qwen_full_test_sets[rep]
+            for rep in REPRESENTATIONS
+            if rep in qwen_full_test_sets
+        }
 
-    # 2. Save Dedicated Class-wise Metrics (individual classes only)
-    if all_classwise:
-        df_cw = pd.DataFrame(all_classwise)
-        cw_csv = RESULTS_DIR / "classwise_metrics.csv"
-        df_cw.to_csv(cw_csv, index=False)
-        print(f"[OK] Dedicated class-wise metrics saved to: {cw_csv}")
+        qwen_res, qwen_cw, qwen_inf = evaluate_qwen(
+            classes=classes,
+            test_sets=qwen_test_sets,
+            device=device,
+            limit_per_rep=args.qwen_limit_per_rep,
+            resume=not args.no_qwen_resume,
+        )
+        all_results.extend(qwen_res)
+        all_classwise.extend(qwen_cw)
+        all_inference.extend(qwen_inf)
+        if qwen_res:
+            models_ran.append(QWEN_MODEL_NAME)
 
-    # 3. Save Dedicated Macro Summary Results (ALL rows only)
-    df_macro = df_all[df_all["class_name"] == "ALL"].copy() if "class_name" in df_all.columns else df_all.copy()
-    if not df_macro.empty:
-        macro_csv = RESULTS_DIR / "summary_metrics.csv"
-        df_macro.to_csv(macro_csv, index=False)
-        print(f"[OK] Summary macro metrics saved to: {macro_csv}")
+    # Safe merge into the master CSVs.
+    df_all, df_cw, df_inf = merge_and_save_master_results(
+        all_results,
+        all_classwise,
+        all_inference,
+        models_ran
+    )
 
-    # 4. Save Model-Wise Inference Time Benchmarks
-    if all_inference:
-        df_inf = pd.DataFrame(all_inference)
-        # Drop duplicates by model if any exist
-        df_inf = df_inf.drop_duplicates(subset=["model"], keep="first")
-        inf_csv = RESULTS_DIR / "inference_time.csv"
-        df_inf.to_csv(inf_csv, index=False)
-        print(f"[OK] Model-wise inference time benchmarks saved to: {inf_csv}")
+    # Create the requested clean Class x Variant x Model comparison.
+    # Create clean Class x Variant x Model comparison CSV.
+    # Uses Train_All_Combined for supervised models and Zero-Shot for VLMs.
+    comparison_csv = RESULTS_DIR / "class_variant_model_comparison.csv"
+    comparison_models = [
+        "ResNet-50", "ViT-B/16", "DINOv3",
+        "CLIP ViT-B/32", "EVA-CLIP (EVA02-B/16)",
+        "SigLIP-2 Base", "Qwen3-VL-8B"
+    ]
+    comparison_setups = {
+        "ResNet-50": "Train_All_Combined",
+        "ViT-B/16": "Train_All_Combined",
+        "DINOv3": "Train_All_Combined",
+        "CLIP ViT-B/32": "Zero-Shot",
+        "EVA-CLIP (EVA02-B/16)": "Zero-Shot",
+        "SigLIP-2 Base": "Zero-Shot",
+        "Qwen3-VL-8B": "Zero-Shot",
+    }
 
-        # Print model-wise inference time summary table
-        print(f"\n{'='*95}")
+    if not df_cw.empty:
+        comparison = df_cw.copy()
+        comparison = comparison[
+            comparison["model"].isin(comparison_models)
+        ].copy()
+        comparison = comparison[
+            comparison.apply(
+                lambda r: r["training_setup"] == comparison_setups.get(r["model"], ""),
+                axis=1
+            )
+        ].copy()
+
+        # Accuracy is the performance measure in this compact comparison table.
+        comparison["accuracy_pct"] = comparison["accuracy"] * 100.0
+        comparison["model"] = comparison["model"].replace({
+            "EVA-CLIP (EVA02-B/16)": "EVA-CLIP",
+            "SigLIP-2 Base": "SigLIP-2",
+        })
+
+        comparison = comparison.pivot_table(
+            index=["class_name", "test_representation"],
+            columns="model",
+            values="accuracy_pct",
+            aggfunc="first"
+        ).reset_index()
+
+        comparison = comparison.rename(columns={
+            "class_name": "class",
+            "test_representation": "variant",
+        })
+
+        desired_columns = [
+            "class", "variant", "ResNet-50", "ViT-B/16", "DINOv3",
+            "CLIP ViT-B/32", "EVA-CLIP", "SigLIP-2", "Qwen3-VL-8B"
+        ]
+        comparison = comparison.reindex(
+            columns=[c for c in desired_columns if c in comparison.columns]
+        )
+
+        representation_order = {rep: i for i, rep in enumerate(REPRESENTATIONS)}
+        class_order = {c: i for i, c in enumerate(classes)}
+        comparison["_class_order"] = comparison["class"].map(class_order).fillna(999)
+        comparison["_variant_order"] = comparison["variant"].map(representation_order).fillna(999)
+        comparison = comparison.sort_values(
+            ["_class_order", "_variant_order"], kind="stable"
+        ).drop(columns=["_class_order", "_variant_order"])
+
+        comparison.to_csv(comparison_csv, index=False)
+        print(f"[OK] Class-variant-model comparison saved: {comparison_csv}")
+    else:
+        print("[WARN] Could not create class-variant-model comparison: no classwise results available.")
+
+    # Print consolidated matrix.
+    print("\n" + "=" * 80)
+    print("CONSOLIDATED SUMMARY MATRIX — MACRO ACCURACY (%)")
+    print("=" * 80)
+
+    if not df_all.empty and "class_name" in df_all.columns:
+        df_macro = df_all[df_all["class_name"] == "ALL"].copy()
+        if not df_macro.empty:
+            summary_pivot = df_macro.pivot_table(
+                index=["model", "training_setup"],
+                columns="test_representation",
+                values="accuracy"
+            ) * 100
+            ordered_cols = [c for c in REPRESENTATIONS if c in summary_pivot.columns]
+            summary_pivot = summary_pivot[ordered_cols]
+            print(summary_pivot.round(2).to_string())
+
+    if not df_inf.empty:
+        print("\n" + "=" * 95)
         print("MODEL-WISE INFERENCE TIME & COMPLEXITY BENCHMARKS")
-        print(f"{'='*95}")
-        print(f"{'Model':<24} {'Type':<18} {'Avg Latency (ms)':>18} {'Throughput (FPS)':>18} {'Device':<14}")
-        print("-" * 95)
-        for _, row in df_inf.iterrows():
-            arch = str(row.get("architecture_type", "N/A"))
-            lat = float(row.get("avg_latency_ms", row.get("avg_time_ms", 0)))
-            fps = float(row.get("throughput_fps", row.get("throughput_img_per_sec", 0)))
-            dev = str(row.get("device", "cuda"))
-            print(f"{row['model']:<24} {arch:<18} {lat:>15.2f} ms {fps:>15.1f} img/s {dev:<14}")
         print("=" * 95)
+        cols = ["model", "architecture_type", "avg_latency_ms", "throughput_fps"]
+        available = [c for c in cols if c in df_inf.columns]
+        print(df_inf[available].to_string(index=False))
 
-    print("\n" + "=" * 70)
-    print("CONSOLIDATED SUMMARY MATRIX")
-    print("=" * 70)
-
-    # Print summary pivot for all models using macro ALL rows
-    if not df_macro.empty:
-        summary_pivot = df_macro.pivot_table(
-            index=["model", "training_setup"],
-            columns="test_representation",
-            values="accuracy"
-        ) * 100
-        ordered_cols = [c for c in REPRESENTATIONS if c in summary_pivot.columns]
-        summary_pivot = summary_pivot[ordered_cols]
-        print(summary_pivot.round(2).to_string())
-
-    print("\n[OK] All training, class-wise evaluations, and inference timing completed successfully!")
+    print("\n" + "=" * 80)
+    print("[OK] Unified benchmark completed.")
+    print(f"[OK] Models run this execution: {models_ran}")
+    print("[OK] Existing results for skipped models were preserved.")
+    print("=" * 80)
 
 
 if __name__ == "__main__":
