@@ -1195,6 +1195,93 @@ def append_prediction(path, row):
         index=False,
     )
 
+def qwen_compute_classwise_metrics(
+    all_labels,
+    all_preds,
+    classes,
+):
+    """
+    Compute Qwen class-wise metrics using string class labels.
+
+    Qwen produces textual class predictions such as "chair" or
+    "triangle", so this function maps the strings to integer indices
+    internally before using sklearn metrics. This mirrors the
+    standalone Qwen evaluation implementation.
+    """
+
+    class_to_idx = {
+        c: i for i, c in enumerate(classes)
+    }
+
+    labels_idx = [
+        class_to_idx[x]
+        for x in all_labels
+    ]
+
+    # Unknown/unparseable Qwen answers are mapped to -1.
+    preds_idx = [
+        class_to_idx.get(x, -1)
+        for x in all_preds
+    ]
+
+    num_classes = len(classes)
+    valid_labels = list(range(num_classes))
+
+    precision_per_class = precision_score(
+        labels_idx,
+        preds_idx,
+        average=None,
+        zero_division=0,
+        labels=valid_labels,
+    )
+
+    recall_per_class = recall_score(
+        labels_idx,
+        preds_idx,
+        average=None,
+        zero_division=0,
+        labels=valid_labels,
+    )
+
+    f1_per_class = f1_score(
+        labels_idx,
+        preds_idx,
+        average=None,
+        zero_division=0,
+        labels=valid_labels,
+    )
+
+    cm = confusion_matrix(
+        labels_idx,
+        preds_idx,
+        labels=valid_labels,
+    )
+
+    class_totals = cm.sum(axis=1)
+    class_correct = cm.diagonal()
+
+    accuracy_per_class = np.where(
+        class_totals > 0,
+        class_correct / class_totals,
+        0.0,
+    )
+
+    results = []
+
+    for i, class_name in enumerate(classes):
+        results.append(
+            {
+                "class_name": class_name,
+                "accuracy": float(accuracy_per_class[i]),
+                "precision": float(precision_per_class[i]),
+                "recall": float(recall_per_class[i]),
+                "f1": float(f1_per_class[i]),
+            }
+        )
+
+    return results
+
+
 def qwen_print_classwise_table(classwise_metrics):
     print(
         f"\n    {'Class':<12}"
@@ -1517,13 +1604,15 @@ def evaluate_qwen(
             f" | F1: {f1:.4f}"
         )
 
-        cw_metrics = compute_classwise_metrics(
+        # Qwen keeps labels as strings, so use the Qwen-specific
+        # class-wise metric implementation.
+        cw_metrics = qwen_compute_classwise_metrics(
             all_labels,
             all_preds,
             classes,
         )
 
-        print_classwise_table(
+        qwen_print_classwise_table(
             cw_metrics
         )
 
