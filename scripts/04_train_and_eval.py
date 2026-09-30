@@ -7,6 +7,7 @@ Models:
   - CLIP ViT-B/32 (Zero-Shot)
   - EVA-CLIP (Zero-Shot)
   - SigLIP-2 Base (Zero-Shot)
+  - Qwen3-VL-8B (Zero-Shot)
 
 Representations:
   - Original

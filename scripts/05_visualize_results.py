@@ -40,6 +40,12 @@ CSV_PATH = RESULTS_DIR / "classification_results.csv"
 CLASSWISE_CSV = RESULTS_DIR / "classwise_metrics.csv"
 INFERENCE_CSV = RESULTS_DIR / "inference_time.csv"
 
+# Qwen3-VL is stored separately because it is evaluated by Script 7.
+QWEN_RESULTS_DIR = RESULTS_DIR / "qwen3vl"
+QWEN_RESULTS_CSV = QWEN_RESULTS_DIR / "qwen3vl_results.csv"
+QWEN_CLASSWISE_CSV = QWEN_RESULTS_DIR / "qwen3vl_classwise.csv"
+QWEN_INFERENCE_CSV = QWEN_RESULTS_DIR / "inference_time.csv"
+
 REPRESENTATIONS = [
     "Original", "Outline", "Dotted", "Dashed", "Sketch", "Silhouette",
     "ColorTint_Red", "ColorTint_Green", "ColorTint_Blue"
@@ -70,23 +76,161 @@ SETUP_LABELS = [
 ]
 
 
+def _canonical_model_from_name(name):
+    """Infer the project model name from a result filename."""
+    s = name.lower().replace("-", "_")
+    if "resnet_50" in s:
+        return "ResNet-50"
+    if "vit_b_16" in s or "vit_b16" in s:
+        return "ViT-B/16"
+    if "dinov3" in s or "dino_v3" in s:
+        return "DINOv3"
+    if "clip_vit_b_32" in s or "clip_vit_b_3" in s:
+        return "CLIP ViT-B/32"
+    if "eva_clip" in s:
+        return "EVA-CLIP (EVA02-B/16)"
+    if "siglip_2" in s or "siglip2" in s:
+        return "SigLIP-2 Base"
+    return None
+
+
+def _rename_result_columns(df):
+    """Normalize common column spellings used by the project's CSV files."""
+    rename = {}
+    for c in df.columns:
+        lc = str(c).strip().lower().replace(" ", "_").replace("-", "_")
+        if lc in {"model", "model_name"}:
+            rename[c] = "model"
+        elif lc in {"training_setup", "train_setup", "setup", "training"}:
+            rename[c] = "training_setup"
+        elif lc in {"test_representation", "representation", "test_rep", "test_style"}:
+            rename[c] = "test_representation"
+        elif lc in {"accuracy", "acc", "accuracy_pct", "accuracy_percent"}:
+            rename[c] = "accuracy"
+        elif lc in {"f1_score", "f1", "macro_f1", "macro_f1_score"}:
+            rename[c] = "f1_score"
+    return df.rename(columns=rename)
+
+
+def _normalize_one_result_file(path):
+    """Read one model-specific CSV and convert it to Script-5 result schema."""
+    try:
+        raw = pd.read_csv(path)
+    except Exception:
+        return pd.DataFrame()
+    if raw.empty:
+        return pd.DataFrame()
+
+    raw = _rename_result_columns(raw.copy())
+    inferred_model = _canonical_model_from_name(path.name)
+
+    # If the file already has the canonical long format, use it directly.
+    if {"test_representation", "accuracy"}.issubset(raw.columns):
+        out = raw.copy()
+        if "model" not in out.columns and inferred_model:
+            out["model"] = inferred_model
+        if "training_setup" not in out.columns:
+            # Zero-shot model files do not have a training setup column.
+            if inferred_model in {
+                "CLIP ViT-B/32", "EVA-CLIP (EVA02-B/16)", "SigLIP-2 Base"
+            }:
+                out["training_setup"] = "Zero-Shot"
+            else:
+                out["training_setup"] = "Train_Original"
+        return out
+
+    # Matrix CSVs are usually wide: rows are training setups and columns are
+    # the nine test representations. Convert them to the same long format.
+    rep_cols = [r for r in REPRESENTATIONS if r in raw.columns]
+    if rep_cols:
+        setup_col = None
+        for candidate in ["training_setup", "setup", "train_setup", "Unnamed: 0"]:
+            if candidate in raw.columns:
+                setup_col = candidate
+                break
+        if setup_col is None:
+            # First non-representation column is normally the setup/index.
+            others = [c for c in raw.columns if c not in rep_cols]
+            if others:
+                setup_col = others[0]
+        if setup_col is not None:
+            out = raw.melt(id_vars=[setup_col], value_vars=rep_cols,
+                           var_name="test_representation", value_name="accuracy")
+            out = out.rename(columns={setup_col: "training_setup"})
+            out["model"] = inferred_model or "Unknown"
+            return out
+
+    return pd.DataFrame()
+
+
 def load_data():
-    df = pd.read_csv(CSV_PATH)
-    if "class_name" in df.columns:
-        df_all = df[df["class_name"] == "ALL"]
-        if not df_all.empty:
-            df = df_all.copy()
-        else:
-            df = df.groupby(["model", "training_setup", "test_representation"]).agg({
-                "accuracy": "mean", "f1_score": "mean"
-            }).reset_index()
-    # Ensure accuracy in percentage format
-    if df["accuracy"].max() <= 1.0:
+    """
+    Load the original combined classification CSV and, when it has been
+    replaced by a model-specific run, recover the older model results from
+    the individual CSVs visible in results/.
+
+    This keeps the original Script-5 plots unchanged while making the loader
+    compatible with the current results folder structure.
+    """
+    frames = []
+
+    # Main combined file (whatever models are currently present in it).
+    if CSV_PATH.exists():
+        f = _normalize_one_result_file(CSV_PATH)
+        if not f.empty:
+            frames.append(f)
+
+    # Recover model-specific result/matrix files from results/.
+    for path in sorted(RESULTS_DIR.glob("*.csv")):
+        if path.name in {CSV_PATH.name, CLASSWISE_CSV.name, INFERENCE_CSV.name}:
+            continue
+        if path.name.endswith("_backup.csv"):
+            continue
+        if "classwise" in path.name.lower() or "summary" in path.name.lower():
+            continue
+        f = _normalize_one_result_file(path)
+        if not f.empty and "model" in f.columns:
+            frames.append(f)
+
+    if not frames:
+        return pd.DataFrame()
+
+    df = pd.concat(frames, ignore_index=True, sort=False)
+    df = df.dropna(subset=["model", "training_setup", "test_representation", "accuracy"])
+
+    # Remove duplicate rows. The main combined CSV wins over recovered files.
+    df = df.drop_duplicates(
+        subset=["model", "training_setup", "test_representation"], keep="first"
+    )
+
+    # Ensure numeric metrics.
+    df["accuracy"] = pd.to_numeric(df["accuracy"], errors="coerce")
+    if "f1_score" in df.columns:
+        df["f1_score"] = pd.to_numeric(df["f1_score"], errors="coerce")
+
+    if df["accuracy"].max(skipna=True) <= 1.0:
         df["accuracy_pct"] = df["accuracy"] * 100.0
     else:
         df["accuracy_pct"] = df["accuracy"]
+
     return df
 
+
+def load_qwen_results():
+    """Load Qwen3-VL results from results/qwen3vl/."""
+    if not QWEN_RESULTS_CSV.exists():
+        print(f"  [INFO] Qwen results not found: {QWEN_RESULTS_CSV}")
+        return pd.DataFrame()
+    q = _rename_result_columns(pd.read_csv(QWEN_RESULTS_CSV))
+    if q.empty or not {"test_representation", "accuracy"}.issubset(q.columns):
+        return pd.DataFrame()
+    q["model"] = "Qwen3-VL-8B"
+    q["training_setup"] = "Zero-Shot"
+    q["accuracy"] = pd.to_numeric(q["accuracy"], errors="coerce")
+    q["accuracy_pct"] = q["accuracy"] * 100 if q["accuracy"].max(skipna=True) <= 1 else q["accuracy"]
+    if "f1_score" in q.columns:
+        q["f1_score"] = pd.to_numeric(q["f1_score"], errors="coerce")
+    return q
 
 def get_available_reps(df):
     """Get representations that are actually present in the data."""
@@ -162,7 +306,8 @@ def plot_zero_shot_comparison(df):
     models = [
         "CLIP ViT-B/32",
         "EVA-CLIP (EVA02-B/16)",
-        "SigLIP-2 Base"
+        "SigLIP-2 Base",
+        "Qwen3-VL-8B"
     ]
     available_models = [m for m in models if m in pivot.columns]
 
@@ -178,13 +323,15 @@ def plot_zero_shot_comparison(df):
     colors = {
         "CLIP ViT-B/32": "#4A90E2",
         "EVA-CLIP (EVA02-B/16)": "#50E3C2",
-        "SigLIP-2 Base": "#9B59B6"
+        "SigLIP-2 Base": "#9B59B6",
+        "Qwen3-VL-8B": "#E67E22"
     }
 
     labels = {
         "CLIP ViT-B/32": "CLIP ViT-B/32",
         "EVA-CLIP (EVA02-B/16)": "EVA-CLIP (EVA02-B/16)",
-        "SigLIP-2 Base": "SigLIP-2"
+        "SigLIP-2 Base": "SigLIP-2",
+        "Qwen3-VL-8B": "Qwen3-VL-8B"
     }
 
     for i, model_name in enumerate(available_models):
@@ -233,53 +380,324 @@ def plot_zero_shot_comparison(df):
 
 def plot_train_original_generalization(df):
     """
-    Plot out-of-distribution generalization when models are trained ONLY on Original images,
-    alongside zero-shot vision-language models.
-    """
-    reps = get_available_reps(df)
-    fig, ax = plt.subplots(figsize=(max(12, len(reps) * 1.5), 6.5))
+    Plot out-of-distribution generalization when models are trained
+    ONLY on Original images, alongside zero-shot vision-language models.
 
-    # Filter models trained on Original or Zero-Shot
+    All models and representations are shown in ONE figure.
+    """
+
+    reps = get_available_reps(df)
+
+    # ------------------------------------------------------------
+    # Models included in Fig. 3
+    # ------------------------------------------------------------
+
+    model_order = [
+        "CLIP ViT-B/32",
+        "DINOv3",
+        "EVA-CLIP (EVA02-B/16)",
+        "Qwen3-VL-8B",
+        "ResNet-50",
+        "SigLIP-2 Base",
+        "ViT-B/16"
+    ]
+
+    # ------------------------------------------------------------
+    # Filter relevant results
+    # ------------------------------------------------------------
+
     subset = df[
-        ((df["model"].isin(["ResNet-50", "ViT-B/16", "DINOv3"])) & (df["training_setup"] == "Train_Original")) |
-        (df["training_setup"] == "Zero-Shot")
+        (
+            df["model"].isin([
+                "ResNet-50",
+                "ViT-B/16",
+                "DINOv3"
+            ])
+            & (df["training_setup"] == "Train_Original")
+        )
+        |
+        (
+            df["model"].isin([
+                "CLIP ViT-B/32",
+                "EVA-CLIP (EVA02-B/16)",
+                "SigLIP-2 Base",
+                "Qwen3-VL-8B"
+            ])
+            & (df["training_setup"] == "Zero-Shot")
+        )
     ].copy()
 
-    # Create mapping labels
-    label_map = {
-        ("ResNet-50", "Train_Original"): "ResNet-50 (Train: Original)",
-        ("ViT-B/16", "Train_Original"): "ViT-B/16 (Train: Original)",
-        ("DINOv3", "Train_Original"): "DINOv3 (Train: Original)",
-        ("CLIP ViT-B/32", "Zero-Shot"): "CLIP ViT-B/32 (Zero-Shot)",
-        ("EVA-CLIP (EVA02-B/16)", "Zero-Shot"): "EVA-CLIP (Zero-Shot)",
-        ("SigLIP-2 Base", "Zero-Shot"): "SigLIP-2 (Zero-Shot)"
+    # ------------------------------------------------------------
+    # Pivot
+    # ------------------------------------------------------------
+
+    pivot = subset.pivot(
+        index="test_representation",
+        columns="model",
+        values="accuracy_pct"
+    )
+
+    pivot = pivot.reindex(
+        index=reps,
+        columns=model_order
+    )
+
+    # ------------------------------------------------------------
+    # Figure
+    # ------------------------------------------------------------
+
+    fig, ax = plt.subplots(
+        figsize=(18, 9)
+    )
+
+    x = np.arange(len(reps))
+
+    # ------------------------------------------------------------
+    # Model styles
+    # ------------------------------------------------------------
+
+    styles = {
+        "CLIP ViT-B/32": {
+            "color": "#E74C3C",
+            "marker": "o",
+            "linestyle": "-",
+            "label": "CLIP ViT-B/32 (Zero-Shot)"
+        },
+
+        "DINOv3": {
+            "color": "#E67E22",
+            "marker": "s",
+            "linestyle": "-",
+            "label": "DINOv3 (Train: Original)"
+        },
+
+        "EVA-CLIP (EVA02-B/16)": {
+            "color": "#27AE60",
+            "marker": "^",
+            "linestyle": "-",
+            "label": "EVA-CLIP (Zero-Shot)"
+        },
+
+        "Qwen3-VL-8B": {
+            "color": "#2980B9",
+            "marker": "D",
+            "linestyle": "-",
+            "label": "Qwen3-VL-8B (Zero-Shot)"
+        },
+
+        "ResNet-50": {
+            "color": "#8E44AD",
+            "marker": "P",
+            "linestyle": "-",
+            "label": "ResNet-50 (Train: Original)"
+        },
+
+        "SigLIP-2 Base": {
+            "color": "#9B59B6",
+            "marker": "*",
+            "linestyle": "-",
+            "label": "SigLIP-2 (Zero-Shot)"
+        },
+
+        "ViT-B/16": {
+            "color": "#C0392B",
+            "marker": "X",
+            "linestyle": "-",
+            "label": "ViT-B/16 (Train: Original)"
+        }
     }
 
-    subset["model_label"] = subset.apply(lambda r: label_map.get((r["model"], r["training_setup"]), r["model"]), axis=1)
+    # ------------------------------------------------------------
+    # Plot all models
+    # ------------------------------------------------------------
 
-    pivot = subset.pivot(index="test_representation", columns="model_label", values="accuracy_pct")
-    pivot = pivot.reindex(reps)
+    for model in model_order:
 
-    colors = ["#E74C3C", "#E67E22", "#27AE60", "#2980B9", "#8E44AD", "#9B59B6"]
-    markers = ["o", "s", "^", "D", "P", "*"]
+        if model not in pivot.columns:
+            continue
 
-    for i, col in enumerate(pivot.columns):
-        ax.plot(pivot.index, pivot[col], marker=markers[i % len(markers)], linewidth=2.5, markersize=8, label=col, color=colors[i % len(colors)])
-        for x_val, y_val in zip(pivot.index, pivot[col]):
-            if not np.isnan(y_val):
-                ax.annotate(f"{y_val:.1f}%", xy=(x_val, y_val), xytext=(0, 7),
-                            textcoords="offset points", ha='center', fontsize=8, fontweight="medium")
+        values = pivot[model].values
+        style = styles[model]
 
-    ax.set_ylabel("Classification Accuracy (%)", fontweight="bold")
-    ax.set_title("Out-of-Distribution Robustness: Generalization from Original Images to Abstract Variants", fontweight="bold", pad=15)
-    ax.set_ylim(25, 108)
-    ax.legend(frameon=True, facecolor="white", edgecolor="#BDC3C7", loc="lower left")
-    ax.grid(True, linestyle="--", alpha=0.6)
-    plt.xticks(rotation=30, ha="right")
+        ax.plot(
+            x,
+            values,
+            color=style["color"],
+            marker=style["marker"],
+            linestyle=style["linestyle"],
+            linewidth=2.8,
+            markersize=9,
+            markeredgewidth=1.2,
+            label=style["label"],
+            zorder=3
+        )
+
+    # ------------------------------------------------------------
+    # Annotate ONLY important low/outlier values
+    #
+    # This avoids the 63-label overlap in the old figure.
+    # ------------------------------------------------------------
+
+    for model in model_order:
+
+        if model not in pivot.columns:
+            continue
+
+        values = pivot[model].values
+        style = styles[model]
+
+        for i, value in enumerate(values):
+
+            if np.isnan(value):
+                continue
+
+            # Only annotate points below 70%.
+            # These are visually important drops.
+            if value < 70:
+
+                ax.annotate(
+                    f"{value:.1f}%",
+                    xy=(i, value),
+                    xytext=(0, -18),
+                    textcoords="offset points",
+                    ha="center",
+                    va="top",
+                    fontsize=9,
+                    fontweight="bold",
+                    color=style["color"]
+                )
+
+    # ------------------------------------------------------------
+    # Annotate Original performance
+    # ------------------------------------------------------------
+
+    original_idx = 0
+
+    for model in model_order:
+
+        if model not in pivot.columns:
+            continue
+
+        value = pivot.iloc[original_idx][model]
+
+        if pd.isna(value):
+            continue
+
+        ax.annotate(
+            f"{value:.1f}%",
+            xy=(original_idx, value),
+            xytext=(0, 10),
+            textcoords="offset points",
+            ha="center",
+            va="bottom",
+            fontsize=8,
+            fontweight="semibold"
+        )
+
+    # ------------------------------------------------------------
+    # Axes
+    # ------------------------------------------------------------
+
+    ax.set_ylabel(
+        "Classification Accuracy (%)",
+        fontsize=14,
+        fontweight="bold"
+    )
+
+    ax.set_xlabel(
+        "Input Representation",
+        fontsize=14,
+        fontweight="bold"
+    )
+
+    ax.set_title(
+        "Out-of-Distribution Robustness: "
+        "Generalization from Original Images to Alternative Representations",
+        fontsize=18,
+        fontweight="bold",
+        pad=20
+    )
+
+    ax.set_xticks(x)
+
+    ax.set_xticklabels(
+        reps,
+        fontsize=12,
+        fontweight="semibold",
+        rotation=25,
+        ha="right"
+    )
+
+    # Full scale so the severe drops are visible
+    ax.set_ylim(0, 105)
+
+    ax.set_yticks(
+        np.arange(0, 101, 10)
+    )
+
+    ax.tick_params(
+        axis="y",
+        labelsize=11
+    )
+
+    # ------------------------------------------------------------
+    # Grid
+    # ------------------------------------------------------------
+
+    ax.grid(
+        axis="y",
+        linestyle="--",
+        linewidth=1,
+        alpha=0.45,
+        zorder=0
+    )
+
+    ax.grid(
+        axis="x",
+        visible=False
+    )
+
+    # ------------------------------------------------------------
+    # Legend
+    # ------------------------------------------------------------
+
+    ax.legend(
+        loc="upper center",
+        bbox_to_anchor=(0.5, -0.18),
+        ncol=2,
+        fontsize=11,
+        frameon=True,
+        facecolor="white",
+        edgecolor="#BDC3C7",
+        columnspacing=1.5,
+        handlelength=3
+    )
+
+    # ------------------------------------------------------------
+    # Layout
+    # ------------------------------------------------------------
+
+    plt.subplots_adjust(
+        left=0.08,
+        right=0.98,
+        top=0.90,
+        bottom=0.25
+    )
+
+    # ------------------------------------------------------------
+    # Save
+    # ------------------------------------------------------------
 
     out_file = PLOTS_DIR / "03_train_original_generalization.png"
-    plt.savefig(out_file, bbox_inches="tight", dpi=300)
+
+    plt.savefig(
+        out_file,
+        bbox_inches="tight",
+        dpi=300
+    )
+
     plt.close()
+
     print(f"  [Saved] {out_file.name}")
 
 
@@ -337,7 +755,8 @@ def plot_summary_dashboard(df):
     zs_models = [
         "CLIP ViT-B/32",
         "EVA-CLIP (EVA02-B/16)",
-        "SigLIP-2 Base"
+        "SigLIP-2 Base",
+        "Qwen3-VL-8B"
     ]
     zs_available = [m for m in zs_models if m in p_zs.columns]
 
@@ -347,12 +766,14 @@ def plot_summary_dashboard(df):
     zs_colors = {
         "CLIP ViT-B/32": "#3498DB",
         "EVA-CLIP (EVA02-B/16)": "#1ABC9C",
-        "SigLIP-2 Base": "#9B59B6"
+        "SigLIP-2 Base": "#9B59B6",
+        "Qwen3-VL-8B": "#E67E22"
     }
     zs_labels = {
         "CLIP ViT-B/32": "CLIP (Zero-Shot)",
         "EVA-CLIP (EVA02-B/16)": "EVA-CLIP (Zero-Shot)",
-        "SigLIP-2 Base": "SigLIP-2 (Zero-Shot)"
+        "SigLIP-2 Base": "SigLIP-2 (Zero-Shot)",
+        "Qwen3-VL-8B": "Qwen3-VL-8B (Zero-Shot)"
     }
 
     for i, m in enumerate(zs_available):
@@ -383,7 +804,8 @@ def plot_summary_dashboard(df):
         ("DINOv3", "Train_Original"): "DINOv3",
         ("CLIP ViT-B/32", "Zero-Shot"): "CLIP (Zero-Shot)",
         ("EVA-CLIP (EVA02-B/16)", "Zero-Shot"): "EVA-CLIP (Zero-Shot)",
-        ("SigLIP-2 Base", "Zero-Shot"): "SigLIP-2 (Zero-Shot)"
+        ("SigLIP-2 Base", "Zero-Shot"): "SigLIP-2 (Zero-Shot)",
+        ("Qwen3-VL-8B", "Zero-Shot"): "Qwen3-VL-8B (Zero-Shot)"
     }
     subset["model_label"] = subset.apply(lambda r: label_map.get((r["model"], r["training_setup"]), r["model"]), axis=1)
     p_gen = subset.pivot(index="test_representation", columns="model_label", values="accuracy_pct").reindex(reps)
@@ -418,7 +840,7 @@ def plot_summary_dashboard(df):
                 "Out-of-Domain Avg": np.mean(out_domain) if out_domain else 0
             })
 
-    for m in ["CLIP ViT-B/32", "EVA-CLIP (EVA02-B/16)", "SigLIP-2 Base"]:
+    for m in ["CLIP ViT-B/32", "EVA-CLIP (EVA02-B/16)", "SigLIP-2 Base", "Qwen3-VL-8B"]:
         m_df = df[df["model"] == m]
         if m_df.empty:
             continue
@@ -426,7 +848,8 @@ def plot_summary_dashboard(df):
         display_name = {
             "CLIP ViT-B/32": "CLIP",
             "EVA-CLIP (EVA02-B/16)": "EVA-CLIP",
-            "SigLIP-2 Base": "SigLIP-2"
+            "SigLIP-2 Base": "SigLIP-2",
+            "Qwen3-VL-8B": "Qwen3-VL-8B"
         }[m]
 
         original_values = m_df[m_df["test_representation"] == "Original"]["accuracy_pct"].values
@@ -483,7 +906,8 @@ def plot_summary_dashboard(df):
         "DINOv3": "#2ECC71",
         "CLIP ViT-B/32": "#9B59B6",
         "EVA-CLIP": "#1ABC9C",
-        "SigLIP-2": "#8E44AD"
+        "SigLIP-2": "#8E44AD",
+        "Qwen3-VL-8B": "#E67E22"
     }
     bar_colors = [f1_colors.get(m, "#7F8C8D") for m in df_f1["Model"]]
 
@@ -508,127 +932,150 @@ def plot_summary_dashboard(df):
     print(f"  [Saved] {out_file.name}")
 
 
-def plot_classwise_metrics(df_cw=None):
-    """
-    Plot class-wise precision and recall heatmaps.
-    Uses results/classwise_metrics.csv if available.
-    """
-    if df_cw is None:
-        if not CLASSWISE_CSV.exists():
-            print("  [SKIP] classwise_metrics.csv not found. Skipping class-wise plot.")
-            return
-        df_cw = pd.read_csv(CLASSWISE_CSV)
+def load_classwise_data():
+    """Load the original classwise CSV plus model-specific classwise CSVs and Qwen."""
+    frames=[]
+    if CLASSWISE_CSV.exists():
+        try:
+            frames.append(pd.read_csv(CLASSWISE_CSV))
+        except Exception:
+            pass
+    for path in sorted(RESULTS_DIR.glob("*.csv")):
+        if path.name in {CLASSWISE_CSV.name, CSV_PATH.name, INFERENCE_CSV.name}:
+            continue
+        if "classwise" not in path.name.lower():
+            continue
+        try:
+            q=pd.read_csv(path)
+        except Exception:
+            continue
+        if q.empty:
+            continue
+        q=_rename_result_columns(q)
+        model=_canonical_model_from_name(path.name)
+        if "model" not in q.columns and model:
+            q["model"]=model
+        if "training_setup" not in q.columns:
+            q["training_setup"]="Zero-Shot" if model in {"CLIP ViT-B/32","EVA-CLIP (EVA02-B/16)","SigLIP-2 Base"} else "Train_All_Combined"
+        if "test_representation" not in q.columns:
+            q["test_representation"]="Original"
+        frames.append(q)
+    if QWEN_CLASSWISE_CSV.exists():
+        try:
+            q=pd.read_csv(QWEN_CLASSWISE_CSV)
+            if not q.empty:
+                q=_rename_result_columns(q)
+                q["model"]="Qwen3-VL-8B"
+                q["training_setup"]="Zero-Shot"
+                if "test_representation" not in q.columns:
+                    q["test_representation"]="Original"
+                frames.append(q)
+        except Exception:
+            pass
+    if not frames:
+        return pd.DataFrame()
+    return pd.concat(frames,ignore_index=True,sort=False)
 
+
+def plot_classwise_metrics(df_cw=None):
+    """Plot class-wise precision and recall heatmaps."""
+    if df_cw is None:
+        df_cw=load_classwise_data()
     if df_cw.empty:
-        print("  [SKIP] classwise_metrics.csv is empty. Skipping class-wise plot.")
+        print("  [SKIP] No class-wise results found. Skipping class-wise plot.")
         return
 
-    # Focus on Train_All_Combined for supervised models and Zero-Shot for VL models
-    supervised_models = ["ResNet-50", "ViT-B/16", "DINOv3"]
-    zs_models = ["CLIP ViT-B/32", "EVA-CLIP (EVA02-B/16)", "SigLIP-2 Base"]
-
-    focus_df = df_cw[
-        ((df_cw["model"].isin(supervised_models)) & (df_cw["training_setup"] == "Train_All_Combined") & (df_cw["test_representation"] == "Original")) |
-        ((df_cw["model"].isin(zs_models)) & (df_cw["test_representation"] == "Original"))
+    supervised_models=["ResNet-50","ViT-B/16","DINOv3"]
+    zs_models=["CLIP ViT-B/32","EVA-CLIP (EVA02-B/16)","SigLIP-2 Base","Qwen3-VL-8B"]
+    focus_df=df_cw[
+        ((df_cw["model"].isin(supervised_models)) & (df_cw["training_setup"]=="Train_All_Combined") & (df_cw["test_representation"]=="Original")) |
+        ((df_cw["model"].isin(zs_models)) & (df_cw["test_representation"]=="Original"))
     ].copy()
-
     if focus_df.empty:
-        # Fallback: use any available data
-        focus_df = df_cw.groupby(["model", "class_name"]).first().reset_index()
-
+        focus_df=df_cw.copy()
     if focus_df.empty:
         print("  [SKIP] No data for class-wise plot.")
         return
 
-    fig, axes = plt.subplots(1, 4, figsize=(32, 8))
-
-    for idx, metric in enumerate(["accuracy", "precision", "recall", "f1_score"]):
-        pivot = focus_df.pivot_table(
-            index="class_name", columns="model", values=metric
-        ) * 100
-        pivot = pivot.reindex(sorted(pivot.index))
-
-        sns.heatmap(
-            pivot,
-            annot=True,
-            fmt=".1f",
-            cmap="RdYlGn",
-            vmin=50,
-            vmax=100,
-            ax=axes[idx],
-            linewidths=0.8,
-            linecolor="white",
-            cbar_kws={'label': f"{'F1-Score' if metric == 'f1_score' else metric.title()} (%)"}
-        )
-        metric_label = "F1-Score" if metric == "f1_score" else metric.title()
-        axes[idx].set_title(f"Class-wise {metric_label} (%)\n(Train: All-Combined / Zero-Shot, Test: Original)", fontweight="bold", fontsize=11)
-        axes[idx].set_xlabel("Model", fontweight="bold")
-        if idx == 0:
-            axes[idx].set_ylabel("Class", fontweight="bold")
-        else:
-            axes[idx].set_ylabel("")
-        axes[idx].tick_params(axis="x", rotation=35)
-
-    plt.suptitle("Class-wise Classification Metrics Across Models", fontsize=16, fontweight="bold", y=1.02)
-    out_file = PLOTS_DIR / "06_classwise_metrics_heatmap.png"
-    plt.savefig(out_file, bbox_inches="tight", dpi=300)
-    plt.close()
+    fig,axes=plt.subplots(1,4,figsize=(32,8))
+    for idx,metric in enumerate(["accuracy","precision","recall","f1_score"]):
+        if metric not in focus_df.columns:
+            continue
+        pivot=focus_df.pivot_table(index="class_name",columns="model",values=metric)*100
+        pivot=pivot.reindex(sorted(pivot.index))
+        sns.heatmap(pivot,annot=True,fmt=".1f",cmap="RdYlGn",vmin=50,vmax=100,ax=axes[idx],linewidths=0.8,linecolor="white",cbar_kws={'label':f"{'F1-Score' if metric=='f1_score' else metric.title()} (%)"})
+        metric_label="F1-Score" if metric=="f1_score" else metric.title()
+        axes[idx].set_title(f"Class-wise {metric_label} (%)\n(Train: All-Combined / Zero-Shot, Test: Original)",fontweight="bold",fontsize=11)
+        axes[idx].set_xlabel("Model",fontweight="bold")
+        axes[idx].set_ylabel("Class", fontweight="bold" if idx == 0 else "normal")
+        axes[idx].tick_params(axis="x",rotation=35)
+    plt.suptitle("Class-wise Classification Metrics Across Models",fontsize=16,fontweight="bold",y=1.02)
+    out_file=PLOTS_DIR/"06_classwise_metrics_heatmap.png"
+    plt.savefig(out_file,bbox_inches="tight",dpi=300); plt.close()
     print(f"  [Saved] {out_file.name}")
+
+def load_inference_data():
+    frames=[]
+    if INFERENCE_CSV.exists():
+        try: frames.append(pd.read_csv(INFERENCE_CSV))
+        except Exception: pass
+    for path in sorted(RESULTS_DIR.glob("*.csv")):
+        if path.name in {INFERENCE_CSV.name, CSV_PATH.name, CLASSWISE_CSV.name}: continue
+        if "inference" not in path.name.lower(): continue
+        try: q=pd.read_csv(path)
+        except Exception: continue
+        if q.empty: continue
+        q=_rename_result_columns(q)
+        model=_canonical_model_from_name(path.name)
+        if "model" not in q.columns and model: q["model"]=model
+        frames.append(q)
+    if QWEN_INFERENCE_CSV.exists():
+        try:
+            q=pd.read_csv(QWEN_INFERENCE_CSV)
+            if not q.empty:
+                q=_rename_result_columns(q); q["model"]="Qwen3-VL-8B"; frames.append(q)
+        except Exception: pass
+    if not frames: return pd.DataFrame()
+    df=pd.concat(frames,ignore_index=True,sort=False)
+    # normalize timing names
+    rename={}
+    for c in df.columns:
+        lc=str(c).lower().replace(" ","_").replace("-","_")
+        if lc in {"avg_inference_time_ms","average_inference_time_ms","avg_time_ms"}: rename[c]="avg_time_ms"
+        elif lc in {"throughput","throughput_img_per_sec","throughput_images_per_sec"}: rename[c]="throughput_img_per_sec"
+        elif lc in {"avg_inference_time_sec","average_inference_time_sec","avg_time_sec"}: rename[c]="avg_time_sec"
+        elif lc in {"total_inference_time_sec","total_time_sec"}: rename[c]="total_time_sec"
+        elif lc in {"num_images","n_images"}: rename[c]="num_images"
+    df=df.rename(columns=rename)
+    if "avg_time_ms" not in df.columns and "avg_time_sec" in df.columns:
+        df["avg_time_ms"]=pd.to_numeric(df["avg_time_sec"],errors="coerce")*1000
+    if "avg_time_ms" not in df.columns and {"total_time_sec","num_images"}.issubset(df.columns):
+        df["avg_time_ms"]=pd.to_numeric(df["total_time_sec"],errors="coerce")/pd.to_numeric(df["num_images"],errors="coerce")*1000
+    if "throughput_img_per_sec" not in df.columns and "avg_time_ms" in df.columns:
+        df["throughput_img_per_sec"]=1000/pd.to_numeric(df["avg_time_ms"],errors="coerce")
+    return df
 
 
 def plot_inference_time(df_inf=None):
-    """
-    Plot model-wise inference time comparison bar chart.
-    Uses results/inference_time.csv if available.
-    """
-    if df_inf is None:
-        if not INFERENCE_CSV.exists():
-            print("  [SKIP] inference_time.csv not found. Skipping inference time plot.")
-            return
-        df_inf = pd.read_csv(INFERENCE_CSV)
-
-    if df_inf.empty:
-        print("  [SKIP] inference_time.csv is empty. Skipping inference time plot.")
+    """Plot model-wise inference time comparison bar chart."""
+    if df_inf is None: df_inf=load_inference_data()
+    if df_inf.empty or "model" not in df_inf.columns or "avg_time_ms" not in df_inf.columns:
+        print("  [SKIP] Inference-time data not found. Skipping inference time plot.")
         return
-
-    # Take one measurement per model (first available)
-    df_unique = df_inf.drop_duplicates(subset=["model"], keep="first").copy()
-    df_unique = df_unique.sort_values("avg_time_ms", ascending=True)
-
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
-
-    # Left: Average inference time (ms/image)
-    colors = ["#3498DB", "#E67E22", "#2ECC71", "#9B59B6", "#1ABC9C", "#8E44AD", "#E74C3C"]
-    bar_colors = colors[:len(df_unique)]
-
-    bars1 = ax1.barh(df_unique["model"], df_unique["avg_time_ms"], color=bar_colors, edgecolor="#2C3E50", alpha=0.9)
-    for bar, val in zip(bars1, df_unique["avg_time_ms"]):
-        ax1.text(bar.get_width() + 0.3, bar.get_y() + bar.get_height()/2,
-                 f"{val:.2f} ms", va='center', ha='left', fontweight="bold", fontsize=10)
-
-    ax1.set_xlabel("Average Inference Time (ms/image)", fontweight="bold")
-    ax1.set_title("Model Inference Latency", fontweight="bold", pad=15)
-    ax1.grid(axis="x", linestyle="--", alpha=0.6)
-    ax1.set_xlim(0, df_unique["avg_time_ms"].max() * 1.3)
-
-    # Right: Throughput (images/sec)
-    df_unique_tput = df_unique.sort_values("throughput_img_per_sec", ascending=True)
-    bars2 = ax2.barh(df_unique_tput["model"], df_unique_tput["throughput_img_per_sec"], color=bar_colors, edgecolor="#2C3E50", alpha=0.9)
-    for bar, val in zip(bars2, df_unique_tput["throughput_img_per_sec"]):
-        ax2.text(bar.get_width() + 1, bar.get_y() + bar.get_height()/2,
-                 f"{val:.0f} img/s", va='center', ha='left', fontweight="bold", fontsize=10)
-
-    ax2.set_xlabel("Throughput (images/sec)", fontweight="bold")
-    ax2.set_title("Model Throughput", fontweight="bold", pad=15)
-    ax2.grid(axis="x", linestyle="--", alpha=0.6)
-    ax2.set_xlim(0, df_unique_tput["throughput_img_per_sec"].max() * 1.3)
-
-    plt.suptitle("Model-wise Computational Complexity Comparison", fontsize=16, fontweight="bold", y=1.02)
-    out_file = PLOTS_DIR / "07_inference_time_comparison.png"
-    plt.savefig(out_file, bbox_inches="tight", dpi=300)
-    plt.close()
-    print(f"  [Saved] {out_file.name}")
-
+    df_unique=df_inf.drop_duplicates(subset=["model"],keep="first").copy()
+    df_unique=df_unique.sort_values("avg_time_ms",ascending=True)
+    fig,(ax1,ax2)=plt.subplots(1,2,figsize=(16,6))
+    colors=["#3498DB","#E67E22","#2ECC71","#9B59B6","#1ABC9C","#8E44AD","#E74C3C"]
+    bar_colors=colors[:len(df_unique)]
+    bars1=ax1.barh(df_unique["model"],df_unique["avg_time_ms"],color=bar_colors,edgecolor="#2C3E50",alpha=0.9)
+    for bar,val in zip(bars1,df_unique["avg_time_ms"]): ax1.text(bar.get_width()+0.3,bar.get_y()+bar.get_height()/2,f"{val:.2f} ms",va='center',ha='left',fontweight="bold",fontsize=10)
+    ax1.set_xlabel("Average Inference Time (ms/image)",fontweight="bold"); ax1.set_title("Model Inference Latency",fontweight="bold",pad=15); ax1.grid(axis="x",linestyle="--",alpha=0.6); ax1.set_xlim(0,df_unique["avg_time_ms"].max()*1.3)
+    df_unique_tput=df_unique.sort_values("throughput_img_per_sec",ascending=True)
+    bars2=ax2.barh(df_unique_tput["model"],df_unique_tput["throughput_img_per_sec"],color=bar_colors,edgecolor="#2C3E50",alpha=0.9)
+    for bar,val in zip(bars2,df_unique_tput["throughput_img_per_sec"]): ax2.text(bar.get_width()+1,bar.get_y()+bar.get_height()/2,f"{val:.0f} img/s",va='center',ha='left',fontweight="bold",fontsize=10)
+    ax2.set_xlabel("Throughput (images/sec)",fontweight="bold"); ax2.set_title("Model Throughput",fontweight="bold",pad=15); ax2.grid(axis="x",linestyle="--",alpha=0.6); ax2.set_xlim(0,df_unique_tput["throughput_img_per_sec"].max()*1.3)
+    plt.suptitle("Model-wise Computational Complexity Comparison",fontsize=16,fontweight="bold",y=1.02)
+    out_file=PLOTS_DIR/"07_inference_time_comparison.png"; plt.savefig(out_file,bbox_inches="tight",dpi=300); plt.close(); print(f"  [Saved] {out_file.name}")
 
 def main():
     print("=" * 60)
@@ -642,7 +1089,15 @@ def main():
         return
 
     df = load_data()
-    print(f"Loaded {len(df)} evaluation records.\n")
+    qwen_df = load_qwen_results()
+    if not qwen_df.empty:
+        df = pd.concat([df, qwen_df], ignore_index=True, sort=False)
+    print(f"Loaded {len(df)} evaluation records.")
+    if not df.empty and "model" in df.columns:
+        print("Models loaded:")
+        for model_name in df["model"].dropna().unique():
+            print(f"  - {model_name}")
+    print()
 
     print("Generating figures...")
     plot_heatmaps(df)
