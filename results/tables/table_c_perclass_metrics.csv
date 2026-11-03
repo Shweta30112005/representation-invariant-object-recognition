@@ -1,0 +1,631 @@
+model,training_setup,test_representation,class_name,accuracy,precision,recall,f1_score
+CLIP ViT-B/32,Zero-Shot,Original,car,0.9833,1.0000,0.9833,0.9916
+CLIP ViT-B/32,Zero-Shot,Original,cat,0.9833,0.9833,0.9833,0.9833
+CLIP ViT-B/32,Zero-Shot,Original,chair,1.0000,1.0000,1.0000,1.0000
+CLIP ViT-B/32,Zero-Shot,Original,circle,1.0000,0.9836,1.0000,0.9917
+CLIP ViT-B/32,Zero-Shot,Original,cup,0.8667,1.0000,0.8667,0.9286
+CLIP ViT-B/32,Zero-Shot,Original,dog,0.9833,0.9833,0.9833,0.9833
+CLIP ViT-B/32,Zero-Shot,Original,rectangle,1.0000,0.4959,1.0000,0.6630
+CLIP ViT-B/32,Zero-Shot,Original,square,0.0000,0.0000,0.0000,0.0000
+CLIP ViT-B/32,Zero-Shot,Original,table,0.9833,0.8939,0.9833,0.9365
+CLIP ViT-B/32,Zero-Shot,Original,triangle,1.0000,0.9836,1.0000,0.9917
+CLIP ViT-B/32,Zero-Shot,Outline,car,0.9667,0.9206,0.9667,0.9431
+CLIP ViT-B/32,Zero-Shot,Outline,cat,0.6500,0.7800,0.6500,0.7091
+CLIP ViT-B/32,Zero-Shot,Outline,chair,1.0000,0.9091,1.0000,0.9524
+CLIP ViT-B/32,Zero-Shot,Outline,circle,0.8667,0.7429,0.8667,0.8000
+CLIP ViT-B/32,Zero-Shot,Outline,cup,0.4833,0.8056,0.4833,0.6042
+CLIP ViT-B/32,Zero-Shot,Outline,dog,0.5000,0.9375,0.5000,0.6522
+CLIP ViT-B/32,Zero-Shot,Outline,rectangle,1.0000,0.3974,1.0000,0.5687
+CLIP ViT-B/32,Zero-Shot,Outline,square,0.0000,0.0000,0.0000,0.0000
+CLIP ViT-B/32,Zero-Shot,Outline,table,0.8833,0.9138,0.8833,0.8983
+CLIP ViT-B/32,Zero-Shot,Outline,triangle,0.8500,0.8644,0.8500,0.8571
+CLIP ViT-B/32,Zero-Shot,Dotted,car,0.9500,0.9500,0.9500,0.9500
+CLIP ViT-B/32,Zero-Shot,Dotted,cat,0.5333,0.6957,0.5333,0.6038
+CLIP ViT-B/32,Zero-Shot,Dotted,chair,0.9667,0.8169,0.9667,0.8855
+CLIP ViT-B/32,Zero-Shot,Dotted,circle,0.8667,0.7027,0.8667,0.7761
+CLIP ViT-B/32,Zero-Shot,Dotted,cup,0.3333,0.6250,0.3333,0.4348
+CLIP ViT-B/32,Zero-Shot,Dotted,dog,0.3833,0.7667,0.3833,0.5111
+CLIP ViT-B/32,Zero-Shot,Dotted,rectangle,0.9833,0.3665,0.9833,0.5339
+CLIP ViT-B/32,Zero-Shot,Dotted,square,0.0000,0.0000,0.0000,0.0000
+CLIP ViT-B/32,Zero-Shot,Dotted,table,0.8000,0.8421,0.8000,0.8205
+CLIP ViT-B/32,Zero-Shot,Dotted,triangle,0.8500,0.8793,0.8500,0.8644
+CLIP ViT-B/32,Zero-Shot,Dashed,car,0.9667,0.9508,0.9667,0.9587
+CLIP ViT-B/32,Zero-Shot,Dashed,cat,0.5500,0.6600,0.5500,0.6000
+CLIP ViT-B/32,Zero-Shot,Dashed,chair,0.9667,0.8529,0.9667,0.9062
+CLIP ViT-B/32,Zero-Shot,Dashed,circle,0.8667,0.7536,0.8667,0.8062
+CLIP ViT-B/32,Zero-Shot,Dashed,cup,0.3833,0.8519,0.3833,0.5287
+CLIP ViT-B/32,Zero-Shot,Dashed,dog,0.4333,0.8667,0.4333,0.5778
+CLIP ViT-B/32,Zero-Shot,Dashed,rectangle,1.0000,0.3974,1.0000,0.5687
+CLIP ViT-B/32,Zero-Shot,Dashed,square,0.0000,0.0000,0.0000,0.0000
+CLIP ViT-B/32,Zero-Shot,Dashed,table,0.9000,0.7397,0.9000,0.8120
+CLIP ViT-B/32,Zero-Shot,Dashed,triangle,0.8500,0.8947,0.8500,0.8718
+CLIP ViT-B/32,Zero-Shot,Sketch,car,0.9833,0.8806,0.9833,0.9291
+CLIP ViT-B/32,Zero-Shot,Sketch,cat,0.7667,0.9200,0.7667,0.8364
+CLIP ViT-B/32,Zero-Shot,Sketch,chair,0.9667,0.9206,0.9667,0.9431
+CLIP ViT-B/32,Zero-Shot,Sketch,circle,1.0000,0.9231,1.0000,0.9600
+CLIP ViT-B/32,Zero-Shot,Sketch,cup,0.5833,0.8750,0.5833,0.7000
+CLIP ViT-B/32,Zero-Shot,Sketch,dog,0.5500,0.8250,0.5500,0.6600
+CLIP ViT-B/32,Zero-Shot,Sketch,rectangle,1.0000,0.4688,1.0000,0.6383
+CLIP ViT-B/32,Zero-Shot,Sketch,square,0.0000,0.0000,0.0000,0.0000
+CLIP ViT-B/32,Zero-Shot,Sketch,table,0.9333,0.9333,0.9333,0.9333
+CLIP ViT-B/32,Zero-Shot,Sketch,triangle,0.9833,0.8676,0.9833,0.9219
+CLIP ViT-B/32,Zero-Shot,Silhouette,car,0.8333,0.9434,0.8333,0.8850
+CLIP ViT-B/32,Zero-Shot,Silhouette,cat,0.3500,0.4773,0.3500,0.4038
+CLIP ViT-B/32,Zero-Shot,Silhouette,chair,0.9333,0.9655,0.9333,0.9492
+CLIP ViT-B/32,Zero-Shot,Silhouette,circle,1.0000,0.8108,1.0000,0.8955
+CLIP ViT-B/32,Zero-Shot,Silhouette,cup,0.2000,0.8000,0.2000,0.3200
+CLIP ViT-B/32,Zero-Shot,Silhouette,dog,0.2833,0.6538,0.2833,0.3953
+CLIP ViT-B/32,Zero-Shot,Silhouette,rectangle,1.0000,0.3947,1.0000,0.5660
+CLIP ViT-B/32,Zero-Shot,Silhouette,square,0.0500,0.0476,0.0500,0.0488
+CLIP ViT-B/32,Zero-Shot,Silhouette,table,0.6500,0.8667,0.6500,0.7429
+CLIP ViT-B/32,Zero-Shot,Silhouette,triangle,0.9833,0.8429,0.9833,0.9077
+CLIP ViT-B/32,Zero-Shot,ColorTint_Red,car,0.9833,1.0000,0.9833,0.9916
+CLIP ViT-B/32,Zero-Shot,ColorTint_Red,cat,0.9667,0.9508,0.9667,0.9587
+CLIP ViT-B/32,Zero-Shot,ColorTint_Red,chair,1.0000,0.9524,1.0000,0.9756
+CLIP ViT-B/32,Zero-Shot,ColorTint_Red,circle,0.9667,0.9508,0.9667,0.9587
+CLIP ViT-B/32,Zero-Shot,ColorTint_Red,cup,0.8833,1.0000,0.8833,0.9381
+CLIP ViT-B/32,Zero-Shot,ColorTint_Red,dog,0.9333,0.9655,0.9333,0.9492
+CLIP ViT-B/32,Zero-Shot,ColorTint_Red,rectangle,1.0000,0.4878,1.0000,0.6557
+CLIP ViT-B/32,Zero-Shot,ColorTint_Red,square,0.0000,0.0000,0.0000,0.0000
+CLIP ViT-B/32,Zero-Shot,ColorTint_Red,table,0.9333,0.9032,0.9333,0.9180
+CLIP ViT-B/32,Zero-Shot,ColorTint_Red,triangle,0.9833,0.9833,0.9833,0.9833
+CLIP ViT-B/32,Zero-Shot,ColorTint_Green,car,0.9833,1.0000,0.9833,0.9916
+CLIP ViT-B/32,Zero-Shot,ColorTint_Green,cat,0.9667,0.9667,0.9667,0.9667
+CLIP ViT-B/32,Zero-Shot,ColorTint_Green,chair,1.0000,0.9091,1.0000,0.9524
+CLIP ViT-B/32,Zero-Shot,ColorTint_Green,circle,0.9667,0.9667,0.9667,0.9667
+CLIP ViT-B/32,Zero-Shot,ColorTint_Green,cup,0.8333,0.9804,0.8333,0.9009
+CLIP ViT-B/32,Zero-Shot,ColorTint_Green,dog,0.9500,0.9661,0.9500,0.9580
+CLIP ViT-B/32,Zero-Shot,ColorTint_Green,rectangle,1.0000,0.4878,1.0000,0.6557
+CLIP ViT-B/32,Zero-Shot,ColorTint_Green,square,0.0000,0.0000,0.0000,0.0000
+CLIP ViT-B/32,Zero-Shot,ColorTint_Green,table,0.9167,0.8871,0.9167,0.9016
+CLIP ViT-B/32,Zero-Shot,ColorTint_Green,triangle,0.9833,0.9833,0.9833,0.9833
+CLIP ViT-B/32,Zero-Shot,ColorTint_Blue,car,0.9833,1.0000,0.9833,0.9916
+CLIP ViT-B/32,Zero-Shot,ColorTint_Blue,cat,0.9500,0.9661,0.9500,0.9580
+CLIP ViT-B/32,Zero-Shot,ColorTint_Blue,chair,1.0000,0.9524,1.0000,0.9756
+CLIP ViT-B/32,Zero-Shot,ColorTint_Blue,circle,1.0000,0.9524,1.0000,0.9756
+CLIP ViT-B/32,Zero-Shot,ColorTint_Blue,cup,0.8333,1.0000,0.8333,0.9091
+CLIP ViT-B/32,Zero-Shot,ColorTint_Blue,dog,0.9333,0.8889,0.9333,0.9106
+CLIP ViT-B/32,Zero-Shot,ColorTint_Blue,rectangle,1.0000,0.5000,1.0000,0.6667
+CLIP ViT-B/32,Zero-Shot,ColorTint_Blue,square,0.0000,0.0000,0.0000,0.0000
+CLIP ViT-B/32,Zero-Shot,ColorTint_Blue,table,0.9500,0.9194,0.9500,0.9344
+CLIP ViT-B/32,Zero-Shot,ColorTint_Blue,triangle,1.0000,0.9836,1.0000,0.9917
+DINOv3,Train_All_Combined,Original,car,0.9833,1.0000,0.9833,0.9916
+DINOv3,Train_All_Combined,Original,cat,0.9833,1.0000,0.9833,0.9916
+DINOv3,Train_All_Combined,Original,chair,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,Original,circle,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,Original,cup,1.0000,0.9836,1.0000,0.9917
+DINOv3,Train_All_Combined,Original,dog,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,Original,rectangle,0.6667,0.8889,0.6667,0.7619
+DINOv3,Train_All_Combined,Original,square,0.9333,0.7368,0.9333,0.8235
+DINOv3,Train_All_Combined,Original,table,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,Original,triangle,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,Outline,car,0.9667,1.0000,0.9667,0.9831
+DINOv3,Train_All_Combined,Outline,cat,0.9000,0.8852,0.9000,0.8926
+DINOv3,Train_All_Combined,Outline,chair,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,Outline,circle,0.8667,0.9811,0.8667,0.9204
+DINOv3,Train_All_Combined,Outline,cup,0.9000,0.9153,0.9000,0.9076
+DINOv3,Train_All_Combined,Outline,dog,0.8667,0.8525,0.8667,0.8595
+DINOv3,Train_All_Combined,Outline,rectangle,0.8500,0.6000,0.8500,0.7034
+DINOv3,Train_All_Combined,Outline,square,0.7167,0.8269,0.7167,0.7679
+DINOv3,Train_All_Combined,Outline,table,0.9833,1.0000,0.9833,0.9916
+DINOv3,Train_All_Combined,Outline,triangle,0.8500,0.9808,0.8500,0.9107
+DINOv3,Train_All_Combined,Dotted,car,0.9667,1.0000,0.9667,0.9831
+DINOv3,Train_All_Combined,Dotted,cat,0.8333,0.8197,0.8333,0.8264
+DINOv3,Train_All_Combined,Dotted,chair,0.9833,1.0000,0.9833,0.9916
+DINOv3,Train_All_Combined,Dotted,circle,0.8667,0.9811,0.8667,0.9204
+DINOv3,Train_All_Combined,Dotted,cup,0.9000,0.9474,0.9000,0.9231
+DINOv3,Train_All_Combined,Dotted,dog,0.8167,0.7656,0.8167,0.7903
+DINOv3,Train_All_Combined,Dotted,rectangle,0.8833,0.5824,0.8833,0.7020
+DINOv3,Train_All_Combined,Dotted,square,0.6500,0.8478,0.6500,0.7358
+DINOv3,Train_All_Combined,Dotted,table,0.9833,1.0000,0.9833,0.9916
+DINOv3,Train_All_Combined,Dotted,triangle,0.8500,0.9808,0.8500,0.9107
+DINOv3,Train_All_Combined,Dashed,car,0.9667,1.0000,0.9667,0.9831
+DINOv3,Train_All_Combined,Dashed,cat,0.9000,0.8710,0.9000,0.8852
+DINOv3,Train_All_Combined,Dashed,chair,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,Dashed,circle,0.8667,0.9811,0.8667,0.9204
+DINOv3,Train_All_Combined,Dashed,cup,0.8833,0.9298,0.8833,0.9060
+DINOv3,Train_All_Combined,Dashed,dog,0.8500,0.8226,0.8500,0.8361
+DINOv3,Train_All_Combined,Dashed,rectangle,0.8667,0.5843,0.8667,0.6980
+DINOv3,Train_All_Combined,Dashed,square,0.6667,0.8333,0.6667,0.7407
+DINOv3,Train_All_Combined,Dashed,table,0.9833,1.0000,0.9833,0.9916
+DINOv3,Train_All_Combined,Dashed,triangle,0.8500,0.9808,0.8500,0.9107
+DINOv3,Train_All_Combined,Sketch,car,0.9833,1.0000,0.9833,0.9916
+DINOv3,Train_All_Combined,Sketch,cat,0.9500,0.9344,0.9500,0.9421
+DINOv3,Train_All_Combined,Sketch,chair,1.0000,0.9836,1.0000,0.9917
+DINOv3,Train_All_Combined,Sketch,circle,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,Sketch,cup,0.9833,0.9077,0.9833,0.9440
+DINOv3,Train_All_Combined,Sketch,dog,0.9167,0.9821,0.9167,0.9483
+DINOv3,Train_All_Combined,Sketch,rectangle,0.8167,0.6533,0.8167,0.7259
+DINOv3,Train_All_Combined,Sketch,square,0.5667,0.7727,0.5667,0.6538
+DINOv3,Train_All_Combined,Sketch,table,0.9667,1.0000,0.9667,0.9831
+DINOv3,Train_All_Combined,Sketch,triangle,1.0000,0.9836,1.0000,0.9917
+DINOv3,Train_All_Combined,Silhouette,car,0.9333,0.9825,0.9333,0.9573
+DINOv3,Train_All_Combined,Silhouette,cat,0.6000,0.7347,0.6000,0.6606
+DINOv3,Train_All_Combined,Silhouette,chair,0.9667,1.0000,0.9667,0.9831
+DINOv3,Train_All_Combined,Silhouette,circle,1.0000,0.9836,1.0000,0.9917
+DINOv3,Train_All_Combined,Silhouette,cup,0.8000,0.8571,0.8000,0.8276
+DINOv3,Train_All_Combined,Silhouette,dog,0.8000,0.6316,0.8000,0.7059
+DINOv3,Train_All_Combined,Silhouette,rectangle,0.7167,0.8776,0.7167,0.7890
+DINOv3,Train_All_Combined,Silhouette,square,0.9000,0.7606,0.9000,0.8244
+DINOv3,Train_All_Combined,Silhouette,table,0.9500,0.9194,0.9500,0.9344
+DINOv3,Train_All_Combined,Silhouette,triangle,1.0000,0.9836,1.0000,0.9917
+DINOv3,Train_All_Combined,ColorTint_Red,car,0.9833,1.0000,0.9833,0.9916
+DINOv3,Train_All_Combined,ColorTint_Red,cat,0.9833,1.0000,0.9833,0.9916
+DINOv3,Train_All_Combined,ColorTint_Red,chair,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,ColorTint_Red,circle,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,ColorTint_Red,cup,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,ColorTint_Red,dog,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,ColorTint_Red,rectangle,0.6167,0.8810,0.6167,0.7255
+DINOv3,Train_All_Combined,ColorTint_Red,square,0.9500,0.7125,0.9500,0.8143
+DINOv3,Train_All_Combined,ColorTint_Red,table,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,ColorTint_Red,triangle,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,ColorTint_Green,car,0.9833,1.0000,0.9833,0.9916
+DINOv3,Train_All_Combined,ColorTint_Green,cat,0.9833,1.0000,0.9833,0.9916
+DINOv3,Train_All_Combined,ColorTint_Green,chair,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,ColorTint_Green,circle,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,ColorTint_Green,cup,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,ColorTint_Green,dog,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,ColorTint_Green,rectangle,0.6833,0.8913,0.6833,0.7736
+DINOv3,Train_All_Combined,ColorTint_Green,square,0.9500,0.7500,0.9500,0.8382
+DINOv3,Train_All_Combined,ColorTint_Green,table,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,ColorTint_Green,triangle,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,ColorTint_Blue,car,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,ColorTint_Blue,cat,0.9833,1.0000,0.9833,0.9916
+DINOv3,Train_All_Combined,ColorTint_Blue,chair,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,ColorTint_Blue,circle,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,ColorTint_Blue,cup,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,ColorTint_Blue,dog,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,ColorTint_Blue,rectangle,0.6000,0.9000,0.6000,0.7200
+DINOv3,Train_All_Combined,ColorTint_Blue,square,0.9500,0.7037,0.9500,0.8085
+DINOv3,Train_All_Combined,ColorTint_Blue,table,1.0000,1.0000,1.0000,1.0000
+DINOv3,Train_All_Combined,ColorTint_Blue,triangle,1.0000,1.0000,1.0000,1.0000
+EVA-CLIP (EVA02-B/16),Zero-Shot,Original,car,1.0000,1.0000,1.0000,1.0000
+EVA-CLIP (EVA02-B/16),Zero-Shot,Original,cat,0.9833,0.9833,0.9833,0.9833
+EVA-CLIP (EVA02-B/16),Zero-Shot,Original,chair,1.0000,1.0000,1.0000,1.0000
+EVA-CLIP (EVA02-B/16),Zero-Shot,Original,circle,1.0000,0.9231,1.0000,0.9600
+EVA-CLIP (EVA02-B/16),Zero-Shot,Original,cup,0.9000,1.0000,0.9000,0.9474
+EVA-CLIP (EVA02-B/16),Zero-Shot,Original,dog,0.9833,1.0000,0.9833,0.9916
+EVA-CLIP (EVA02-B/16),Zero-Shot,Original,rectangle,0.8333,0.5882,0.8333,0.6897
+EVA-CLIP (EVA02-B/16),Zero-Shot,Original,square,0.4333,0.8387,0.4333,0.5714
+EVA-CLIP (EVA02-B/16),Zero-Shot,Original,table,1.0000,0.9524,1.0000,0.9756
+EVA-CLIP (EVA02-B/16),Zero-Shot,Original,triangle,1.0000,0.9524,1.0000,0.9756
+EVA-CLIP (EVA02-B/16),Zero-Shot,Outline,car,0.9667,0.9206,0.9667,0.9431
+EVA-CLIP (EVA02-B/16),Zero-Shot,Outline,cat,0.7667,0.8364,0.7667,0.8000
+EVA-CLIP (EVA02-B/16),Zero-Shot,Outline,chair,1.0000,1.0000,1.0000,1.0000
+EVA-CLIP (EVA02-B/16),Zero-Shot,Outline,circle,0.8667,0.9123,0.8667,0.8889
+EVA-CLIP (EVA02-B/16),Zero-Shot,Outline,cup,0.4667,0.9333,0.4667,0.6222
+EVA-CLIP (EVA02-B/16),Zero-Shot,Outline,dog,0.5500,0.7174,0.5500,0.6226
+EVA-CLIP (EVA02-B/16),Zero-Shot,Outline,rectangle,0.7167,0.8776,0.7167,0.7890
+EVA-CLIP (EVA02-B/16),Zero-Shot,Outline,square,0.8667,0.5778,0.8667,0.6933
+EVA-CLIP (EVA02-B/16),Zero-Shot,Outline,table,0.9500,0.5816,0.9500,0.7215
+EVA-CLIP (EVA02-B/16),Zero-Shot,Outline,triangle,0.8500,0.9808,0.8500,0.9107
+EVA-CLIP (EVA02-B/16),Zero-Shot,Dotted,car,0.9500,0.9500,0.9500,0.9500
+EVA-CLIP (EVA02-B/16),Zero-Shot,Dotted,cat,0.5667,0.6538,0.5667,0.6071
+EVA-CLIP (EVA02-B/16),Zero-Shot,Dotted,chair,0.9833,0.9219,0.9833,0.9516
+EVA-CLIP (EVA02-B/16),Zero-Shot,Dotted,circle,0.8667,0.9123,0.8667,0.8889
+EVA-CLIP (EVA02-B/16),Zero-Shot,Dotted,cup,0.3667,0.9167,0.3667,0.5238
+EVA-CLIP (EVA02-B/16),Zero-Shot,Dotted,dog,0.5500,0.5789,0.5500,0.5641
+EVA-CLIP (EVA02-B/16),Zero-Shot,Dotted,rectangle,0.8167,0.7424,0.8167,0.7778
+EVA-CLIP (EVA02-B/16),Zero-Shot,Dotted,square,0.8667,0.6753,0.8667,0.7591
+EVA-CLIP (EVA02-B/16),Zero-Shot,Dotted,table,0.9000,0.5934,0.9000,0.7152
+EVA-CLIP (EVA02-B/16),Zero-Shot,Dotted,triangle,0.8500,0.9808,0.8500,0.9107
+EVA-CLIP (EVA02-B/16),Zero-Shot,Dashed,car,0.9667,0.8923,0.9667,0.9280
+EVA-CLIP (EVA02-B/16),Zero-Shot,Dashed,cat,0.7000,0.7119,0.7000,0.7059
+EVA-CLIP (EVA02-B/16),Zero-Shot,Dashed,chair,1.0000,0.9677,1.0000,0.9836
+EVA-CLIP (EVA02-B/16),Zero-Shot,Dashed,circle,1.0000,0.6383,1.0000,0.7792
+EVA-CLIP (EVA02-B/16),Zero-Shot,Dashed,cup,0.4500,0.9000,0.4500,0.6000
+EVA-CLIP (EVA02-B/16),Zero-Shot,Dashed,dog,0.7167,0.7167,0.7167,0.7167
+EVA-CLIP (EVA02-B/16),Zero-Shot,Dashed,rectangle,0.7667,0.9200,0.7667,0.8364
+EVA-CLIP (EVA02-B/16),Zero-Shot,Dashed,square,0.8500,0.7286,0.8500,0.7846
+EVA-CLIP (EVA02-B/16),Zero-Shot,Dashed,table,0.9333,0.9655,0.9333,0.9492
+EVA-CLIP (EVA02-B/16),Zero-Shot,Dashed,triangle,0.8500,0.9808,0.8500,0.9107
+EVA-CLIP (EVA02-B/16),Zero-Shot,Sketch,car,0.9667,0.8788,0.9667,0.9206
+EVA-CLIP (EVA02-B/16),Zero-Shot,Sketch,cat,0.8167,0.9074,0.8167,0.8596
+EVA-CLIP (EVA02-B/16),Zero-Shot,Sketch,chair,1.0000,0.9836,1.0000,0.9917
+EVA-CLIP (EVA02-B/16),Zero-Shot,Sketch,circle,1.0000,0.7595,1.0000,0.8633
+EVA-CLIP (EVA02-B/16),Zero-Shot,Sketch,cup,0.5500,1.0000,0.5500,0.7097
+EVA-CLIP (EVA02-B/16),Zero-Shot,Sketch,dog,0.6333,0.8636,0.6333,0.7308
+EVA-CLIP (EVA02-B/16),Zero-Shot,Sketch,rectangle,0.5333,0.4103,0.5333,0.4638
+EVA-CLIP (EVA02-B/16),Zero-Shot,Sketch,square,0.1333,0.1481,0.1333,0.1404
+EVA-CLIP (EVA02-B/16),Zero-Shot,Sketch,table,0.9500,0.9500,0.9500,0.9500
+EVA-CLIP (EVA02-B/16),Zero-Shot,Sketch,triangle,1.0000,0.8451,1.0000,0.9160
+EVA-CLIP (EVA02-B/16),Zero-Shot,Silhouette,car,0.8833,0.8030,0.8833,0.8413
+EVA-CLIP (EVA02-B/16),Zero-Shot,Silhouette,cat,0.4167,0.5208,0.4167,0.4630
+EVA-CLIP (EVA02-B/16),Zero-Shot,Silhouette,chair,0.9500,0.9661,0.9500,0.9580
+EVA-CLIP (EVA02-B/16),Zero-Shot,Silhouette,circle,1.0000,0.8108,1.0000,0.8955
+EVA-CLIP (EVA02-B/16),Zero-Shot,Silhouette,cup,0.2000,0.7500,0.2000,0.3158
+EVA-CLIP (EVA02-B/16),Zero-Shot,Silhouette,dog,0.4000,0.5217,0.4000,0.4528
+EVA-CLIP (EVA02-B/16),Zero-Shot,Silhouette,rectangle,0.6667,0.4651,0.6667,0.5479
+EVA-CLIP (EVA02-B/16),Zero-Shot,Silhouette,square,1.0000,0.5769,1.0000,0.7317
+EVA-CLIP (EVA02-B/16),Zero-Shot,Silhouette,table,0.6500,0.9750,0.6500,0.7800
+EVA-CLIP (EVA02-B/16),Zero-Shot,Silhouette,triangle,1.0000,0.9836,1.0000,0.9917
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Red,car,0.9833,1.0000,0.9833,0.9916
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Red,cat,0.9833,0.9833,0.9833,0.9833
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Red,chair,1.0000,0.9836,1.0000,0.9917
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Red,circle,1.0000,0.9836,1.0000,0.9917
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Red,cup,0.6500,1.0000,0.6500,0.7879
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Red,dog,0.9667,0.9831,0.9667,0.9748
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Red,rectangle,0.9667,0.7436,0.9667,0.8406
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Red,square,0.7333,0.8980,0.7333,0.8073
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Red,table,1.0000,0.8108,1.0000,0.8955
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Red,triangle,1.0000,1.0000,1.0000,1.0000
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Green,car,1.0000,1.0000,1.0000,1.0000
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Green,cat,0.9833,0.9833,0.9833,0.9833
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Green,chair,1.0000,0.9836,1.0000,0.9917
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Green,circle,1.0000,0.9677,1.0000,0.9836
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Green,cup,0.5833,1.0000,0.5833,0.7368
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Green,dog,0.9667,0.9667,0.9667,0.9667
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Green,rectangle,0.9667,0.5421,0.9667,0.6946
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Green,square,0.2500,0.7500,0.2500,0.3750
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Green,table,1.0000,0.8000,1.0000,0.8889
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Green,triangle,1.0000,1.0000,1.0000,1.0000
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Blue,car,0.9833,1.0000,0.9833,0.9916
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Blue,cat,0.9833,0.9672,0.9833,0.9752
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Blue,chair,1.0000,0.9836,1.0000,0.9917
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Blue,circle,1.0000,0.9375,1.0000,0.9677
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Blue,cup,0.6167,1.0000,0.6167,0.7629
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Blue,dog,0.9500,0.9344,0.9500,0.9421
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Blue,rectangle,0.9333,0.7368,0.9333,0.8235
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Blue,square,0.7000,0.9333,0.7000,0.8000
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Blue,table,0.9833,0.7867,0.9833,0.8741
+EVA-CLIP (EVA02-B/16),Zero-Shot,ColorTint_Blue,triangle,1.0000,0.9836,1.0000,0.9917
+Qwen3-VL-8B,Zero-Shot,Original,car,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,Original,cat,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,Original,chair,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,Original,circle,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,Original,cup,0.5000,1.0000,0.5000,0.6667
+Qwen3-VL-8B,Zero-Shot,Original,dog,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,Original,rectangle,1.0000,0.6667,1.0000,0.8000
+Qwen3-VL-8B,Zero-Shot,Original,square,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,Original,table,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,Original,triangle,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,Outline,car,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,Outline,cat,0.5000,1.0000,0.5000,0.6667
+Qwen3-VL-8B,Zero-Shot,Outline,chair,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,Outline,circle,1.0000,0.5000,1.0000,0.6667
+Qwen3-VL-8B,Zero-Shot,Outline,cup,0.0000,0.0000,0.0000,0.0000
+Qwen3-VL-8B,Zero-Shot,Outline,dog,1.0000,0.5000,1.0000,0.6667
+Qwen3-VL-8B,Zero-Shot,Outline,rectangle,1.0000,0.6667,1.0000,0.8000
+Qwen3-VL-8B,Zero-Shot,Outline,square,0.5000,1.0000,0.5000,0.6667
+Qwen3-VL-8B,Zero-Shot,Outline,table,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,Outline,triangle,0.5000,1.0000,0.5000,0.6667
+Qwen3-VL-8B,Zero-Shot,Dotted,car,1.0000,0.6667,1.0000,0.8000
+Qwen3-VL-8B,Zero-Shot,Dotted,cat,0.0000,0.0000,0.0000,0.0000
+Qwen3-VL-8B,Zero-Shot,Dotted,chair,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,Dotted,circle,1.0000,0.5000,1.0000,0.6667
+Qwen3-VL-8B,Zero-Shot,Dotted,cup,0.0000,0.0000,0.0000,0.0000
+Qwen3-VL-8B,Zero-Shot,Dotted,dog,0.5000,0.3333,0.5000,0.4000
+Qwen3-VL-8B,Zero-Shot,Dotted,rectangle,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,Dotted,square,0.5000,1.0000,0.5000,0.6667
+Qwen3-VL-8B,Zero-Shot,Dotted,table,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,Dotted,triangle,0.5000,0.5000,0.5000,0.5000
+Qwen3-VL-8B,Zero-Shot,Dashed,car,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,Dashed,cat,0.5000,1.0000,0.5000,0.6667
+Qwen3-VL-8B,Zero-Shot,Dashed,chair,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,Dashed,circle,1.0000,0.4000,1.0000,0.5714
+Qwen3-VL-8B,Zero-Shot,Dashed,cup,0.0000,0.0000,0.0000,0.0000
+Qwen3-VL-8B,Zero-Shot,Dashed,dog,1.0000,0.6667,1.0000,0.8000
+Qwen3-VL-8B,Zero-Shot,Dashed,rectangle,1.0000,0.6667,1.0000,0.8000
+Qwen3-VL-8B,Zero-Shot,Dashed,square,0.5000,1.0000,0.5000,0.6667
+Qwen3-VL-8B,Zero-Shot,Dashed,table,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,Dashed,triangle,0.5000,1.0000,0.5000,0.6667
+Qwen3-VL-8B,Zero-Shot,Sketch,car,1.0000,0.5000,1.0000,0.6667
+Qwen3-VL-8B,Zero-Shot,Sketch,cat,0.5000,1.0000,0.5000,0.6667
+Qwen3-VL-8B,Zero-Shot,Sketch,chair,1.0000,0.6667,1.0000,0.8000
+Qwen3-VL-8B,Zero-Shot,Sketch,circle,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,Sketch,cup,0.0000,0.0000,0.0000,0.0000
+Qwen3-VL-8B,Zero-Shot,Sketch,dog,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,Sketch,rectangle,0.0000,0.0000,0.0000,0.0000
+Qwen3-VL-8B,Zero-Shot,Sketch,square,0.0000,0.0000,0.0000,0.0000
+Qwen3-VL-8B,Zero-Shot,Sketch,table,1.0000,0.6667,1.0000,0.8000
+Qwen3-VL-8B,Zero-Shot,Sketch,triangle,1.0000,0.6667,1.0000,0.8000
+Qwen3-VL-8B,Zero-Shot,Silhouette,car,0.5000,0.5000,0.5000,0.5000
+Qwen3-VL-8B,Zero-Shot,Silhouette,cat,0.0000,0.0000,0.0000,0.0000
+Qwen3-VL-8B,Zero-Shot,Silhouette,chair,1.0000,0.6667,1.0000,0.8000
+Qwen3-VL-8B,Zero-Shot,Silhouette,circle,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,Silhouette,cup,0.0000,0.0000,0.0000,0.0000
+Qwen3-VL-8B,Zero-Shot,Silhouette,dog,1.0000,0.3333,1.0000,0.5000
+Qwen3-VL-8B,Zero-Shot,Silhouette,rectangle,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,Silhouette,square,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,Silhouette,table,0.0000,0.0000,0.0000,0.0000
+Qwen3-VL-8B,Zero-Shot,Silhouette,triangle,1.0000,0.6667,1.0000,0.8000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Red,car,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Red,cat,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Red,chair,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Red,circle,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Red,cup,0.0000,0.0000,0.0000,0.0000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Red,dog,1.0000,0.6667,1.0000,0.8000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Red,rectangle,1.0000,0.6667,1.0000,0.8000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Red,square,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Red,table,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Red,triangle,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Green,car,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Green,cat,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Green,chair,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Green,circle,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Green,cup,0.5000,1.0000,0.5000,0.6667
+Qwen3-VL-8B,Zero-Shot,ColorTint_Green,dog,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Green,rectangle,1.0000,0.6667,1.0000,0.8000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Green,square,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Green,table,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Green,triangle,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Blue,car,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Blue,cat,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Blue,chair,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Blue,circle,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Blue,cup,0.5000,1.0000,0.5000,0.6667
+Qwen3-VL-8B,Zero-Shot,ColorTint_Blue,dog,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Blue,rectangle,1.0000,0.6667,1.0000,0.8000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Blue,square,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Blue,table,1.0000,1.0000,1.0000,1.0000
+Qwen3-VL-8B,Zero-Shot,ColorTint_Blue,triangle,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,Original,car,0.9833,1.0000,0.9833,0.9916
+ResNet-50,Train_All_Combined,Original,cat,0.9667,0.9508,0.9667,0.9587
+ResNet-50,Train_All_Combined,Original,chair,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,Original,circle,1.0000,0.9677,1.0000,0.9836
+ResNet-50,Train_All_Combined,Original,cup,0.9833,0.9672,0.9833,0.9752
+ResNet-50,Train_All_Combined,Original,dog,0.9333,0.9825,0.9333,0.9573
+ResNet-50,Train_All_Combined,Original,rectangle,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,Original,square,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,Original,table,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,Original,triangle,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,Outline,car,0.9667,0.9508,0.9667,0.9587
+ResNet-50,Train_All_Combined,Outline,cat,0.9000,0.8182,0.9000,0.8571
+ResNet-50,Train_All_Combined,Outline,chair,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,Outline,circle,0.8667,0.9630,0.8667,0.9123
+ResNet-50,Train_All_Combined,Outline,cup,0.9000,0.9000,0.9000,0.9000
+ResNet-50,Train_All_Combined,Outline,dog,0.8000,0.9412,0.8000,0.8649
+ResNet-50,Train_All_Combined,Outline,rectangle,0.8333,1.0000,0.8333,0.9091
+ResNet-50,Train_All_Combined,Outline,square,1.0000,0.6897,1.0000,0.8163
+ResNet-50,Train_All_Combined,Outline,table,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,Outline,triangle,0.8500,1.0000,0.8500,0.9189
+ResNet-50,Train_All_Combined,Dotted,car,0.9500,0.9828,0.9500,0.9661
+ResNet-50,Train_All_Combined,Dotted,cat,0.9667,0.6517,0.9667,0.7785
+ResNet-50,Train_All_Combined,Dotted,chair,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,Dotted,circle,0.8667,0.9630,0.8667,0.9123
+ResNet-50,Train_All_Combined,Dotted,cup,0.8833,0.9298,0.8833,0.9060
+ResNet-50,Train_All_Combined,Dotted,dog,0.5667,1.0000,0.5667,0.7234
+ResNet-50,Train_All_Combined,Dotted,rectangle,0.8333,1.0000,0.8333,0.9091
+ResNet-50,Train_All_Combined,Dotted,square,1.0000,0.6897,1.0000,0.8163
+ResNet-50,Train_All_Combined,Dotted,table,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,Dotted,triangle,0.8500,1.0000,0.8500,0.9189
+ResNet-50,Train_All_Combined,Dashed,car,0.9667,0.9831,0.9667,0.9748
+ResNet-50,Train_All_Combined,Dashed,cat,0.8833,0.8030,0.8833,0.8413
+ResNet-50,Train_All_Combined,Dashed,chair,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,Dashed,circle,0.8667,0.9630,0.8667,0.9123
+ResNet-50,Train_All_Combined,Dashed,cup,0.9500,0.8906,0.9500,0.9194
+ResNet-50,Train_All_Combined,Dashed,dog,0.7500,0.9184,0.7500,0.8257
+ResNet-50,Train_All_Combined,Dashed,rectangle,0.8333,1.0000,0.8333,0.9091
+ResNet-50,Train_All_Combined,Dashed,square,1.0000,0.6897,1.0000,0.8163
+ResNet-50,Train_All_Combined,Dashed,table,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,Dashed,triangle,0.8500,1.0000,0.8500,0.9189
+ResNet-50,Train_All_Combined,Sketch,car,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,Sketch,cat,0.9500,0.7703,0.9500,0.8507
+ResNet-50,Train_All_Combined,Sketch,chair,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,Sketch,circle,1.0000,0.9677,1.0000,0.9836
+ResNet-50,Train_All_Combined,Sketch,cup,0.9500,0.9828,0.9500,0.9661
+ResNet-50,Train_All_Combined,Sketch,dog,0.7500,0.9574,0.7500,0.8411
+ResNet-50,Train_All_Combined,Sketch,rectangle,0.5167,1.0000,0.5167,0.6813
+ResNet-50,Train_All_Combined,Sketch,square,1.0000,0.6818,1.0000,0.8108
+ResNet-50,Train_All_Combined,Sketch,table,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,Sketch,triangle,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,Silhouette,car,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,Silhouette,cat,0.8833,0.6163,0.8833,0.7260
+ResNet-50,Train_All_Combined,Silhouette,chair,1.0000,0.9836,1.0000,0.9917
+ResNet-50,Train_All_Combined,Silhouette,circle,1.0000,0.9677,1.0000,0.9836
+ResNet-50,Train_All_Combined,Silhouette,cup,0.8333,0.9804,0.8333,0.9009
+ResNet-50,Train_All_Combined,Silhouette,dog,0.4833,0.7250,0.4833,0.5800
+ResNet-50,Train_All_Combined,Silhouette,rectangle,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,Silhouette,square,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,Silhouette,table,0.9833,0.9833,0.9833,0.9833
+ResNet-50,Train_All_Combined,Silhouette,triangle,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,ColorTint_Red,car,0.9833,1.0000,0.9833,0.9916
+ResNet-50,Train_All_Combined,ColorTint_Red,cat,0.9833,0.8939,0.9833,0.9365
+ResNet-50,Train_All_Combined,ColorTint_Red,chair,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,ColorTint_Red,circle,1.0000,0.9677,1.0000,0.9836
+ResNet-50,Train_All_Combined,ColorTint_Red,cup,0.9500,0.9661,0.9500,0.9580
+ResNet-50,Train_All_Combined,ColorTint_Red,dog,0.9000,1.0000,0.9000,0.9474
+ResNet-50,Train_All_Combined,ColorTint_Red,rectangle,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,ColorTint_Red,square,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,ColorTint_Red,table,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,ColorTint_Red,triangle,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,ColorTint_Green,car,0.9833,1.0000,0.9833,0.9916
+ResNet-50,Train_All_Combined,ColorTint_Green,cat,0.9833,0.9365,0.9833,0.9593
+ResNet-50,Train_All_Combined,ColorTint_Green,chair,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,ColorTint_Green,circle,1.0000,0.9836,1.0000,0.9917
+ResNet-50,Train_All_Combined,ColorTint_Green,cup,0.9500,0.9661,0.9500,0.9580
+ResNet-50,Train_All_Combined,ColorTint_Green,dog,0.9167,0.9483,0.9167,0.9322
+ResNet-50,Train_All_Combined,ColorTint_Green,rectangle,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,ColorTint_Green,square,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,ColorTint_Green,table,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,ColorTint_Green,triangle,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,ColorTint_Blue,car,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,ColorTint_Blue,cat,0.9833,0.9365,0.9833,0.9593
+ResNet-50,Train_All_Combined,ColorTint_Blue,chair,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,ColorTint_Blue,circle,1.0000,0.9677,1.0000,0.9836
+ResNet-50,Train_All_Combined,ColorTint_Blue,cup,0.9833,0.9672,0.9833,0.9752
+ResNet-50,Train_All_Combined,ColorTint_Blue,dog,0.9000,1.0000,0.9000,0.9474
+ResNet-50,Train_All_Combined,ColorTint_Blue,rectangle,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,ColorTint_Blue,square,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,ColorTint_Blue,table,1.0000,1.0000,1.0000,1.0000
+ResNet-50,Train_All_Combined,ColorTint_Blue,triangle,1.0000,1.0000,1.0000,1.0000
+SigLIP-2 Base,Zero-Shot,Original,car,1.0000,1.0000,1.0000,1.0000
+SigLIP-2 Base,Zero-Shot,Original,cat,0.9833,1.0000,0.9833,0.9916
+SigLIP-2 Base,Zero-Shot,Original,chair,1.0000,1.0000,1.0000,1.0000
+SigLIP-2 Base,Zero-Shot,Original,circle,1.0000,0.9524,1.0000,0.9756
+SigLIP-2 Base,Zero-Shot,Original,cup,0.9500,1.0000,0.9500,0.9744
+SigLIP-2 Base,Zero-Shot,Original,dog,1.0000,1.0000,1.0000,1.0000
+SigLIP-2 Base,Zero-Shot,Original,rectangle,1.0000,0.5042,1.0000,0.6704
+SigLIP-2 Base,Zero-Shot,Original,square,0.0167,1.0000,0.0167,0.0328
+SigLIP-2 Base,Zero-Shot,Original,table,0.9833,0.9833,0.9833,0.9833
+SigLIP-2 Base,Zero-Shot,Original,triangle,1.0000,0.9836,1.0000,0.9917
+SigLIP-2 Base,Zero-Shot,Outline,car,0.9667,0.9667,0.9667,0.9667
+SigLIP-2 Base,Zero-Shot,Outline,cat,0.8833,0.8413,0.8833,0.8618
+SigLIP-2 Base,Zero-Shot,Outline,chair,1.0000,0.9524,1.0000,0.9756
+SigLIP-2 Base,Zero-Shot,Outline,circle,0.8667,0.8667,0.8667,0.8667
+SigLIP-2 Base,Zero-Shot,Outline,cup,0.4667,0.9655,0.4667,0.6292
+SigLIP-2 Base,Zero-Shot,Outline,dog,0.7500,0.8182,0.7500,0.7826
+SigLIP-2 Base,Zero-Shot,Outline,rectangle,1.0000,0.5085,1.0000,0.6742
+SigLIP-2 Base,Zero-Shot,Outline,square,0.4667,0.6829,0.4667,0.5545
+SigLIP-2 Base,Zero-Shot,Outline,table,0.9667,1.0000,0.9667,0.9831
+SigLIP-2 Base,Zero-Shot,Outline,triangle,0.8500,0.9623,0.8500,0.9027
+SigLIP-2 Base,Zero-Shot,Dotted,car,0.9667,0.9667,0.9667,0.9667
+SigLIP-2 Base,Zero-Shot,Dotted,cat,0.6333,0.7917,0.6333,0.7037
+SigLIP-2 Base,Zero-Shot,Dotted,chair,0.9833,0.9833,0.9833,0.9833
+SigLIP-2 Base,Zero-Shot,Dotted,circle,0.8667,0.9123,0.8667,0.8889
+SigLIP-2 Base,Zero-Shot,Dotted,cup,0.5000,0.9091,0.5000,0.6452
+SigLIP-2 Base,Zero-Shot,Dotted,dog,0.5667,0.7083,0.5667,0.6296
+SigLIP-2 Base,Zero-Shot,Dotted,rectangle,0.9833,0.6020,0.9833,0.7468
+SigLIP-2 Base,Zero-Shot,Dotted,square,0.8667,0.6753,0.8667,0.7591
+SigLIP-2 Base,Zero-Shot,Dotted,table,0.9333,0.8485,0.9333,0.8889
+SigLIP-2 Base,Zero-Shot,Dotted,triangle,0.8500,0.9623,0.8500,0.9027
+SigLIP-2 Base,Zero-Shot,Dashed,car,0.9667,0.9667,0.9667,0.9667
+SigLIP-2 Base,Zero-Shot,Dashed,cat,0.9167,0.7432,0.9167,0.8209
+SigLIP-2 Base,Zero-Shot,Dashed,chair,1.0000,0.9524,1.0000,0.9756
+SigLIP-2 Base,Zero-Shot,Dashed,circle,0.8667,0.9630,0.8667,0.9123
+SigLIP-2 Base,Zero-Shot,Dashed,cup,0.5333,0.9143,0.5333,0.6737
+SigLIP-2 Base,Zero-Shot,Dashed,dog,0.6333,0.8261,0.6333,0.7170
+SigLIP-2 Base,Zero-Shot,Dashed,rectangle,0.9667,0.5800,0.9667,0.7250
+SigLIP-2 Base,Zero-Shot,Dashed,square,0.7333,0.8000,0.7333,0.7652
+SigLIP-2 Base,Zero-Shot,Dashed,table,0.9500,0.9344,0.9500,0.9421
+SigLIP-2 Base,Zero-Shot,Dashed,triangle,0.8500,0.9808,0.8500,0.9107
+SigLIP-2 Base,Zero-Shot,Sketch,car,0.9833,0.9516,0.9833,0.9672
+SigLIP-2 Base,Zero-Shot,Sketch,cat,0.8333,0.9434,0.8333,0.8850
+SigLIP-2 Base,Zero-Shot,Sketch,chair,1.0000,1.0000,1.0000,1.0000
+SigLIP-2 Base,Zero-Shot,Sketch,circle,1.0000,0.8571,1.0000,0.9231
+SigLIP-2 Base,Zero-Shot,Sketch,cup,0.6833,0.9535,0.6833,0.7961
+SigLIP-2 Base,Zero-Shot,Sketch,dog,0.7333,0.9565,0.7333,0.8302
+SigLIP-2 Base,Zero-Shot,Sketch,rectangle,0.9833,0.4646,0.9833,0.6310
+SigLIP-2 Base,Zero-Shot,Sketch,square,0.0167,0.0588,0.0167,0.0260
+SigLIP-2 Base,Zero-Shot,Sketch,table,0.9667,0.9508,0.9667,0.9587
+SigLIP-2 Base,Zero-Shot,Sketch,triangle,1.0000,0.9836,1.0000,0.9917
+SigLIP-2 Base,Zero-Shot,Silhouette,car,0.9167,0.9649,0.9167,0.9402
+SigLIP-2 Base,Zero-Shot,Silhouette,cat,0.3167,0.7600,0.3167,0.4471
+SigLIP-2 Base,Zero-Shot,Silhouette,chair,0.9667,0.8788,0.9667,0.9206
+SigLIP-2 Base,Zero-Shot,Silhouette,circle,1.0000,0.8696,1.0000,0.9302
+SigLIP-2 Base,Zero-Shot,Silhouette,cup,0.4833,0.8788,0.4833,0.6237
+SigLIP-2 Base,Zero-Shot,Silhouette,dog,0.4000,0.6000,0.4000,0.4800
+SigLIP-2 Base,Zero-Shot,Silhouette,rectangle,0.9500,0.6264,0.9500,0.7550
+SigLIP-2 Base,Zero-Shot,Silhouette,square,0.7667,0.4423,0.7667,0.5610
+SigLIP-2 Base,Zero-Shot,Silhouette,table,0.8167,0.9074,0.8167,0.8596
+SigLIP-2 Base,Zero-Shot,Silhouette,triangle,1.0000,0.9836,1.0000,0.9917
+SigLIP-2 Base,Zero-Shot,ColorTint_Red,car,1.0000,1.0000,1.0000,1.0000
+SigLIP-2 Base,Zero-Shot,ColorTint_Red,cat,0.9833,1.0000,0.9833,0.9916
+SigLIP-2 Base,Zero-Shot,ColorTint_Red,chair,1.0000,1.0000,1.0000,1.0000
+SigLIP-2 Base,Zero-Shot,ColorTint_Red,circle,1.0000,0.9677,1.0000,0.9836
+SigLIP-2 Base,Zero-Shot,ColorTint_Red,cup,0.9167,1.0000,0.9167,0.9565
+SigLIP-2 Base,Zero-Shot,ColorTint_Red,dog,1.0000,0.9836,1.0000,0.9917
+SigLIP-2 Base,Zero-Shot,ColorTint_Red,rectangle,1.0000,0.7059,1.0000,0.8276
+SigLIP-2 Base,Zero-Shot,ColorTint_Red,square,0.5833,1.0000,0.5833,0.7368
+SigLIP-2 Base,Zero-Shot,ColorTint_Red,table,1.0000,0.9524,1.0000,0.9756
+SigLIP-2 Base,Zero-Shot,ColorTint_Red,triangle,1.0000,1.0000,1.0000,1.0000
+SigLIP-2 Base,Zero-Shot,ColorTint_Green,car,1.0000,1.0000,1.0000,1.0000
+SigLIP-2 Base,Zero-Shot,ColorTint_Green,cat,0.9833,1.0000,0.9833,0.9916
+SigLIP-2 Base,Zero-Shot,ColorTint_Green,chair,1.0000,0.9836,1.0000,0.9917
+SigLIP-2 Base,Zero-Shot,ColorTint_Green,circle,1.0000,0.9375,1.0000,0.9677
+SigLIP-2 Base,Zero-Shot,ColorTint_Green,cup,0.9000,1.0000,0.9000,0.9474
+SigLIP-2 Base,Zero-Shot,ColorTint_Green,dog,1.0000,1.0000,1.0000,1.0000
+SigLIP-2 Base,Zero-Shot,ColorTint_Green,rectangle,1.0000,0.7229,1.0000,0.8392
+SigLIP-2 Base,Zero-Shot,ColorTint_Green,square,0.6167,1.0000,0.6167,0.7629
+SigLIP-2 Base,Zero-Shot,ColorTint_Green,table,0.9833,0.9516,0.9833,0.9672
+SigLIP-2 Base,Zero-Shot,ColorTint_Green,triangle,1.0000,1.0000,1.0000,1.0000
+SigLIP-2 Base,Zero-Shot,ColorTint_Blue,car,1.0000,1.0000,1.0000,1.0000
+SigLIP-2 Base,Zero-Shot,ColorTint_Blue,cat,0.9833,1.0000,0.9833,0.9916
+SigLIP-2 Base,Zero-Shot,ColorTint_Blue,chair,1.0000,0.9836,1.0000,0.9917
+SigLIP-2 Base,Zero-Shot,ColorTint_Blue,circle,1.0000,0.9677,1.0000,0.9836
+SigLIP-2 Base,Zero-Shot,ColorTint_Blue,cup,0.8667,1.0000,0.8667,0.9286
+SigLIP-2 Base,Zero-Shot,ColorTint_Blue,dog,1.0000,1.0000,1.0000,1.0000
+SigLIP-2 Base,Zero-Shot,ColorTint_Blue,rectangle,1.0000,0.7317,1.0000,0.8451
+SigLIP-2 Base,Zero-Shot,ColorTint_Blue,square,0.6333,0.9500,0.6333,0.7600
+SigLIP-2 Base,Zero-Shot,ColorTint_Blue,table,0.9833,0.9365,0.9833,0.9593
+SigLIP-2 Base,Zero-Shot,ColorTint_Blue,triangle,1.0000,0.9836,1.0000,0.9917
+ViT-B/16,Train_All_Combined,Original,car,0.9833,1.0000,0.9833,0.9916
+ViT-B/16,Train_All_Combined,Original,cat,0.9167,0.9483,0.9167,0.9322
+ViT-B/16,Train_All_Combined,Original,chair,1.0000,0.9836,1.0000,0.9917
+ViT-B/16,Train_All_Combined,Original,circle,1.0000,1.0000,1.0000,1.0000
+ViT-B/16,Train_All_Combined,Original,cup,0.9333,0.9032,0.9333,0.9180
+ViT-B/16,Train_All_Combined,Original,dog,0.9000,0.8852,0.9000,0.8926
+ViT-B/16,Train_All_Combined,Original,rectangle,0.9333,0.9492,0.9333,0.9412
+ViT-B/16,Train_All_Combined,Original,square,0.9500,0.9344,0.9500,0.9421
+ViT-B/16,Train_All_Combined,Original,table,0.9833,1.0000,0.9833,0.9916
+ViT-B/16,Train_All_Combined,Original,triangle,1.0000,1.0000,1.0000,1.0000
+ViT-B/16,Train_All_Combined,Outline,car,0.9500,0.9828,0.9500,0.9661
+ViT-B/16,Train_All_Combined,Outline,cat,0.6833,0.8913,0.6833,0.7736
+ViT-B/16,Train_All_Combined,Outline,chair,1.0000,0.9836,1.0000,0.9917
+ViT-B/16,Train_All_Combined,Outline,circle,0.8667,1.0000,0.8667,0.9286
+ViT-B/16,Train_All_Combined,Outline,cup,0.9667,0.9355,0.9667,0.9508
+ViT-B/16,Train_All_Combined,Outline,dog,0.9167,0.7639,0.9167,0.8333
+ViT-B/16,Train_All_Combined,Outline,rectangle,0.7167,0.8958,0.7167,0.7963
+ViT-B/16,Train_All_Combined,Outline,square,0.9167,0.6044,0.9167,0.7285
+ViT-B/16,Train_All_Combined,Outline,table,0.9833,1.0000,0.9833,0.9916
+ViT-B/16,Train_All_Combined,Outline,triangle,0.8500,1.0000,0.8500,0.9189
+ViT-B/16,Train_All_Combined,Dotted,car,0.9667,0.9831,0.9667,0.9748
+ViT-B/16,Train_All_Combined,Dotted,cat,0.5667,0.8095,0.5667,0.6667
+ViT-B/16,Train_All_Combined,Dotted,chair,1.0000,0.9836,1.0000,0.9917
+ViT-B/16,Train_All_Combined,Dotted,circle,0.8667,0.9811,0.8667,0.9204
+ViT-B/16,Train_All_Combined,Dotted,cup,0.9833,0.9516,0.9833,0.9672
+ViT-B/16,Train_All_Combined,Dotted,dog,0.8500,0.6711,0.8500,0.7500
+ViT-B/16,Train_All_Combined,Dotted,rectangle,0.6833,0.9318,0.6833,0.7885
+ViT-B/16,Train_All_Combined,Dotted,square,0.9500,0.6064,0.9500,0.7403
+ViT-B/16,Train_All_Combined,Dotted,table,0.9500,1.0000,0.9500,0.9744
+ViT-B/16,Train_All_Combined,Dotted,triangle,0.8500,0.9808,0.8500,0.9107
+ViT-B/16,Train_All_Combined,Dashed,car,0.9333,0.9492,0.9333,0.9412
+ViT-B/16,Train_All_Combined,Dashed,cat,0.7167,0.8431,0.7167,0.7748
+ViT-B/16,Train_All_Combined,Dashed,chair,1.0000,0.9836,1.0000,0.9917
+ViT-B/16,Train_All_Combined,Dashed,circle,0.8667,1.0000,0.8667,0.9286
+ViT-B/16,Train_All_Combined,Dashed,cup,0.9500,0.9194,0.9500,0.9344
+ViT-B/16,Train_All_Combined,Dashed,dog,0.8500,0.7727,0.8500,0.8095
+ViT-B/16,Train_All_Combined,Dashed,rectangle,0.7333,0.9167,0.7333,0.8148
+ViT-B/16,Train_All_Combined,Dashed,square,0.9333,0.6087,0.9333,0.7368
+ViT-B/16,Train_All_Combined,Dashed,table,0.9667,1.0000,0.9667,0.9831
+ViT-B/16,Train_All_Combined,Dashed,triangle,0.8500,1.0000,0.8500,0.9189
+ViT-B/16,Train_All_Combined,Sketch,car,0.9667,0.9062,0.9667,0.9355
+ViT-B/16,Train_All_Combined,Sketch,cat,0.7000,0.8936,0.7000,0.7850
+ViT-B/16,Train_All_Combined,Sketch,chair,1.0000,1.0000,1.0000,1.0000
+ViT-B/16,Train_All_Combined,Sketch,circle,0.9833,0.9833,0.9833,0.9833
+ViT-B/16,Train_All_Combined,Sketch,cup,0.8167,0.9245,0.8167,0.8673
+ViT-B/16,Train_All_Combined,Sketch,dog,0.8833,0.7067,0.8833,0.7852
+ViT-B/16,Train_All_Combined,Sketch,rectangle,0.7000,0.6364,0.7000,0.6667
+ViT-B/16,Train_All_Combined,Sketch,square,0.6167,0.6727,0.6167,0.6435
+ViT-B/16,Train_All_Combined,Sketch,table,1.0000,1.0000,1.0000,1.0000
+ViT-B/16,Train_All_Combined,Sketch,triangle,1.0000,1.0000,1.0000,1.0000
+ViT-B/16,Train_All_Combined,Silhouette,car,0.9833,0.7973,0.9833,0.8806
+ViT-B/16,Train_All_Combined,Silhouette,cat,0.5667,0.6296,0.5667,0.5965
+ViT-B/16,Train_All_Combined,Silhouette,chair,0.9833,0.9672,0.9833,0.9752
+ViT-B/16,Train_All_Combined,Silhouette,circle,1.0000,0.9836,1.0000,0.9917
+ViT-B/16,Train_All_Combined,Silhouette,cup,0.7833,0.9216,0.7833,0.8468
+ViT-B/16,Train_All_Combined,Silhouette,dog,0.5833,0.5738,0.5833,0.5785
+ViT-B/16,Train_All_Combined,Silhouette,rectangle,0.7833,0.9592,0.7833,0.8624
+ViT-B/16,Train_All_Combined,Silhouette,square,0.9667,0.8056,0.9667,0.8788
+ViT-B/16,Train_All_Combined,Silhouette,table,0.9500,1.0000,0.9500,0.9744
+ViT-B/16,Train_All_Combined,Silhouette,triangle,1.0000,1.0000,1.0000,1.0000
+ViT-B/16,Train_All_Combined,ColorTint_Red,car,0.9833,1.0000,0.9833,0.9916
+ViT-B/16,Train_All_Combined,ColorTint_Red,cat,0.9167,0.9016,0.9167,0.9091
+ViT-B/16,Train_All_Combined,ColorTint_Red,chair,1.0000,0.9375,1.0000,0.9677
+ViT-B/16,Train_All_Combined,ColorTint_Red,circle,1.0000,0.9836,1.0000,0.9917
+ViT-B/16,Train_All_Combined,ColorTint_Red,cup,0.9167,0.9649,0.9167,0.9402
+ViT-B/16,Train_All_Combined,ColorTint_Red,dog,0.8833,0.8689,0.8833,0.8760
+ViT-B/16,Train_All_Combined,ColorTint_Red,rectangle,0.9167,0.9322,0.9167,0.9244
+ViT-B/16,Train_All_Combined,ColorTint_Red,square,0.9333,0.9180,0.9333,0.9256
+ViT-B/16,Train_All_Combined,ColorTint_Red,table,0.9500,1.0000,0.9500,0.9744
+ViT-B/16,Train_All_Combined,ColorTint_Red,triangle,1.0000,1.0000,1.0000,1.0000
+ViT-B/16,Train_All_Combined,ColorTint_Green,car,0.9667,1.0000,0.9667,0.9831
+ViT-B/16,Train_All_Combined,ColorTint_Green,cat,0.9333,0.9333,0.9333,0.9333
+ViT-B/16,Train_All_Combined,ColorTint_Green,chair,1.0000,1.0000,1.0000,1.0000
+ViT-B/16,Train_All_Combined,ColorTint_Green,circle,1.0000,0.9836,1.0000,0.9917
+ViT-B/16,Train_All_Combined,ColorTint_Green,cup,0.9167,0.9016,0.9167,0.9091
+ViT-B/16,Train_All_Combined,ColorTint_Green,dog,0.8833,0.8833,0.8833,0.8833
+ViT-B/16,Train_All_Combined,ColorTint_Green,rectangle,0.8667,0.9455,0.8667,0.9043
+ViT-B/16,Train_All_Combined,ColorTint_Green,square,0.9500,0.8769,0.9500,0.9120
+ViT-B/16,Train_All_Combined,ColorTint_Green,table,1.0000,1.0000,1.0000,1.0000
+ViT-B/16,Train_All_Combined,ColorTint_Green,triangle,1.0000,1.0000,1.0000,1.0000
+ViT-B/16,Train_All_Combined,ColorTint_Blue,car,0.9667,1.0000,0.9667,0.9831
+ViT-B/16,Train_All_Combined,ColorTint_Blue,cat,0.9000,0.9153,0.9000,0.9076
+ViT-B/16,Train_All_Combined,ColorTint_Blue,chair,1.0000,0.9836,1.0000,0.9917
+ViT-B/16,Train_All_Combined,ColorTint_Blue,circle,1.0000,1.0000,1.0000,1.0000
+ViT-B/16,Train_All_Combined,ColorTint_Blue,cup,0.9167,0.9016,0.9167,0.9091
+ViT-B/16,Train_All_Combined,ColorTint_Blue,dog,0.8833,0.8548,0.8833,0.8689
+ViT-B/16,Train_All_Combined,ColorTint_Blue,rectangle,0.8167,0.9608,0.8167,0.8829
+ViT-B/16,Train_All_Combined,ColorTint_Blue,square,0.9667,0.8406,0.9667,0.8992
+ViT-B/16,Train_All_Combined,ColorTint_Blue,table,0.9833,1.0000,0.9833,0.9916
+ViT-B/16,Train_All_Combined,ColorTint_Blue,triangle,1.0000,1.0000,1.0000,1.0000

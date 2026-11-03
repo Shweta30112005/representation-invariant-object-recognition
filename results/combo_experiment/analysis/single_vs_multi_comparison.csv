@@ -1,0 +1,46 @@
+model,test_representation,single_same_acc,all_combined_acc,best_combo_acc,best_combo,best_combo_size
+ResNet-50,Original,97.6667,98.8333,99.6667,Org+Out+Skt+Red,4
+ResNet-50,Outline,92.1667,93.1667,94.1667,Org+Out+Dsh+Skt+Grn+Blu,6
+ResNet-50,Dotted,90.8333,92.5,92.6667,Org+Dot+Grn,3
+ResNet-50,Dashed,91.1667,93.6667,93.8333,Out+Sil+Red,3
+ResNet-50,Sketch,94.0,95.1667,96.8333,Org+Dsh+Skt+Sil,4
+ResNet-50,Silhouette,89.5,92.6667,94.0,Dot+Skt+Sil+Red,4
+ResNet-50,ColorTint_Red,97.3333,98.1667,99.3333,Org+Skt+Sil+Red+Blu,5
+ResNet-50,ColorTint_Green,98.0,98.6667,99.5,Dsh+Red+Grn,3
+ResNet-50,ColorTint_Blue,98.6667,97.8333,99.1667,Grn+Blu,2
+DINOv3,Original,93.6667,95.6667,97.5,Org+Out+Skt+Red+Blu,5
+DINOv3,Outline,87.3333,88.8333,89.8333,Org+Out+Dsh+Sil+Grn,5
+DINOv3,Dotted,85.6667,86.1667,88.5,Org+Out+Dot+Dsh+Skt+Sil+Grn,7
+DINOv3,Dashed,87.8333,87.1667,89.5,Out+Dot+Dsh+Skt+Sil,5
+DINOv3,Sketch,91.0,90.8333,93.1667,Out+Dsh+Skt,3
+DINOv3,Silhouette,85.0,87.5,89.8333,Org+Dot+Dsh+Sil,4
+DINOv3,ColorTint_Red,93.0,95.8333,97.5,Dot+Dsh+Skt+Sil+Red+Blu,6
+DINOv3,ColorTint_Green,94.1667,95.8333,97.6667,Org+Out+Dsh+Skt+Sil+Red+Blu,7
+DINOv3,ColorTint_Blue,94.8333,96.0,96.8333,Org+Out+Dot+Skt+Sil+Red+Grn+Blu,8
+CLIP ViT-B/32,Original,,,88.0,Zero-Shot,0
+CLIP ViT-B/32,Outline,,,72.0,Zero-Shot,0
+CLIP ViT-B/32,Dotted,,,66.6667,Zero-Shot,0
+CLIP ViT-B/32,Dashed,,,69.1667,Zero-Shot,0
+CLIP ViT-B/32,Sketch,,,77.6667,Zero-Shot,0
+CLIP ViT-B/32,Silhouette,,,62.8333,Zero-Shot,0
+CLIP ViT-B/32,ColorTint_Red,,,86.5,Zero-Shot,0
+CLIP ViT-B/32,ColorTint_Green,,,86.0,Zero-Shot,0
+CLIP ViT-B/32,ColorTint_Blue,,,86.5,Zero-Shot,0
+EVA-CLIP (EVA02-B/16),Original,,,91.3333,Zero-Shot,0
+EVA-CLIP (EVA02-B/16),Outline,,,80.0,Zero-Shot,0
+EVA-CLIP (EVA02-B/16),Dotted,,,77.1667,Zero-Shot,0
+EVA-CLIP (EVA02-B/16),Dashed,,,82.3333,Zero-Shot,0
+EVA-CLIP (EVA02-B/16),Sketch,,,75.8333,Zero-Shot,0
+EVA-CLIP (EVA02-B/16),Silhouette,,,71.6667,Zero-Shot,0
+EVA-CLIP (EVA02-B/16),ColorTint_Red,,,92.8333,Zero-Shot,0
+EVA-CLIP (EVA02-B/16),ColorTint_Green,,,87.5,Zero-Shot,0
+EVA-CLIP (EVA02-B/16),ColorTint_Blue,,,91.5,Zero-Shot,0
+SigLIP-2 Base,Original,,,89.3333,Zero-Shot,0
+SigLIP-2 Base,Outline,,,82.1667,Zero-Shot,0
+SigLIP-2 Base,Dotted,,,81.5,Zero-Shot,0
+SigLIP-2 Base,Dashed,,,84.1667,Zero-Shot,0
+SigLIP-2 Base,Sketch,,,82.0,Zero-Shot,0
+SigLIP-2 Base,Silhouette,,,76.1667,Zero-Shot,0
+SigLIP-2 Base,ColorTint_Red,,,94.8333,Zero-Shot,0
+SigLIP-2 Base,ColorTint_Green,,,94.8333,Zero-Shot,0
+SigLIP-2 Base,ColorTint_Blue,,,94.6667,Zero-Shot,0

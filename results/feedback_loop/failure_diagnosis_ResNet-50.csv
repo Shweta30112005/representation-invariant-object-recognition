@@ -1,0 +1,11 @@
+model,rank,train_combo,flip_rate_pct,consistently_wrong_pct,mean_entropy,most_vulnerable_variant,most_vulnerable_class,target_intervention
+ResNet-50,1,Dot+Dsh+Skt+Sil+Grn,0.9259259259259258,2.4074074074074074,0.7983728856633951,Silhouette,cup,Color+Affine Regularization
+ResNet-50,2,Org+Dot+Dsh+Skt+Sil,0.9259259259259258,2.7777777777777777,0.7270522323725138,Silhouette,square,Color+Affine Regularization
+ResNet-50,3,Dot+Dsh+Skt+Sil+Red+Blu,0.9259259259259258,2.5925925925925926,0.6776320685264167,Silhouette,rectangle,Color+Affine Regularization
+ResNet-50,4,Out+Dot+Dsh+Skt+Sil+Red+Grn+Blu,0.7407407407407408,2.4074074074074074,0.69159722140297,Outline,dog,Color+Affine Regularization
+ResNet-50,5,Org+Dot+Dsh+Skt+Sil+Blu,0.7407407407407408,2.4074074074074074,0.6378476969377066,Dotted,square,Stroke+Discontinuity Aug
+ResNet-50,6,Out+Dot+Skt+Sil+Grn+Blu,1.1111111111111112,2.5925925925925926,0.7601066495135371,Outline,square,Color+Affine Regularization
+ResNet-50,7,Org+Out+Dot+Dsh+Skt+Sil,0.7407407407407408,2.2222222222222223,0.7044364236168281,Dotted,square,Stroke+Discontinuity Aug
+ResNet-50,8,Org+Out+Dot+Skt+Sil,0.7407407407407408,3.3333333333333335,0.7519013606165117,Silhouette,square,Color+Affine Regularization
+ResNet-50,9,Org+Out+Dot+Dsh+Skt+Sil+Red+Grn+Blu,0.1851851851851852,2.9629629629629632,0.6497076677327986,Silhouette,square,Color+Affine Regularization
+ResNet-50,10,Org+Dot+Dsh+Skt+Sil+Grn,0.7407407407407408,3.3333333333333335,0.766128278088971,Silhouette,rectangle,Color+Affine Regularization

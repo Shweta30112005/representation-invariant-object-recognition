@@ -1,0 +1,11 @@
+model,rank,train_combo,flip_rate_pct,consistently_wrong_pct,mean_entropy,most_vulnerable_variant,most_vulnerable_class,target_intervention
+ViT-B/16,1,Dot+Dsh+Skt+Sil+Red+Grn,2.037037037037037,3.3333333333333335,1.3214750111516251,Original,cat,Color+Affine Regularization
+ViT-B/16,2,Out+Dot+Dsh+Skt+Sil,0.7407407407407408,2.5925925925925926,1.2427692872286173,Silhouette,dog,Color+Affine Regularization
+ViT-B/16,3,Org+Out+Dot+Skt+Sil+Grn+Blu,1.4814814814814816,3.3333333333333335,1.2348742352074944,Silhouette,cat,Color+Affine Regularization
+ViT-B/16,4,Out+Dot+Dsh+Skt+Sil+Red,0.9259259259259258,4.444444444444445,1.2991935817215305,Silhouette,dog,Color+Affine Regularization
+ViT-B/16,5,Dot+Dsh+Skt+Sil,1.2962962962962963,4.62962962962963,1.309411929457676,ColorTint_Red,square,Color+Affine Regularization
+ViT-B/16,6,Org+Out+Dot+Dsh+Skt+Sil+Red+Grn+Blu,1.1111111111111112,3.3333333333333335,1.172192226792404,Silhouette,cat,Color+Affine Regularization
+ViT-B/16,7,Out+Dot+Skt+Sil+Red,2.2222222222222223,3.5185185185185186,1.201209048734753,Silhouette,dog,Color+Affine Regularization
+ViT-B/16,8,Out+Dot+Skt+Sil,1.6666666666666667,6.851851851851852,1.1829698406596125,ColorTint_Green,dog,Color+Affine Regularization
+ViT-B/16,9,Org+Dot+Dsh+Skt+Sil+Red+Grn+Blu,1.2962962962962963,3.148148148148148,1.0802685348721195,Silhouette,dog,Color+Affine Regularization
+ViT-B/16,10,Org+Out+Dot+Skt+Sil+Red+Grn,2.4074074074074074,4.2592592592592595,1.2142125770452283,Silhouette,dog,Color+Affine Regularization

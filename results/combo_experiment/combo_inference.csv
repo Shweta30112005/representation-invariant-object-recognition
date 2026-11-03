@@ -1,0 +1,5 @@
+model,architecture_type,device,batch_size,total_images,total_time_sec,avg_latency_ms,throughput_fps,throughput_img_per_sec
+DINOv3,Linear Probe,cuda (NVIDIA H200),32,600,3.4438,5.7397,174.23,174.23
+CLIP ViT-B/32,Zero-Shot VLM,cuda (NVIDIA H200),32,600,3.6774,6.129,163.16,163.16
+EVA-CLIP (EVA02-B/16),Zero-Shot VLM,cuda (NVIDIA H200),32,600,4.282,7.1366,140.12,140.12
+SigLIP-2 Base,Zero-Shot VLM,cuda (NVIDIA H200),32,600,7.1956,11.9926,83.38,83.38

@@ -1,0 +1,9 @@
+{
+  "mean_acc": 0.2,
+  "worst_case_acc": 0.25,
+  "stability": 0.1,
+  "mean_f1": 0.15,
+  "worst_class_acc": 0.1,
+  "pareto_efficiency": 0.1,
+  "ood_transfer_gap": 0.1
+}

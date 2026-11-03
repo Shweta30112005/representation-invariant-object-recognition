@@ -1,0 +1,11 @@
+model,rank,train_combo,flip_rate_pct,consistently_wrong_pct,mean_entropy,most_vulnerable_variant,most_vulnerable_class,target_intervention
+DINOv3,1,Org+Out+Dot+Dsh+Skt+Sil+Grn,1.8518518518518516,5.37037037037037,0.8217538993651751,Sketch,square,Stroke+Discontinuity Aug
+DINOv3,2,Org+Out+Dot+Dsh+Skt+Sil+Red+Blu,1.6666666666666667,6.111111111111111,0.8249700694390901,Silhouette,rectangle,Color+Affine Regularization
+DINOv3,3,Org+Dot+Dsh+Skt+Sil+Blu,2.7777777777777777,6.111111111111111,0.8115616156636692,Silhouette,rectangle,Color+Affine Regularization
+DINOv3,4,Org+Out+Dot+Dsh+Skt+Sil+Grn+Blu,2.037037037037037,6.666666666666667,0.8310964939308743,Silhouette,rectangle,Color+Affine Regularization
+DINOv3,5,Org+Out+Dot+Dsh+Skt+Sil+Red,3.5185185185185186,5.555555555555555,0.8145334322000674,Dotted,rectangle,Stroke+Discontinuity Aug
+DINOv3,6,Out+Dot+Dsh+Skt+Sil+Red,1.2962962962962963,7.4074074074074066,0.8794164031208521,Silhouette,square,Color+Affine Regularization
+DINOv3,7,Org+Out+Dot+Dsh+Skt+Sil+Blu,2.4074074074074074,6.851851851851852,0.8603563152522956,Dotted,square,Stroke+Discontinuity Aug
+DINOv3,8,Out+Dot+Dsh+Skt+Sil+Red+Blu,2.4074074074074074,6.481481481481481,0.8583253672780061,Dotted,square,Stroke+Discontinuity Aug
+DINOv3,9,Org+Out+Dot+Dsh+Skt+Sil+Red+Grn,1.4814814814814816,6.296296296296296,0.8250754914796453,Dotted,square,Stroke+Discontinuity Aug
+DINOv3,10,Out+Dot+Skt+Sil+Grn,1.6666666666666667,8.148148148148149,0.867285957855265,Dashed,rectangle,Stroke+Discontinuity Aug

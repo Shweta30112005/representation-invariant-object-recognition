@@ -1,0 +1,2 @@
+model,architecture_type,device,total_images,total_time_sec,avg_latency_ms,avg_time_ms,throughput_fps,throughput_img_per_sec
+Qwen3-VL-8B,Generative VLM,cuda (NVIDIA H200),180,64.4693,358.1628,358.1628,2.792,2.792

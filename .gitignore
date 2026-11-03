@@ -1,0 +1,33 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Large Model Weights & Checkpoints (>100MB exceeds GitHub push limits)
+*.pt
+*.pth
+*.bin
+*.onnx
+*.safetensors
+results/feedback_loop/checkpoints/
+
+# Raw Datasets (over 1.2 GB of raw JPEG images)
+dataset/
+*.zip
+
+# Matplotlib cache
+.matplotlib/

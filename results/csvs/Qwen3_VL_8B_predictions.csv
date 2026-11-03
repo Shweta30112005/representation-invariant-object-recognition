@@ -1,0 +1,1441 @@
+model,image_path,representation,true_class,prompt,raw_response,prediction,latency_sec
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/original/car/00003.jpg,Original,car,"This is a natural image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",car,car,1.356
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/original/car/00011.jpg,Original,car,"This is a natural image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",car,car,1.4431
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/original/cat/00004.jpg,Original,cat,"This is a natural image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",cat,cat,0.2941
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/original/cat/00017.jpg,Original,cat,"This is a natural image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",cat,cat,0.1433
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/original/chair/00001.jpg,Original,chair,"This is a natural image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",chair,chair,0.1369
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/original/chair/00010.jpg,Original,chair,"This is a natural image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",chair,chair,0.1356
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/original/circle/00001.jpg,Original,circle,"This is a natural image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,0.1339
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/original/circle/00016.jpg,Original,circle,"This is a natural image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,0.139
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/original/cup/00004.jpg,Original,cup,"This is a natural image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",cup,cup,2.8293
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/original/cup/00011.jpg,Original,cup,"This is a natural image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",rectangle,rectangle,0.4754
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/original/dog/00003.jpg,Original,dog,"This is a natural image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.14
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/original/dog/00007.jpg,Original,dog,"This is a natural image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.1371
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/original/rectangle/00013.jpg,Original,rectangle,"This is a natural image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",rectangle,rectangle,0.1315
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/original/rectangle/00019.jpg,Original,rectangle,"This is a natural image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",rectangle,rectangle,0.1322
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/original/square/00013.jpg,Original,square,"This is a natural image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",square,square,0.1319
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/original/square/00018.jpg,Original,square,"This is a natural image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",square,square,0.1315
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/original/table/00010.jpg,Original,table,"This is a natural image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",table,table,0.157
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/original/table/00020.jpg,Original,table,"This is a natural image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",table,table,0.1429
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/original/triangle/00001.jpg,Original,triangle,"This is a natural image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",triangle,triangle,0.1495
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/original/triangle/00008.jpg,Original,triangle,"This is a natural image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",triangle,triangle,0.1491
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/outline/car/00003.jpg,Outline,car,"This is an outline drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",car,car,0.1564
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/outline/car/00011.jpg,Outline,car,"This is an outline drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",car,car,1.4815
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/outline/cat/00004.jpg,Outline,cat,"This is an outline drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.1531
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/outline/cat/00017.jpg,Outline,cat,"This is an outline drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",cat,cat,0.1539
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/outline/chair/00001.jpg,Outline,chair,"This is an outline drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",chair,chair,0.1524
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/outline/chair/00010.jpg,Outline,chair,"This is an outline drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",chair,chair,0.1516
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/outline/circle/00001.jpg,Outline,circle,"This is an outline drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,0.1657
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/outline/circle/00016.jpg,Outline,circle,"This is an outline drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,0.1511
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/outline/cup/00004.jpg,Outline,cup,"This is an outline drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,2.7532
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/outline/cup/00011.jpg,Outline,cup,"This is an outline drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",rectangle,rectangle,0.4816
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/outline/dog/00003.jpg,Outline,dog,"This is an outline drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.1572
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/outline/dog/00007.jpg,Outline,dog,"This is an outline drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.1543
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/outline/rectangle/00013.jpg,Outline,rectangle,"This is an outline drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",rectangle,rectangle,0.1489
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/outline/rectangle/00019.jpg,Outline,rectangle,"This is an outline drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",rectangle,rectangle,0.1517
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/outline/square/00013.jpg,Outline,square,"This is an outline drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",square,square,0.1522
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/outline/square/00018.jpg,Outline,square,"This is an outline drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,0.1501
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/outline/table/00010.jpg,Outline,table,"This is an outline drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",table,table,0.1749
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/outline/table/00020.jpg,Outline,table,"This is an outline drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",table,table,0.1541
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/outline/triangle/00001.jpg,Outline,triangle,"This is an outline drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,0.1548
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/outline/triangle/00008.jpg,Outline,triangle,"This is an outline drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",triangle,triangle,0.1522
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dotted/car/00003.jpg,Dotted,car,"This is a dotted drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",car,car,0.1579
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dotted/car/00011.jpg,Dotted,car,"This is a dotted drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",car,car,1.4876
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dotted/cat/00004.jpg,Dotted,cat,"This is a dotted drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.1644
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dotted/cat/00017.jpg,Dotted,cat,"This is a dotted drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.1571
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dotted/chair/00001.jpg,Dotted,chair,"This is a dotted drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",chair,chair,0.1561
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dotted/chair/00010.jpg,Dotted,chair,"This is a dotted drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",chair,chair,0.1571
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dotted/circle/00001.jpg,Dotted,circle,"This is a dotted drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,0.151
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dotted/circle/00016.jpg,Dotted,circle,"This is a dotted drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,0.1531
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dotted/cup/00004.jpg,Dotted,cup,"This is a dotted drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",triangle,triangle,2.8093
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dotted/cup/00011.jpg,Dotted,cup,"This is a dotted drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",car,car,0.4938
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dotted/dog/00003.jpg,Dotted,dog,"This is a dotted drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",cup,cup,0.1551
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dotted/dog/00007.jpg,Dotted,dog,"This is a dotted drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.1533
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dotted/rectangle/00013.jpg,Dotted,rectangle,"This is a dotted drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",rectangle,rectangle,0.1487
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dotted/rectangle/00019.jpg,Dotted,rectangle,"This is a dotted drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",rectangle,rectangle,0.1486
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dotted/square/00013.jpg,Dotted,square,"This is a dotted drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",square,square,0.1485
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dotted/square/00018.jpg,Dotted,square,"This is a dotted drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,0.1467
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dotted/table/00010.jpg,Dotted,table,"This is a dotted drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",table,table,0.1497
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dotted/table/00020.jpg,Dotted,table,"This is a dotted drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",table,table,0.1513
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dotted/triangle/00001.jpg,Dotted,triangle,"This is a dotted drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,0.165
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dotted/triangle/00008.jpg,Dotted,triangle,"This is a dotted drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",triangle,triangle,0.1538
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dashed/car/00003.jpg,Dashed,car,"This is a dashed line drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",car,car,0.1558
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dashed/car/00011.jpg,Dashed,car,"This is a dashed line drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",car,car,1.4781
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dashed/cat/00004.jpg,Dashed,cat,"This is a dashed line drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.1659
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dashed/cat/00017.jpg,Dashed,cat,"This is a dashed line drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",cat,cat,0.1545
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dashed/chair/00001.jpg,Dashed,chair,"This is a dashed line drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",chair,chair,0.2089
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dashed/chair/00010.jpg,Dashed,chair,"This is a dashed line drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",chair,chair,0.15
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dashed/circle/00001.jpg,Dashed,circle,"This is a dashed line drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,0.1491
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dashed/circle/00016.jpg,Dashed,circle,"This is a dashed line drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,0.208
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dashed/cup/00004.jpg,Dashed,cup,"This is a dashed line drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,2.8545
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dashed/cup/00011.jpg,Dashed,cup,"This is a dashed line drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",rectangle,rectangle,0.4882
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dashed/dog/00003.jpg,Dashed,dog,"This is a dashed line drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.1559
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dashed/dog/00007.jpg,Dashed,dog,"This is a dashed line drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.1533
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dashed/rectangle/00013.jpg,Dashed,rectangle,"This is a dashed line drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",rectangle,rectangle,0.1483
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dashed/rectangle/00019.jpg,Dashed,rectangle,"This is a dashed line drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",rectangle,rectangle,0.1481
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dashed/square/00013.jpg,Dashed,square,"This is a dashed line drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",square,square,0.1483
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dashed/square/00018.jpg,Dashed,square,"This is a dashed line drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,0.1491
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dashed/table/00010.jpg,Dashed,table,"This is a dashed line drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",table,table,0.1514
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dashed/table/00020.jpg,Dashed,table,"This is a dashed line drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",table,table,0.1521
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dashed/triangle/00001.jpg,Dashed,triangle,"This is a dashed line drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,0.1481
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/dashed/triangle/00008.jpg,Dashed,triangle,"This is a dashed line drawing of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",triangle,triangle,0.1511
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/sketch/car/00003.jpg,Sketch,car,"This is a pencil sketch of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",car,car,0.1575
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/sketch/car/00011.jpg,Sketch,car,"This is a pencil sketch of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",car,car,1.5107
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/sketch/cat/00004.jpg,Sketch,cat,"This is a pencil sketch of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",chair,chair,0.1887
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/sketch/cat/00017.jpg,Sketch,cat,"This is a pencil sketch of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",cat,cat,0.1547
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/sketch/chair/00001.jpg,Sketch,chair,"This is a pencil sketch of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",chair,chair,0.1536
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/sketch/chair/00010.jpg,Sketch,chair,"This is a pencil sketch of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",chair,chair,0.1565
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/sketch/circle/00001.jpg,Sketch,circle,"This is a pencil sketch of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,0.158
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/sketch/circle/00016.jpg,Sketch,circle,"This is a pencil sketch of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,0.1497
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/sketch/cup/00004.jpg,Sketch,cup,"This is a pencil sketch of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",car,car,2.7153
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/sketch/cup/00011.jpg,Sketch,cup,"This is a pencil sketch of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",rectangle,rectangle,0.4172
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/sketch/dog/00003.jpg,Sketch,dog,"This is a pencil sketch of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.0803
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/sketch/dog/00007.jpg,Sketch,dog,"This is a pencil sketch of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.0897
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/sketch/rectangle/00013.jpg,Sketch,rectangle,"This is a pencil sketch of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",triangle,triangle,0.0766
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/sketch/rectangle/00019.jpg,Sketch,rectangle,"This is a pencil sketch of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",car,car,0.1363
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/sketch/square/00013.jpg,Sketch,square,"This is a pencil sketch of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",table,table,0.0833
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/sketch/square/00018.jpg,Sketch,square,"This is a pencil sketch of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",rectangle,rectangle,0.0762
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/sketch/table/00010.jpg,Sketch,table,"This is a pencil sketch of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",table,table,0.0906
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/sketch/table/00020.jpg,Sketch,table,"This is a pencil sketch of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",table,table,0.0816
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/sketch/triangle/00001.jpg,Sketch,triangle,"This is a pencil sketch of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",triangle,triangle,0.0793
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/sketch/triangle/00008.jpg,Sketch,triangle,"This is a pencil sketch of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",triangle,triangle,0.0815
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/silhouette/car/00003.jpg,Silhouette,car,"This is a solid black silhouette representation of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.081
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/silhouette/car/00011.jpg,Silhouette,car,"This is a solid black silhouette representation of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",car,car,1.2952
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/silhouette/cat/00004.jpg,Silhouette,cat,"This is a solid black silhouette representation of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.0842
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/silhouette/cat/00017.jpg,Silhouette,cat,"This is a solid black silhouette representation of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.0833
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/silhouette/chair/00001.jpg,Silhouette,chair,"This is a solid black silhouette representation of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",chair,chair,0.0785
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/silhouette/chair/00010.jpg,Silhouette,chair,"This is a solid black silhouette representation of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",chair,chair,0.0823
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/silhouette/circle/00001.jpg,Silhouette,circle,"This is a solid black silhouette representation of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,0.0773
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/silhouette/circle/00016.jpg,Silhouette,circle,"This is a solid black silhouette representation of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,0.0777
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/silhouette/cup/00004.jpg,Silhouette,cup,"This is a solid black silhouette representation of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",triangle,triangle,2.6035
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/silhouette/cup/00011.jpg,Silhouette,cup,"This is a solid black silhouette representation of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",car,car,0.4547
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/silhouette/dog/00003.jpg,Silhouette,dog,"This is a solid black silhouette representation of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.0798
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/silhouette/dog/00007.jpg,Silhouette,dog,"This is a solid black silhouette representation of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.0784
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/silhouette/rectangle/00013.jpg,Silhouette,rectangle,"This is a solid black silhouette representation of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",rectangle,rectangle,0.0763
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/silhouette/rectangle/00019.jpg,Silhouette,rectangle,"This is a solid black silhouette representation of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",rectangle,rectangle,0.0761
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/silhouette/square/00013.jpg,Silhouette,square,"This is a solid black silhouette representation of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",square,square,0.081
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/silhouette/square/00018.jpg,Silhouette,square,"This is a solid black silhouette representation of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",square,square,0.0771
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/silhouette/table/00010.jpg,Silhouette,table,"This is a solid black silhouette representation of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",chair,chair,0.0788
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/silhouette/table/00020.jpg,Silhouette,table,"This is a solid black silhouette representation of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.0831
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/silhouette/triangle/00001.jpg,Silhouette,triangle,"This is a solid black silhouette representation of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",triangle,triangle,0.081
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/silhouette/triangle/00008.jpg,Silhouette,triangle,"This is a solid black silhouette representation of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",triangle,triangle,0.0782
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_red/car/00003.jpg,ColorTint_Red,car,"This is a red-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",car,car,0.0822
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_red/car/00011.jpg,ColorTint_Red,car,"This is a red-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",car,car,1.3602
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_red/cat/00004.jpg,ColorTint_Red,cat,"This is a red-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",cat,cat,0.1421
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_red/cat/00017.jpg,ColorTint_Red,cat,"This is a red-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",cat,cat,0.1363
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_red/chair/00001.jpg,ColorTint_Red,chair,"This is a red-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",chair,chair,0.1429
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_red/chair/00010.jpg,ColorTint_Red,chair,"This is a red-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",chair,chair,0.1342
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_red/circle/00001.jpg,ColorTint_Red,circle,"This is a red-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,0.3478
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_red/circle/00016.jpg,ColorTint_Red,circle,"This is a red-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,0.1327
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_red/cup/00004.jpg,ColorTint_Red,cup,"This is a red-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,2.7774
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_red/cup/00011.jpg,ColorTint_Red,cup,"This is a red-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",rectangle,rectangle,0.487
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_red/dog/00003.jpg,ColorTint_Red,dog,"This is a red-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.1545
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_red/dog/00007.jpg,ColorTint_Red,dog,"This is a red-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.1513
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_red/rectangle/00013.jpg,ColorTint_Red,rectangle,"This is a red-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",rectangle,rectangle,0.1478
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_red/rectangle/00019.jpg,ColorTint_Red,rectangle,"This is a red-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",rectangle,rectangle,0.1471
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_red/square/00013.jpg,ColorTint_Red,square,"This is a red-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",square,square,0.1483
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_red/square/00018.jpg,ColorTint_Red,square,"This is a red-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",square,square,0.1469
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_red/table/00010.jpg,ColorTint_Red,table,"This is a red-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",table,table,0.1519
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_red/table/00020.jpg,ColorTint_Red,table,"This is a red-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",table,table,0.1507
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_red/triangle/00001.jpg,ColorTint_Red,triangle,"This is a red-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",triangle,triangle,0.1484
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_red/triangle/00008.jpg,ColorTint_Red,triangle,"This is a red-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",triangle,triangle,0.1489
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_green/car/00003.jpg,ColorTint_Green,car,"This is a green-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",car,car,0.157
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_green/car/00011.jpg,ColorTint_Green,car,"This is a green-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",car,car,1.4876
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_green/cat/00004.jpg,ColorTint_Green,cat,"This is a green-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",cat,cat,0.1646
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_green/cat/00017.jpg,ColorTint_Green,cat,"This is a green-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",cat,cat,0.1542
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_green/chair/00001.jpg,ColorTint_Green,chair,"This is a green-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",chair,chair,0.1523
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_green/chair/00010.jpg,ColorTint_Green,chair,"This is a green-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",chair,chair,0.1515
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_green/circle/00001.jpg,ColorTint_Green,circle,"This is a green-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,0.1492
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_green/circle/00016.jpg,ColorTint_Green,circle,"This is a green-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,0.1477
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_green/cup/00004.jpg,ColorTint_Green,cup,"This is a green-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",cup,cup,2.8012
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_green/cup/00011.jpg,ColorTint_Green,cup,"This is a green-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",rectangle,rectangle,0.4989
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_green/dog/00003.jpg,ColorTint_Green,dog,"This is a green-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.156
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_green/dog/00007.jpg,ColorTint_Green,dog,"This is a green-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.1576
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_green/rectangle/00013.jpg,ColorTint_Green,rectangle,"This is a green-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",rectangle,rectangle,0.1488
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_green/rectangle/00019.jpg,ColorTint_Green,rectangle,"This is a green-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",rectangle,rectangle,0.2037
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_green/square/00013.jpg,ColorTint_Green,square,"This is a green-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",square,square,0.1488
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_green/square/00018.jpg,ColorTint_Green,square,"This is a green-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",square,square,0.1476
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_green/table/00010.jpg,ColorTint_Green,table,"This is a green-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",table,table,0.1558
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_green/table/00020.jpg,ColorTint_Green,table,"This is a green-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",table,table,0.1509
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_green/triangle/00001.jpg,ColorTint_Green,triangle,"This is a green-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",triangle,triangle,0.2001
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_green/triangle/00008.jpg,ColorTint_Green,triangle,"This is a green-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",triangle,triangle,0.1494
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_blue/car/00003.jpg,ColorTint_Blue,car,"This is a blue-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",car,car,0.1556
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_blue/car/00011.jpg,ColorTint_Blue,car,"This is a blue-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",car,car,1.4695
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_blue/cat/00004.jpg,ColorTint_Blue,cat,"This is a blue-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",cat,cat,0.1643
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_blue/cat/00017.jpg,ColorTint_Blue,cat,"This is a blue-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",cat,cat,0.1559
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_blue/chair/00001.jpg,ColorTint_Blue,chair,"This is a blue-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",chair,chair,0.1516
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_blue/chair/00010.jpg,ColorTint_Blue,chair,"This is a blue-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",chair,chair,0.154
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_blue/circle/00001.jpg,ColorTint_Blue,circle,"This is a blue-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,0.1487
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_blue/circle/00016.jpg,ColorTint_Blue,circle,"This is a blue-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",circle,circle,0.1577
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_blue/cup/00004.jpg,ColorTint_Blue,cup,"This is a blue-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",cup,cup,2.8632
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_blue/cup/00011.jpg,ColorTint_Blue,cup,"This is a blue-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",rectangle,rectangle,0.4126
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_blue/dog/00003.jpg,ColorTint_Blue,dog,"This is a blue-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.0801
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_blue/dog/00007.jpg,ColorTint_Blue,dog,"This is a blue-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",dog,dog,0.0816
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_blue/rectangle/00013.jpg,ColorTint_Blue,rectangle,"This is a blue-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",rectangle,rectangle,0.0832
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_blue/rectangle/00019.jpg,ColorTint_Blue,rectangle,"This is a blue-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",rectangle,rectangle,0.0771
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_blue/square/00013.jpg,ColorTint_Blue,square,"This is a blue-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",square,square,0.0815
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_blue/square/00018.jpg,ColorTint_Blue,square,"This is a blue-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",square,square,0.0779
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_blue/table/00010.jpg,ColorTint_Blue,table,"This is a blue-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",table,table,0.0797
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_blue/table/00020.jpg,ColorTint_Blue,table,"This is a blue-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",table,table,0.0842
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_blue/triangle/00001.jpg,ColorTint_Blue,triangle,"This is a blue-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",triangle,triangle,0.0788
+Qwen3-VL-8B,/DATA2/home/akanksha/representation-invariant-object-recognition/dataset/variants/color_tint_blue/triangle/00008.jpg,ColorTint_Blue,triangle,"This is a blue-tinted image of an object.
+
+Identify the object represented in this image.
+
+Choose exactly ONE class from the following list:
+car, cat, chair, circle, cup, dog, rectangle, square, table, triangle.
+
+Answer with ONLY the class name and nothing else.",triangle,triangle,0.0788

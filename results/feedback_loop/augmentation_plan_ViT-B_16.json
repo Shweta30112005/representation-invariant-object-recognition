@@ -1,0 +1,40 @@
+{
+  "model": "ViT-B/16",
+  "standardized_loss": "nn.CrossEntropyLoss(label_smoothing=0.05)",
+  "temperature_scaling": {
+    "enabled": true,
+    "optimal_temperature_range": [
+      1.15,
+      1.3
+    ],
+    "target_metric": "Negative Log-Likelihood (ECE reduction)"
+  },
+  "targeted_train_augmentations": [
+    {
+      "target": "Contour Discontinuity (Dotted/Dashed)",
+      "transform": "RandomErasing(p=0.25, scale=(0.02, 0.08), value=1.0)",
+      "rationale": "Prevents representation collapse when broken lines replace continuous contours"
+    },
+    {
+      "target": "Stroke Invariance (Sketch/Outline)",
+      "transform": "RandomAffine(degrees=15, translate=(0.06, 0.06), shear=8)",
+      "rationale": "Enforces invariance against hand-drawn stroke variations and orientation shifts"
+    },
+    {
+      "target": "Vulnerable Rigid Artifacts (cup, table)",
+      "transform": "RandomPerspective(distortion_scale=0.15, p=0.4)",
+      "rationale": "Injects 3D perspective variation for classes prone to 2D silhouette ambiguity"
+    }
+  ],
+  "diagnosed_fragile_representations": [
+    "Dotted",
+    "Original",
+    "Outline",
+    "Silhouette"
+  ],
+  "diagnosed_vulnerable_classes": [
+    "dog",
+    "cat",
+    "cup"
+  ]
+}
