@@ -1,0 +1,79 @@
+{
+  "research_question": "How do loss regularization, structural perturbation severity, and adaptive loss weighting affect cross-modality representation invariance and calibration across CNN, Transformer, and Foundation architectures?",
+  "hypotheses": {
+    "H1_regularization": "High label smoothing (\u03b1=0.12) significantly reduces calibration error (ECE) by discouraging overconfident posterior margins.",
+    "H2_structural_invariance": "Aggressive contour erasing and affine shearing force macro-geometric learning, lifting worst-case accuracy on broken-line variants.",
+    "H3_curriculum_weighting": "Adaptive 2.0x loss weighting on empirically diagnosed fragile modalities yields the highest overall Pareto accuracy and lowest flip rate."
+  },
+  "models_evaluated": [
+    "ResNet-50",
+    "DINOv3",
+    "ViT-B_16"
+  ],
+  "conditions": [
+    {
+      "config_id": 1,
+      "name": "Config_1_Standard_Baseline",
+      "label_smoothing": 0.05,
+      "temp": 1.22,
+      "erasing_p": 0.25,
+      "erasing_scale": [
+        0.02,
+        0.08
+      ],
+      "affine_deg": 15,
+      "affine_shear": 8,
+      "perspective": 0.15,
+      "fragile_weight": 1.0,
+      "description": "Standard label-smoothed cross-entropy with moderate contour erasing and mild affine shear."
+    },
+    {
+      "config_id": 2,
+      "name": "Config_2_High_Regularization",
+      "label_smoothing": 0.12,
+      "temp": 1.35,
+      "erasing_p": 0.25,
+      "erasing_scale": [
+        0.02,
+        0.08
+      ],
+      "affine_deg": 15,
+      "affine_shear": 8,
+      "perspective": 0.15,
+      "fragile_weight": 1.0,
+      "description": "High label smoothing (\u03b1=0.12) and elevated temperature scaling (T=1.35) to maximize entropy regularization."
+    },
+    {
+      "config_id": 3,
+      "name": "Config_3_Aggressive_Augmentation",
+      "label_smoothing": 0.05,
+      "temp": 1.25,
+      "erasing_p": 0.45,
+      "erasing_scale": [
+        0.05,
+        0.15
+      ],
+      "affine_deg": 25,
+      "affine_shear": 14,
+      "perspective": 0.25,
+      "fragile_weight": 1.0,
+      "description": "Aggressive contour disruption with heavy erasing cutouts and extreme shear to force macro-shape invariance."
+    },
+    {
+      "config_id": 4,
+      "name": "Config_4_Adaptive_Fragility_Weighted",
+      "label_smoothing": 0.08,
+      "temp": 1.2,
+      "erasing_p": 0.32,
+      "erasing_scale": [
+        0.03,
+        0.1
+      ],
+      "affine_deg": 18,
+      "affine_shear": 10,
+      "perspective": 0.18,
+      "fragile_weight": 2.0,
+      "description": "Curriculum feedback: upweights fragile representations (Dotted, Dashed, Sketch, Silhouette) by 2.0x in loss."
+    }
+  ]
+}

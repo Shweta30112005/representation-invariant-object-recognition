@@ -1,0 +1,7 @@
+model,test_type,samples_evaluated,both_correct_n11,rescued_by_feedback_n01,regressed_n10,both_wrong_n00,chi_square_stat,p_value,verdict,comparison,mean_difference_pct,wilcoxon_W_stat,cohens_d,effect_size_class,significance_verdict
+ResNet-50,McNemar_Paired_ChiSquare,5400.0,5151.0,36.0,9.0,204.0,15.0222,1.06e-04,REJECT H0: STATISTICALLY SIGNIFICANT IMPROVEMENT (p < 0.001),,,,,,
+DINOv3,McNemar_Paired_ChiSquare,5400.0,5061.0,41.0,10.0,288.0,17.6471,2.66e-05,REJECT H0: STATISTICALLY SIGNIFICANT IMPROVEMENT (p < 0.001),,,,,,
+ViT-B_16,McNemar_Paired_ChiSquare,5400.0,5040.0,32.0,8.0,320.0,13.225,2.76e-04,REJECT H0: STATISTICALLY SIGNIFICANT IMPROVEMENT (p < 0.001),,,,,,
+,Wilcoxon_Signed_Rank,,,,,,,0.0039,,ResNet-50 vs DINOv3,-48.18,0.0,-9.073,LARGE EFFECT (d > 0.8),STATISTICALLY SUPERIOR (p < 0.05)
+,Wilcoxon_Signed_Rank,,,,,,,0.0039,,ResNet-50 vs ViT-B_16,-41.83,0.0,-8.801,LARGE EFFECT (d > 0.8),STATISTICALLY SUPERIOR (p < 0.05)
+,Wilcoxon_Signed_Rank,,,,,,,0.0391,,ViT-B_16 vs DINOv3,-6.34,3.0,-1.18,LARGE EFFECT (d > 0.8),STATISTICALLY SUPERIOR (p < 0.05)

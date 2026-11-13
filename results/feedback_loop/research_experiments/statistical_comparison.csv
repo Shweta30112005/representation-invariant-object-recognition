@@ -1,0 +1,4 @@
+comparison,mean_acc_diff,mean_worst_case_diff,mean_ece_diff,acc_p_value_heuristic,significance_verdict
+Config_2_vs_Config_1,-0.323,-0.413,0.082,0.041,SIGNIFICANT (p < 0.05)
+Config_3_vs_Config_1,0.143,0.71,0.0307,0.018,SIGNIFICANT (p < 0.05)
+Config_4_vs_Config_1,0.51,0.863,0.0532,0.002,STATISTICALLY SIGNIFICANT (p < 0.01)

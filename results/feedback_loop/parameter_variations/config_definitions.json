@@ -1,0 +1,70 @@
+{
+  "Config_1_Standard": {
+    "config_id": 1,
+    "name": "Standard Feedback Loop (Default Baseline)",
+    "label_smoothing": 0.05,
+    "temperature": 1.22,
+    "aug_intensity": "Moderate",
+    "random_erasing_p": 0.25,
+    "random_erasing_scale": [
+      0.02,
+      0.08
+    ],
+    "random_affine_deg": 15,
+    "random_affine_shear": 8,
+    "perspective_distortion": 0.15,
+    "fragile_variant_weight": 1.0,
+    "description": "Standard label-smoothed cross-entropy with moderate edge-erasing and mild affine rotation."
+  },
+  "Config_2_High_Regularization": {
+    "config_id": 2,
+    "name": "High Regularization & Conservative Calibration",
+    "label_smoothing": 0.12,
+    "temperature": 1.35,
+    "aug_intensity": "Moderate",
+    "random_erasing_p": 0.25,
+    "random_erasing_scale": [
+      0.02,
+      0.08
+    ],
+    "random_affine_deg": 15,
+    "random_affine_shear": 8,
+    "perspective_distortion": 0.15,
+    "fragile_variant_weight": 1.0,
+    "description": "High label smoothing (\u03b1=0.12) and elevated temperature scaling (T=1.35) to maximize entropy regularization and minimize ECE."
+  },
+  "Config_3_Aggressive_Augmentation": {
+    "config_id": 3,
+    "name": "Aggressive Structural Stress Augmentation",
+    "label_smoothing": 0.05,
+    "temperature": 1.25,
+    "aug_intensity": "Aggressive",
+    "random_erasing_p": 0.45,
+    "random_erasing_scale": [
+      0.05,
+      0.15
+    ],
+    "random_affine_deg": 25,
+    "random_affine_shear": 14,
+    "perspective_distortion": 0.25,
+    "fragile_variant_weight": 1.0,
+    "description": "Aggressive contour disruption with heavy erasing cutouts and extreme shear to force global shape invariance."
+  },
+  "Config_4_Adaptive_Fragility_Weighted": {
+    "config_id": 4,
+    "name": "Adaptive Fragility-Weighted Feedback",
+    "label_smoothing": 0.08,
+    "temperature": 1.2,
+    "aug_intensity": "Targeted-High",
+    "random_erasing_p": 0.32,
+    "random_erasing_scale": [
+      0.03,
+      0.1
+    ],
+    "random_affine_deg": 18,
+    "random_affine_shear": 10,
+    "perspective_distortion": 0.18,
+    "fragile_variant_weight": 2.0,
+    "description": "Adaptive hard-variant curriculum: upweights fragile representations (Dotted, Dashed, Sketch, Silhouette) by 2.0x in training loss."
+  }
+}

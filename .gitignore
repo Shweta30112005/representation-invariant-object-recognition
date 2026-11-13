@@ -25,6 +25,9 @@ Thumbs.db
 *.safetensors
 results/feedback_loop/checkpoints/
 
+# Allow release archive
+!results/checkpoints_bundle.tar.gz
+
 # Raw Datasets (over 1.2 GB of raw JPEG images)
 dataset/
 *.zip
