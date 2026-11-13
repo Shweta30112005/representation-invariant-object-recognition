@@ -11,7 +11,7 @@
 
 ## 1. Executive Summary & Problem Formulation
 
-Human visual perception recognizes objects effortlessly regardless of surface rendering—identifying a car whether seen as a glossy photograph, minimalist outline, broken dashed contour, hand-drawn sketch, or solid silhouette. In contrast, modern deep neural networks often rely on **shortcut learning**, exploiting superficial textures, high-frequency boundary continuity, and local color histograms rather than holistic geometry.
+Human visual perception recognizes objects effortlessly regardless of surface rendering, identifying a car whether seen as a glossy photograph, minimalist outline, broken dashed contour, hand-drawn sketch, or solid silhouette. In contrast, modern deep neural networks often rely on **shortcut learning**, exploiting superficial textures, high-frequency boundary continuity, and local color histograms rather than holistic geometry.
 
 This research formulates and systematically answers three fundamental questions:
 1. **The Combinatorial Generalization Question:** *How do distinct visual representations interact during training, and what is the minimal subset of representations required to induce true representation invariance without brute-force training on all modalities?*
@@ -261,14 +261,3 @@ results/
 ```
 
 ---
-
-## 10. Citation & Academic Reference
-
-```bibtex
-@article{singh2026representation,
-  title   = {Representation-Invariant Object Recognition: A Combinatorial Multi-Modal Benchmark, Reliability Stress-Testing, and Closed-Loop Continual Optimization},
-  author  = {Singh, Akanksha},
-  journal = {arXiv preprint},
-  year    = {2026}
-}
-```
